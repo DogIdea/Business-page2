@@ -1,0 +1,18 @@
+{
+    "banner_list":[{
+        "id":1,
+        "imgUrl":"/static/image/banner/banner1.jpg"
+      },{
+        "id":2,
+        "imgUrl":"/static/image/banner/banner2.jpg"
+      },{
+        "id":3,
+        "imgUrl":"/static/image/banner/banner3.jpg"
+      },{
+        "id":4,
+        "imgUrl":"/static/image//banner/banner4.jpg"
+      },{
+        "id":5,
+        "imgUrl":"/static/image//banner/banner5.jpg"
+      }]
+}

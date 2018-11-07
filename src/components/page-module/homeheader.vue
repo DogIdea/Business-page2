@@ -1,0 +1,108 @@
+<template>
+  <div>
+    <div class="header">
+      <div class="header-left">
+        <router-link to='/home'>
+          <div class="iconfont icon-B icon-back" v-show="true"></div>
+        </router-link>
+        <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon-back" v-show="false"></div>
+      </div>
+      <div class="header-input">
+        <span class="iconfont icon-sousuo"></span>
+        <router-link to='/search'>
+          <input type="text">
+        </router-link>
+      </div>
+      <div class="header-right">
+        <router-link to='/userlogin' v-if="this.IsUserlogin.status === 1">
+          <div class="iconfont icon-denglu"></div>
+        </router-link>
+        <router-link to='/usercenter' v-else>
+          <div class="iconfont icon-icon center"></div>
+        </router-link>
+      </div>
+    </div>
+    <div class="header-after">
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+ data() {
+  return {
+    IsUserlogin:{
+      status:1,
+    }
+  }
+ },
+  created() {
+    this.IsUserlogin = this.$store.state.UserInfo
+    console.log(this.IsUserlogin)
+  }
+}
+</script>
+
+<style scoped lang="scss" type="text/css">
+@import '@/assets/css/varibles.scss';
+.header{
+  position:fixed;
+  z-index:5;
+  left:0;
+  right:0;
+  top:0;
+  display:flex;
+  width:100%;
+  line-height:$headerHeight;
+  height:$headerHeight;
+  background:$bgColor;
+  color:#fff;
+  .header-left{
+    min-width:$headerHeight;
+    float:left;
+    height:$headerHeight;
+    .icon-back{
+      height:$headerHeight;
+      font-size:1.4rem;
+      text-align:center;
+    }
+  }
+  .header-input{
+    flex:1;
+    color:#ccc;
+    background:#fff;
+    border-radius:2rem;
+    margin-top:$headerHeight/4-.2;
+    margin-left:.2rem;
+    font-size:1.4rem;
+    line-height:1.4rem;
+    height:1.8rem;
+    padding-top:.25rem;
+    padding-left:.2rem;
+    input{
+      outline: none;
+      -webkit-appearance: none;
+      border-radius: 0;
+      height:1rem;
+    }
+  }
+  .header-right{
+    min-width:$headerHeight;
+    line-height:$headerHeight;
+    height:$headerHeight;
+    float:right;
+    padding:.1rem;
+    text-align:center;
+    color:#fff;
+    .center{
+      margin-top:-0.2rem;
+      font-size:2rem;
+    }
+  }     
+}
+ .header-after{
+  width:100%;
+  line-height:$headerHeight;
+  height:$headerHeight;
+ }   
+</style>
