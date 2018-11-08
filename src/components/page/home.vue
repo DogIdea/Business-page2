@@ -1,6 +1,6 @@
 <template>
   <div>
-    <homeheader></homeheader>
+    <homeheader :isicon="isicon"></homeheader>
     <homebody></homebody>
     <homebottom></homebottom>
   </div>
@@ -14,7 +14,7 @@ export default {
   name:'Home',
   data () {
     return {
-     
+     isicon:true
     }
   },
   components: {

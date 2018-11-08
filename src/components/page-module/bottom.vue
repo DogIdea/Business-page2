@@ -1,7 +1,7 @@
 <template>
  <div class="bottom">
      <div class="bottom_navigation">
-           <router-link tag="div" to="/class" class="logo">
+           <router-link tag="div" to="/goodsclass" class="logo">
              <i class="iconfont icon-unie63a"></i>
            </router-link>
          <div class="border-left"></div>
@@ -65,7 +65,7 @@ export default {
   bottom:0;
   background:#fff;
   color:$bgColor;
-  box-shadow: 0rem -0.125rem 0.125rem #aaa;
+  box-shadow: 0rem -0.125rem 0.125rem #ededed;
   .bottom_navigation{
     float:left;
     width:calc(50% - 2.15rem);
@@ -102,7 +102,7 @@ export default {
     background:$bgColor;
     border-radius:50%;
     color:#fff;
-    box-shadow: 0rem -0.25rem 0.25rem #aaa;
+    box-shadow: 0rem -0.25rem 0.25rem #ededed;
     .logo{
       position:absolute;
       top:50%;

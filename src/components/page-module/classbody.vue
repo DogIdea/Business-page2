@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import {GetProductList} from '@/common/service/product-service'
 export default {
  data() {
   return {

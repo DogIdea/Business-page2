@@ -1,6 +1,6 @@
 <template>
  <div class="goods-class">
-   <homeheader></homeheader>
+   <homeheader :isicon="isicon"></homeheader>
    <classbody></classbody>
  </div>
 </template>
@@ -8,10 +8,11 @@
 <script>
 import homeheader from '../page-module/homeheader';
 import classbody from '../page-module/classbody';
+
 export default {
  data() {
   return {
-
+    isicon:false
   }
  },
  components: {

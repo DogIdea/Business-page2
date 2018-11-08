@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="header">
+    <div class="header" :class="isicon ? layout: ''">
       <div class="header-left">
         <router-link to='/home'>
-          <div class="iconfont icon-B icon-back" v-show="true"></div>
+          <div class="iconfont icon-B icon-back" v-show="isicon"></div>
         </router-link>
-        <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon-back" v-show="false"></div>
+        <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon-back" v-show="!isicon" @click="goback"></div>
       </div>
       <div class="header-input">
         <span class="iconfont icon-sousuo"></span>
@@ -29,34 +29,38 @@
 
 <script>
 export default {
+ props:{
+   isicon:Boolean
+ },
  data() {
   return {
     IsUserlogin:{
       status:1,
-    }
+    },
+    layout:'layout'
   }
  },
-  created() {
-    this.IsUserlogin = this.$store.state.UserInfo
-    console.log(this.IsUserlogin)
+ methods:{
+  goback: function() {
+    this.$router.go(-1);
   }
+ },
+ created() {
+   this.IsUserlogin = this.$store.state.UserInfo
+ }
 }
 </script>
 
 <style scoped lang="scss" type="text/css">
 @import '@/assets/css/varibles.scss';
 .header{
-  position:fixed;
-  z-index:5;
-  left:0;
-  right:0;
-  top:0;
   display:flex;
   width:100%;
   line-height:$headerHeight;
   height:$headerHeight;
   background:$bgColor;
   color:#fff;
+  box-shadow: 0rem 0.25rem 0.25rem #c60023;
   .header-left{
     min-width:$headerHeight;
     float:left;
@@ -104,5 +108,12 @@ export default {
   width:100%;
   line-height:$headerHeight;
   height:$headerHeight;
- }   
+ }
+ .layout{
+  position:fixed;
+  z-index:5;
+  left:0;
+  right:0;
+  top:0;
+}
 </style>
