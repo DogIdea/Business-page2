@@ -1,14 +1,15 @@
 <template>
  <div class="goods-class">
-   <homeheader :isicon="isicon"></homeheader>
-   <classbody></classbody>
+  <homeheader :isicon="isicon"></homeheader>
+  <classbody></classbody>
+  <homebottom :isicon="isicon"></homebottom>
  </div>
 </template>
 
 <script>
 import homeheader from '../page-module/homeheader';
 import classbody from '../page-module/classbody';
-
+import homebottom from '../page-module/bottom';
 export default {
  data() {
   return {
@@ -17,7 +18,8 @@ export default {
  },
  components: {
    homeheader,
-   classbody 
+   classbody,
+   homebottom 
  }
 }
 </script>

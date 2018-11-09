@@ -44,7 +44,11 @@ export default {
 }
 </script>
 <style scoped lang="scss" type="text/css">
+@import '@/assets/css/varibles.scss';
 .homebody{
   background: #EDEDED;
+  min-height:100%;
+  padding-top:$headerHeight;
+  padding-bottom: $headerHeight;
 }
 </style>
