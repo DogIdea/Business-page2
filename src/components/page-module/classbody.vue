@@ -1,7 +1,7 @@
 <template>
  <div class="classbody">
-    <div class="menu-list" ref="ListMenu">
-      <ul>
+    <div class="menu-list" ref="menulist">
+      <ul >
           <li v-for="(item,index) in goodsmenu" :key="item.id" class="menu-item" @click='ChangeGoods(index,$event)'>
             <span class="text">
               {{item.goods_class}}
@@ -9,7 +9,7 @@
           </li>
         </ul>
     </div>
-    <div class="goods-list">
+    <div class="goods-list" ref="goodslist">
       <h1 class="title">{{goodsname.goods_class}}</h1>
       <ul>
         <li v-for="goodsitem in goodsname.goods_name" :key="goodsitem.index" @click='GoodsItem(goodsitem)'>
@@ -25,6 +25,7 @@
 <script>
 import {GetProductList} from '@/common/service/product-service';
 import goodsclass from '../../../static/mock/goodsclass.json';
+import BScroll from 'better-scroll';
 export default {
  data() {
   return {
@@ -36,11 +37,11 @@ export default {
   }
  },
  methods: {
-   ChangeGoods:function(index, event) {
+  ChangeGoods:function(index, event) {
      this.goodsname = this.goodsmenu[index];
      console.log(this.goodsname);
-   },
-   GoodsItem:function(goodsitem) {
+  },
+  GoodsItem:function(goodsitem) {
     let formdata= {
       listParam:{
         keyword:goodsitem
@@ -53,14 +54,24 @@ export default {
     }).catch((err)=>{
       this.showtext=err.msg;
     })
-    
+  },
+   _initScroll(){
+    this.menuScroll = new BScroll(this.$refs.menulist, {
+      click: true
+    })
+    this.goodsScroll =new BScroll(this.$refs.goodslist, {
+      click: true
+    })
    }
  },
  components: {
 
  },
  created () {
-   this.ChangeGoods(0)
+  this.ChangeGoods(0);
+  this.$nextTick(() => {
+    this._initScroll();
+  });
  }
 }
 </script>
@@ -79,7 +90,6 @@ export default {
     flex:0 0 5rem;
     width:5rem;
     background:#f3f5f7;
-    overflow: hidden;
     .menu-item{
       display:table;
       height:4.375rem;
