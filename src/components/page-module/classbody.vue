@@ -12,7 +12,7 @@
     <div class="goods-list">
       <h1 class="title">{{goodsname.goods_class}}</h1>
       <ul>
-        <li v-for="goodsitem in goodsname.goods_name" :key="goodsitem.index">
+        <li v-for="goodsitem in goodsname.goods_name" :key="goodsitem.index" @click='GoodsItem(goodsitem)'>
           <span>
             {{goodsitem}}
           </span>
@@ -38,10 +38,29 @@ export default {
  methods: {
    ChangeGoods:function(index, event) {
      this.goodsname = this.goodsmenu[index];
+     console.log(this.goodsname);
+   },
+   GoodsItem:function(goodsitem) {
+    let formdata= {
+      listParam:{
+        keyword:goodsitem
+      }
+    }
+    GetProductList(formdata.listParam).then((res)=>{
+      if(res.data.status==0){
+        console.log(res.data.data.list)
+      }
+    }).catch((err)=>{
+      this.showtext=err.msg;
+    })
+    
    }
  },
  components: {
 
+ },
+ created () {
+   this.ChangeGoods(0)
  }
 }
 </script>
@@ -97,7 +116,9 @@ export default {
       padding-top:1.2rem;
       li{
         float: left;
-        margin-left:1rem;
+        width:33%;
+        text-align: center;
+        margin-left:2rem;
         margin-top:1rem;
         padding:0.625rem;
         font-size:1rem;
