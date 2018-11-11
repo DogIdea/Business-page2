@@ -10,14 +10,16 @@
         </ul>
     </div>
     <div class="goods-list" ref="goodslist">
-      <h1 class="title">{{goodsname.goods_class}}</h1>
-      <ul>
-        <li v-for="goodsitem in goodsname.goods_name" :key="goodsitem.index" @click='GoodsItem(goodsitem)'>
-          <span>
-            {{goodsitem}}
-          </span>
-        </li>
-      </ul>
+      <div class="goods-warrper">
+        <h1 class="title">{{goodsname.goods_class}}</h1>
+        <ul>
+          <li v-for="goodsitem in goodsname.goods_name" :key="goodsitem.index" @click='GoodsItem(goodsitem)'>
+            <span>
+              {{goodsitem}}
+            </span>
+          </li>
+        </ul>
+      </div>
     </div>
  </div>
 </template>
@@ -59,9 +61,11 @@ export default {
     this.menuScroll = new BScroll(this.$refs.menulist, {
       click: true
     })
+    console.log(this.menuScroll);
     this.goodsScroll =new BScroll(this.$refs.goodslist, {
       click: true
     })
+    console.log(this.goodsScroll);
    }
  },
  components: {
@@ -79,17 +83,17 @@ export default {
 <style scoped lang="scss">
 @import '@/assets/css/varibles.scss';
 .classbody{
-  display: flex;
-  position:relative;
   width:100%;
   min-height:100%;
   overflow:hidden;
-  padding-top:$headerHeight;
-  padding-bottom:$headerHeight;
   .menu-list{
-    flex:0 0 5rem;
+    position: absolute;
+    top:$headerHeight;
+    left:0;
+    bottom:$headerHeight;
     width:5rem;
     background:#f3f5f7;
+    overflow: hidden;
     .menu-item{
       display:table;
       height:4.375rem;
@@ -110,31 +114,39 @@ export default {
        
   }
   .goods-list{
-    flex:1;
-    .title{
-      padding-left:0.875rem;
-      height:3.5rem;
-      line-height:3.5rem;
-      border-left:0.125rem solid #d9dde1;
-      font-size:1.2rem;
-      color:rgb(147,153,159);
-      background:#f3f5f7;
-    }
-    ul{
-      height:100%;
-      padding-left:1.2rem;
-      padding-top:1.2rem;
-      li{
-        float: left;
-        width:33%;
-        text-align: center;
-        margin-left:2rem;
-        margin-top:1rem;
-        padding:0.625rem;
-        font-size:1rem;
-        background: #EDEDED;
-        border:0.0625rem solid #EDEDED;
-        border-radius: 1rem;
+    position: absolute;
+    left:5rem;
+    top:$headerHeight;
+    bottom:$headerHeight;
+    overflow: hidden;
+    .goods-warrper{
+      overflow: auto;
+      .title{
+        padding-left:0.875rem;
+        height:3.5rem;
+        line-height:3.5rem;
+        border-left:0.125rem solid #d9dde1;
+        font-size:1.2rem;
+        color:rgb(147,153,159);
+        background:#f3f5f7;
+      }
+      ul{
+        height:100%;
+        padding-left:1.2rem;
+        padding-top:1.2rem;
+        overflow: hidden;
+        li{
+          float: left;
+          width:33%;
+          text-align: center;
+          margin-left:2rem;
+          margin-top:1rem;
+          padding:0.625rem;
+          font-size:1rem;
+          background: #EDEDED;
+          border:0.0625rem solid #EDEDED;
+          border-radius: 1rem;
+        }
       }
     }
   }

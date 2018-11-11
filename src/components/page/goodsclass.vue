@@ -25,5 +25,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.goods-class{
+  min-height:100%;
+}
 </style>
