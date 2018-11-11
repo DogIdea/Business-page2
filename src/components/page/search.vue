@@ -1,6 +1,6 @@
 <template>
  <div>
-     <homeheader></homeheader>
+     <homeheader :isicon="isicon"></homeheader>
      <searchbody></searchbody>
  </div>
 </template>
@@ -12,7 +12,7 @@ export default {
  name:'Search',
  data() {
   return {
-
+    isicon:"search"
   }
  },
  components: {

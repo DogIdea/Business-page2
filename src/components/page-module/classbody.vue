@@ -120,7 +120,8 @@ export default {
     bottom:$headerHeight;
     overflow: hidden;
     .goods-warrper{
-      overflow: auto;
+      height: auto;
+      padding-bottom:$headerHeight;
       .title{
         padding-left:0.875rem;
         height:3.5rem;

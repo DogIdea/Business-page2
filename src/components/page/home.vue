@@ -14,7 +14,7 @@ export default {
   name:'Home',
   data () {
     return {
-     isicon:true
+     isicon:"home"
     }
   },
   components: {

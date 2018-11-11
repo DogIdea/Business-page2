@@ -1,6 +1,6 @@
 <template>
  <div class="search">
-    <div class="history" v-show="isShow">
+    <div class="history">
       <span class="title">历史搜索</span>
       <ul class="keyword" >
         <li class="word">藤椅摇椅</li>
@@ -30,7 +30,6 @@
 export default {
  data() {
   return {
-    isShow:false
   }
  },
  components: {
@@ -40,9 +39,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/css/varibles.scss';
 .search{
   width:100%;
   height:100%;
+  padding-top:$headerHeight;
   overflow: hidden;
   .border-bottom{
     border-bottom:0.0625rem solid #EDEDED;

@@ -3,9 +3,9 @@
     <div class="header">
       <div class="header-left">
         <router-link to='/home'>
-          <div class="iconfont icon-B icon-back" v-show="isicon"></div>
+          <div class="iconfont icon-B icon-back" v-show="isicon=='home' ? true : false"></div>
         </router-link>
-        <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon-back" v-show="!isicon" @click="goback"></div>
+        <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon-back" v-show="!(isicon=='home') ? true : false" @click="goback"></div>
       </div>
       <div class="header-input">
         <span class="iconfont icon-sousuo"></span>
@@ -28,7 +28,7 @@
 <script>
 export default {
  props:{
-   isicon:Boolean
+   isicon:String
  },
  data() {
   return {

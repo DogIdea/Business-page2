@@ -1,8 +1,8 @@
 <template>
  <div class="goods-class">
-  <homeheader :isicon="isicon"></homeheader>
+  <homeheader :isicon="goods"></homeheader>
   <classbody></classbody>
-  <homebottom :isicon="isicon"></homebottom>
+  <homebottom></homebottom>
  </div>
 </template>
 
@@ -13,7 +13,7 @@ import homebottom from '../page-module/bottom';
 export default {
  data() {
   return {
-    isicon:false
+    isicon:"goods"
   }
  },
  components: {
