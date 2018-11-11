@@ -61,6 +61,7 @@ export default {
           if(res.data.status==1){
             this.showtext=res.data.msg;
           }else if(res.data.status==0){
+            console.log(this.$store);
             this.$store.dispatch('Userlogin', res.data);
             this.$router.push('/home');
           }

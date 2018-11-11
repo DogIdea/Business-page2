@@ -1,15 +1,12 @@
 <template>
  <div class="search">
-    <div class="history">
+    <div class="history" v-show="isShow">
       <span class="title">历史搜索</span>
-      <ul class="keyword" >
-        <li class="word">藤椅摇椅</li>
-        <li class="word">活性炭</li>
-        <li class="word">篮球鞋</li>
-        <li class="word">脸部卸妆油</li>
+      <ul class="keyword">
+        <li class="word" v-for="(item) in searcharr" :key="item.index" >{{item}}</li>
       </ul>
     </div>
-    <div class="border-bottom" v-show="isShow"></div>
+    <div class="border-bottom"></div>
     <div class="hotword">
         <span class="title">热门搜索</span>
         <ul class="keyword">
@@ -30,10 +27,42 @@
 export default {
  data() {
   return {
+    searcharr:[],
+    isShow:false
   }
  },
  components: {
-
+   
+ },
+ methods:{
+   historyword:function() {
+     let newsearcharr=[]
+     if(localStorage.getItem('history') == null){
+       newsearcharr.push(localStorage.getItem('history'));
+     }else{
+       newsearcharr=localStorage.getItem('history').split(",");
+     }
+     
+     this.searcharr=this.removeEmptyArrayEle(newsearcharr);
+     if(this.searcharr.length>0){
+       this.isShow = true;
+       this.$store.dispatch('SearchHistoryShow', this.searcharr);
+     }else {
+       this.isShow = false;
+     }
+   },
+   removeEmptyArrayEle:function(arr) {
+    for(var i = 0; i < arr.length; i++) {
+      if(arr[i] == undefined || arr[i] == null || arr[i] == '') {
+        arr.splice(i,1);
+        i = i - 1;
+      }
+   }
+   return arr;
+   }
+ },
+ created() {
+   this.historyword()
  }
 }
 </script>

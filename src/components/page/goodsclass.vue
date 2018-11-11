@@ -1,6 +1,6 @@
 <template>
  <div class="goods-class">
-  <homeheader :isicon="goods"></homeheader>
+  <homeheader :isicon="isicon"></homeheader>
   <classbody></classbody>
   <homebottom></homebottom>
  </div>

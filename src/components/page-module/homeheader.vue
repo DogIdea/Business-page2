@@ -9,9 +9,7 @@
       </div>
       <div class="header-input">
         <span class="iconfont icon-sousuo"></span>
-        <router-link to='/search'>
-          <input type="text">
-        </router-link>
+          <input type="text" @click='searchclick' @blur='searchgoods' ref='searchtext'>
       </div>
       <div class="header-right">
         <router-link to='/userlogin' v-if="this.IsUserlogin.status === 1">
@@ -35,11 +33,29 @@ export default {
     IsUserlogin:{
       status:1,
     },
+    searcharr:[]
   }
  },
  methods:{
   goback: function() {
     this.$router.go(-1);
+  },
+  searchclick:function() {
+    if(this.isicon=='search'){
+      return;
+    }else{
+      this.$router.push('/search')
+    }
+  },
+  searchgoods:function() {
+    this.searcharr.push(this.$refs.searchtext.value);
+    this.setlocalstorage();
+  },
+  setlocalstorage:function() {
+    let newsearcharr = this.searcharr;
+    let newsearhistory = this.$store.state.SearchHistory.searcharr;
+    this.searcharr.push.apply(newsearcharr,newsearhistory);
+    localStorage.setItem("history",this.searcharr);
   }
  },
  created() {
@@ -80,7 +96,7 @@ export default {
     border-radius:2rem;
     margin-top:$headerHeight/4-.2;
     margin-left:.2rem;
-    font-size:1.4rem;
+    font-size:1.2rem;
     line-height:1.4rem;
     height:1.8rem;
     padding-top:.25rem;

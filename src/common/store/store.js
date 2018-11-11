@@ -8,17 +8,25 @@ export default new Vuex.Store({
         UserInfo:{
           status: 1,
           msg:"未登录"
+        },
+        SearchHistory:{
+          searcharr:[]
         }
     },
     actions: {
         Userlogin(ctx,res) {
-            console.log(res)
             ctx.commit('Userlogin', res)
+        },
+        SearchHistoryShow(ctx,searcharr) {
+            ctx.commit('SearchHistoryShow', searcharr)
         }
     },
     mutations: {
         Userlogin (state, res){
-            state.UserInfo = res
+            state.UserInfo = res;
+        },
+        SearchHistoryShow (state, searcharr){
+           state.SearchHistory.searcharr = searcharr
         }
     }
 })
