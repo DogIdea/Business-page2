@@ -8,10 +8,10 @@
                  <h1 class="floor-title">{{names}}</h1>
                   <ul class="floor-list clearfix">
                       <li class="floor-item" v-for="item of floorWrap[index]" :key="item.id">
-                          <a href="#">
-                              <span class="floor-text">{{item.floor_text}}</span>
-                              <img class="floor-img" :src="item.floor_img_url" alt="">
-                          </a>
+                          <router-link to='/goodslist'>
+                            <span class="floor-text">{{item.floor_text}}</span>
+                            <img class="floor-img" :src="item.floor_img_url" alt="">
+                          </router-link>
                       </li>
                   </ul>
              </div>
