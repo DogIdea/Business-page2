@@ -1,13 +1,13 @@
 <template>
  <div class="goods-class">
-  <homeheader :isicon="isicon"></homeheader>
+  <goodsheader :isicon="isicon"></goodsheader>
   <classbody></classbody>
   <homebottom></homebottom>
  </div>
 </template>
 
 <script>
-import homeheader from '../page-module/homeheader';
+import goodsheader from '../page-module/header';
 import classbody from '../page-module/classbody';
 import homebottom from '../page-module/bottom';
 export default {
@@ -17,7 +17,7 @@ export default {
   }
  },
  components: {
-   homeheader,
+   goodsheader,
    classbody,
    homebottom 
  }

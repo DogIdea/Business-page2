@@ -1,12 +1,16 @@
 <template>
  <div class="search">
     <div class="history" v-show="isShow">
-      <span class="title">历史搜索</span>
+      <div class="historytitle">
+        <span class="title">历史搜索</span>
+        <div class="iconfont icon-error" @click="clearlocalstorage"></div>
+      </div>
       <ul class="keyword">
         <li class="word" v-for="(item) in searcharr" :key="item.index" >{{item}}</li>
       </ul>
+
     </div>
-    <div class="border-bottom"></div>
+    <div class="border-bottom" v-show="isShow"></div>
     <div class="hotword">
         <span class="title">热门搜索</span>
         <ul class="keyword">
@@ -35,7 +39,7 @@ export default {
    
  },
  methods:{
-   historyword:function() {
+   getlocalstorage:function() {
      let newsearcharr=[]
      if(localStorage.getItem('history') == null){
        newsearcharr.push(localStorage.getItem('history'));
@@ -51,6 +55,10 @@ export default {
        this.isShow = false;
      }
    },
+   clearlocalstorage:function() {
+     localStorage.clear();
+     this.isShow=false;
+   },
    removeEmptyArrayEle:function(arr) {
     for(var i = 0; i < arr.length; i++) {
       if(arr[i] == undefined || arr[i] == null || arr[i] == '') {
@@ -62,7 +70,7 @@ export default {
    }
  },
  created() {
-   this.historyword()
+   this.getlocalstorage()
  }
 }
 </script>
@@ -82,26 +90,36 @@ export default {
     width:90%;
     margin:0 auto;
     margin-top: 2rem;
+    .historytitle{
+      display: block;
+      height:2rem;
+    }
     .title{
-      display:block;
+      float:left;
       line-height:2rem;
       background:#fff;
       margin-top:.2rem;
       text-indent:.2rem;
       font-size:1.2rem;
     }
+    .icon-error{
+      float:right;
+      margin-top:.2rem;
+      font-size:1.2rem;
+    }
     .keyword{
-        width:100%;
-        .word{
-          float:left;
-          padding:0.625rem;
-          font-size:1rem;
-          line-height:1rem;
-          background: #EDEDED;
-          border:0.0625rem solid #EDEDED;
-          margin:1rem 1rem 0 0;
-          border-radius: 1rem;
-        }
+      width:100%;
+      overflow: hidden;
+      .word{
+        float:left;
+        padding:0.625rem;
+        font-size:1rem;
+        line-height:1rem;
+        background: #EDEDED;
+        border:0.0625rem solid #EDEDED;
+        margin:1rem 1rem 0 0;
+        border-radius: 1rem;
+      }
     }
   }
 }

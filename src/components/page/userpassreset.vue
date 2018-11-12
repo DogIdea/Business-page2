@@ -46,8 +46,8 @@
 </template>
 
 <script>
-import {GetQuestion,CheckAnswer,ResetPassWord} from '@/common/service/user-service.js'
 import userheader from '../page-module/userheader';
+import {GetQuestion,CheckAnswer,ResetPassWord} from '@/common/service/user-service.js'
 export default {
  data() {
   return {

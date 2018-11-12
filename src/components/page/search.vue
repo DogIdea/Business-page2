@@ -1,12 +1,12 @@
 <template>
  <div>
-     <homeheader :isicon="isicon"></homeheader>
+     <searchheader :isicon="isicon"></searchheader>
      <searchbody></searchbody>
  </div>
 </template>
 
 <script>
-import homeheader from '../page-module/homeheader';
+import searchheader from '../page-module/header';
 import searchbody from '../page-module/searchbody';
 export default {
  name:'Search',
@@ -16,7 +16,7 @@ export default {
   }
  },
  components: {
-   homeheader,
+   searchheader,
    searchbody
  }
 }

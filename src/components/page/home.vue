@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import homeheader from '../page-module/homeheader';
+import homeheader from '../page-module/header';
 import homebody from '../page-module/homebody';
 import homebottom from '../page-module/bottom';
 export default {

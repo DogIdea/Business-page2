@@ -1,12 +1,12 @@
 <template>
  <div class="list">
-   <homeheader></homeheader>
+   <goodsheader></goodsheader>
    <listbody></listbody>
  </div>
 </template>
 
 <script>
-import homeheader from '../page-module/homeheader';
+import goodsheader from '../page-module/header';
 import listbody from '../page-module/listbody';
 export default {
  data() {
@@ -15,7 +15,7 @@ export default {
   }
  },
  components: {
-     homeheader,
+     goodsheader,
      listbody
  }
 }
