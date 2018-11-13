@@ -41,7 +41,6 @@ export default {
  methods: {
   ChangeGoods:function(index, event) {
      this.goodsname = this.goodsmenu[index];
-     console.log(this.goodsname);
   },
   GoodsItem:function(goodsitem) {
     let formdata= {
@@ -51,22 +50,21 @@ export default {
     }
     GetProductList(formdata.listParam).then((res)=>{
       if(res.data.status==0){
-        console.log(res.data.data.list)
+        let goodslist='/goodslist/'+ 'keyword='+goodsitem
+        this.$router.push(goodslist)
       }
     }).catch((err)=>{
       this.showtext=err.msg;
     })
   },
-   _initScroll(){
+  _initScroll(){
     this.menuScroll = new BScroll(this.$refs.menulist, {
       click: true
     })
-    console.log(this.menuScroll);
     this.goodsScroll =new BScroll(this.$refs.goodslist, {
       click: true
     })
-    console.log(this.goodsScroll);
-   }
+  }
  },
  components: {
 
@@ -132,21 +130,23 @@ export default {
         background:#f3f5f7;
       }
       ul{
+        width:90%;
         height:100%;
-        padding-left:1.2rem;
-        padding-top:1.2rem;
+        margin:0 auto;
         overflow: hidden;
         li{
           float: left;
-          width:33%;
+          width:calc(45% - 1rem);
           text-align: center;
-          margin-left:2rem;
           margin-top:1rem;
           padding:0.625rem;
           font-size:1rem;
           background: #EDEDED;
           border:0.0625rem solid #EDEDED;
           border-radius: 1rem;
+        }
+        li:nth-child(2n){
+          margin-left:1rem;
         }
       }
     }

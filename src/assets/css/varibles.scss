@@ -14,3 +14,14 @@ $border:.0625rem solid #EDEDED;
       content:' ';
     }      
 }
+@mixin listitem($size,$color) {
+  display:block;
+  width:80%;
+  height: 2rem;
+  line-height: 2rem;
+  font-size:$size;
+  color:$color;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}

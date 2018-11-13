@@ -10,6 +10,7 @@
 import homeheader from '../page-module/header';
 import homebody from '../page-module/homebody';
 import homebottom from '../page-module/bottom';
+
 export default {
   name:'Home',
   data () {

@@ -23,7 +23,7 @@ export default new Router({
       component:Search
     },
     {
-      path:'/goodslist',
+      path:'/goodslist/:id',
       name: 'GoodsList',
       component:GoodsList
     },
