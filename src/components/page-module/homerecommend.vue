@@ -7,11 +7,9 @@
              <div class="floor-wrap">
                  <h1 class="floor-title">{{names}}</h1>
                   <ul class="floor-list clearfix">
-                      <li class="floor-item" v-for="item of floorWrap[index]" :key="item.id">
-                          <router-link to='/goodslist'>
+                      <li class="floor-item" v-for="item of floorWrap[index]" :key="item.id" @click='floorlist(item.floor_text)'>
                             <span class="floor-text">{{item.floor_text}}</span>
                             <img class="floor-img" :src="item.floor_img_url" alt="">
-                          </router-link>
                       </li>
                   </ul>
              </div>
@@ -30,6 +28,12 @@ export default {
   return {
 
   }
+ },
+ methods: {
+   floorlist:function(goodsitem) {
+    let goodslist='/goodslist/'+ 'keyword='+ goodsitem
+    this.$router.push(goodslist)
+   }
  },
  components: {
 

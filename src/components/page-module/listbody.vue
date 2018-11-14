@@ -2,8 +2,8 @@
  <div class="listbody">
      <div class="listtitle">
         <ul class="sort-con">
-            <li class="sort-item active">默认排序</li>
-            <li class="sort-item">
+            <li class="sort-item active" data-type="default" @click="listsort($event)" >默认排序</li>
+            <li class="sort-item" data-type="price" @click="listsort($event)" ref="listprice">
                 <span>价格</span>
                 <i class="iconfont icon-tubiaozhizuo-1"></i>
                 <i class="iconfont icon-tubiaozhizuo-2"></i>
@@ -43,6 +43,15 @@ export default {
    
  },
  methods:{
+   listsort:function(e) {
+     let listtarget = e.target.getAttribute('data-type');
+     if(listtarget == 'default'){
+       return;
+     }else if(listtarget == 'price') {
+       console.log(this.$refs.listprice.className)
+     }
+     
+   },
    deriveid:function() {
      let newrouteid = this.$route.params.id;
      newrouteid = newrouteid.match(/=\S*/g).join('').match(/[^=]*/g)[1];

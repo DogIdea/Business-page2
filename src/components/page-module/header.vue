@@ -55,6 +55,8 @@ export default {
     }
   },
   searchkeyword:function() {
+    let goodslist='/goodslist/'+ 'keyword='+ this.$refs.searchtext.value
+    this.$router.push(goodslist)
     this.searchgoods(this.$refs.searchtext.value)
   },
   searchgoods:function(keyword) {
