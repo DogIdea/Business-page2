@@ -2,11 +2,11 @@
  <div class="listbody">
      <div class="listtitle">
         <ul class="sort-con">
-            <li class="sort-item active" data-type="default" @click="listsort($event)" >默认排序</li>
-            <li class="sort-item" data-type="price" @click="listsort($event)" ref="listprice">
+            <li class="sort-item active" data-type="default" @click="listsort($event)" ref="default">默认排序</li>
+            <li class="sort-item" data-type="price"  @click="listsort($event)" ref="price">
                 <span>价格</span>
-                <i class="iconfont icon-tubiaozhizuo-1"></i>
-                <i class="iconfont icon-tubiaozhizuo-2"></i>
+                <i class="iconfont icon-tubiaozhizuo-1" data-type="price1" ></i>
+                <i class="iconfont icon-tubiaozhizuo-2" data-type="price2" ></i>
             </li>
         </ul>
      </div>
@@ -21,7 +21,7 @@
            <div class="item-shop">
              <span class="item-price">￥{{item.price}}</span>
              <div class="item-buy">
-               <!-- <buyicon></buyicon> -->
+               <buyicon></buyicon>
              </div>
            </div>
          </li>
@@ -31,41 +31,58 @@
 </template>
 
 <script>
+import buyicon from '../page-module/buyicon';
 import {GetProductList} from '@/common/service/product-service';
 import BScroll from 'better-scroll';
 export default {
  data() {
   return {
-    goodslistitem:[]
+    goodslistitem:[],
+    listformdate:{
+      keyword:'',
+      orderBy:''
+    }
   }
  },
  components: {
-   
+   buyicon
  },
  methods:{
    listsort:function(e) {
-     let listtarget = e.target.getAttribute('data-type');
-     if(listtarget == 'default'){
-       return;
-     }else if(listtarget == 'price') {
-       console.log(this.$refs.listprice.className)
+     let listtarget = e.target;
+     let childrenlength = this.$refs.price.children.length;
+     if(listtarget.getAttribute('data-type') == 'default'){
+       listtarget.classList.add('active');
+       for(let i=0;i<childrenlength;i++){
+         this.$refs.price.children[i].classList.remove('active');
+       }
+       this.listformdate.orderBy = 'default';
+     }else{
+       this.$refs.price.children[0].classList.add('active');
+       this.$refs.default.classList.remove('active');
+       if(listtarget.getAttribute('data-type')=='price2'){
+         this.$refs.price.children[2].classList.add('active');
+         this.$refs.price.children[1].classList.remove('active');
+         this.listformdate.orderBy = 'price_asc'
+       }else {  
+         this.$refs.price.children[1].classList.add('active');
+         this.$refs.price.children[2].classList.remove('active');
+         this.listformdate.orderBy = 'price_desc'
+       }
      }
-     
+     this.deriveid();
    },
    deriveid:function() {
-     let newrouteid = this.$route.params.id;
+     let _this = this;
+     let newrouteid = _this.$route.params.id;
      newrouteid = newrouteid.match(/=\S*/g).join('').match(/[^=]*/g)[1];
-     let formdata= {
-      listParam:{
-        keyword:newrouteid
-      }
-    }
-    GetProductList(formdata.listParam).then((res)=>{
+     _this.listformdate.keyword=newrouteid
+    GetProductList(_this.listformdate).then((res)=>{
       if(res.data.status==0){
-        this.goodslistitem = res.data.data.list;
+        _this.goodslistitem = res.data.data.list;
       }
     }).catch((err)=>{
-      this.showtext=err.msg;
+      _this.showtext=err.msg;
     })
    },
    _initScroll(){
@@ -122,6 +139,9 @@ export default {
           transform: translateY(-50%);
           margin-top:0.375rem;
         }
+      }
+      .active{
+        color:$bgColor;
       }
     }
   }
