@@ -185,10 +185,16 @@ export default {
           margin-left:1rem;
           float:left;
           height:3rem;
+          
           .item-price{
             float:left;
             font-size:1rem;
             color:$bgColor;
+            margin-top:0.75rem;
+          }
+          .item-buy{
+            float:right;
+            margin-right:1rem;
           }
         }
       }

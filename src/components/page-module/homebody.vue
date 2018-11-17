@@ -31,7 +31,6 @@ export default {
       this.menuScroll = new BScroll(this.$refs.homebody, {
         click: true
       })
-      console.log(this.menuScroll)
     }
   },
   components: {
