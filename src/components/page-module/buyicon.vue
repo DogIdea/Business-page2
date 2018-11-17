@@ -1,9 +1,9 @@
 <template>
  <div class="buyicon">
       <div class="cart-decrease">
-          <span class="iconfont icon-jianhao inner" v-show="buyicon.count>0" @click.stop.prevent="decreaseCar($event)"></span>
+          <span class="iconfont icon-jianhao inner" v-show="buyconut>0" @click.stop.prevent="decreaseCar($event)"></span>
       </div>
-      <div class="cart-count" v-show="buyicon.count>0">{{buyicon.count}}</div>
+      <div class="cart-count" v-show="buyconut>0">{{buyconut}}</div>
       <div class="iconfont icon-add_circle cart-add" @click.stop.prevent="addCart($event)"></div>
  </div>
 </template>
@@ -12,9 +12,7 @@
 export default {
  data() {
   return {
-    buyicon:{
-      conut:0
-    }
+    buyconut:0
   }
  },
  methods:{
@@ -22,15 +20,17 @@ export default {
     if (!event._constructed) {
       return;
     }
-    console.log(event)
-    this.buyicon.count++;
+    console.log(this.buyconut);
+    this.buyconut++;
+    
    },
    decreaseCar:function(event) {
      if (!event._constructed) {
       return;
      }
-     if (this.food.count) {
-        this.buyicon.count--;
+      console.log(this.buyconut);
+     if (this.buyconut) {
+        this.buyconut--;
      }  
    }
  },
@@ -61,6 +61,16 @@ export default {
     line-height:1.5rem;
     padding:0.375rem;
     color:$bgColor;
+  }
+  .cart-count{
+     vertical-align:top;
+     width:auto;
+     padding:0.375rem;
+     padding-top:0.375rem;
+     line-height:1.5rem;
+     text-align:center;
+     font-size:0.625rem;
+     color:rgb(147,153,159);
   }
 }
             
