@@ -11,9 +11,6 @@ export default new Vuex.Store({
         },
         SearchHistory:{
           searcharr:[]
-        },
-        Shopcount:{
-          buyconut: 0,
         }
     },
     actions: {
@@ -22,9 +19,6 @@ export default new Vuex.Store({
         },
         SearchHistoryShow(ctx, searcharr) {
             ctx.commit('SearchHistoryShow', searcharr)
-        },
-        ShopBuyCount(ctx, buycount) {
-            ctx.commit('ShopBuyCount', buycount)
         }
 
     },
@@ -34,9 +28,6 @@ export default new Vuex.Store({
         },
         SearchHistoryShow (state, searcharr) {
            state.SearchHistory.searcharr = searcharr
-        },
-        ShopBuyCount (state, buycount) {
-           state.ShopBuyCount.buycount =  buycount
         }
     }
 })

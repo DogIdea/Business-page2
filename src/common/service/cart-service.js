@@ -10,9 +10,9 @@ export function GetCartCount () {
 //添加购物车
 export function AddToCart (productInfo) {
     return fetch({
-        url:'/cart/get_cart_product_count.do',
+        url:'/cart/add.do',
         method:'post',
-        data: productInfo,
+        data: qs.stringify(productInfo),
     })
 };
 //获取购物车列表
@@ -27,9 +27,9 @@ export function SelectProduct (productId) {
     return fetch({
         url:'/cart/select.do',
         method:'post',
-        data:{
+        data: qs.stringify({
           productId: productId
-        }
+        })
     })
 };
 
@@ -37,9 +37,9 @@ export function UnselectProduct (productId) {
     return fetch({
         url:'/cart/un_select.do',
         method:'post',
-        data:{
+        data: qs.stringify({
           productId: productId
-        }
+        })
     })
 };
 
@@ -56,21 +56,21 @@ export function UnselectAllProduct() {
         method:'post'
     })
 };
-
+//更新购物车信息
 export function UpdateProduct(productInfo) {
     return fetch({
         url:'/cart/update.do',
         method:'post',
-        data: productInfo
+        data: qs.stringify(productInfo)
     })
 };
-
+//删除购物车的商品
 export function DeleteProduct(productIds) {
     return fetch({
         url:'/cart/delete_product.do',
         method:'post',
-        data: {
+        data: qs.stringify({
           productIds: productIds
-        }
+        })
     })
 };

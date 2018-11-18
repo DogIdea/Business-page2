@@ -21,7 +21,7 @@
            <div class="item-shop">
              <span class="item-price">￥{{item.price}}</span>
              <div class="item-buy">
-               <buyicon></buyicon>
+               <buyicon :productId="item.id"></buyicon>
              </div>
            </div>
          </li>
@@ -80,6 +80,8 @@ export default {
     GetProductList(_this.listformdate).then((res)=>{
       if(res.data.status==0){
         _this.goodslistitem = res.data.data.list;
+        this.$store.dispatch('SearchHistoryShow', this.searcharr);
+        console.log(_this.goodslistitem)
       }
     }).catch((err)=>{
       _this.showtext=err.msg;

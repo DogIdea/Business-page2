@@ -1,15 +1,19 @@
 <template>
  <div class="buyicon">
       <div class="cart-decrease">
-          <span class="iconfont icon-jianhao inner" v-show="buyconut>0" @click.stop.prevent="decreaseCar($event)"></span>
+          <span class="iconfont icon-jianhao inner" data-type="decreaseCar" v-show="buyconut>0" @click.stop.prevent="addCart($event)"></span>
       </div>
       <div class="cart-count" v-show="buyconut>0">{{buyconut}}</div>
-      <div class="iconfont icon-add_circle cart-add" @click.stop.prevent="addCart($event)"></div>
+      <div class="iconfont icon-add_circle cart-add" data-type="addCart" @click.stop.prevent="addCart($event)"></div>
  </div>
 </template>
 
 <script>
+import {AddToCart,DeleteProduct} from '@/common/service/cart-service';
 export default {
+ props:{
+   productId:Number
+ },
  data() {
   return {
     buyconut:0
@@ -17,22 +21,43 @@ export default {
  },
  methods:{
    addCart:function(event) {
+    let newcount = 0
     if (!event._constructed) {
       return;
     }
-    console.log(this.buyconut);
-    this.buyconut++;
-    
+    if (event.target.getAttribute('data-type')=='addCart'){
+       this.buyconut = this.buyconut + 1;
+       newcount = 1;
+       console.log( this.buyconut,newcount,1)
+    }else if(event.target.getAttribute('data-type')=='decreaseCar'){
+      if(this.buyconut == 1){
+        this.buyconut = 0;
+        DeleteProduct(this.productId).then((res)=>{
+          if(res.data.status==0) {
+            console.log(res,0)
+          }else{
+            console.log(res)
+          }
+        })
+      }else if(this.buyconut > 0 || !(buyconut == 0)){
+        this.buyconut = this.buyconut - 1;
+        newcount = -1;
+        console.log( this.buyconut,newcount,-1)
+      }
+    }
+    AddToCart({
+      productId: this.productId,
+      count: newcount
+    }).then((res)=>{
+      if(res.data.status==0) {
+        console.log(res)
+      }else{
+        console.log(res)
+      }
+    }).catch((err)=>{
+      
+    })
    },
-   decreaseCar:function(event) {
-     if (!event._constructed) {
-      return;
-     }
-      console.log(this.buyconut);
-     if (this.buyconut) {
-        this.buyconut--;
-     }  
-   }
  },
  components: {
 
