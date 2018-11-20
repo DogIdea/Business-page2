@@ -37,6 +37,7 @@
         const pages = [];
         this.icon_list.forEach((item,index) => {
           const page = Math.floor(index / 8)
+          console.log(page)
           if (!pages[page]) {
             pages[page] = []
           }

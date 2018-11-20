@@ -12,7 +12,7 @@
      </div>
      <div class="listcontent" ref="contentlist">
        <ul class="content">
-         <li class="list-item" v-for="item in goodslistitem" :key="item.id">
+         <li class="list-item" v-for="item in goodslists" :key="item.id">
            <img class="item-img" :src="item.imageHost+item.mainImage">
            <div class="item-text">
              <span class="item-name">{{item.name}}</span>
@@ -27,6 +27,12 @@
          </li>
        </ul>
      </div>
+     <div class="pagenum" v-show="isShow">
+       <div class="pagesize">
+        <span class="page pagenow">{{listpagenum.goodsPage}}</span>
+        <span class="page">{{listpagenum.total}}</span>
+       </div>
+     </div>
  </div>
 </template>
 
@@ -37,17 +43,28 @@ import BScroll from 'better-scroll';
 export default {
  data() {
   return {
-    goodslistitem:[],
+    isShow:false,
+    goodslists:[],
+    listpagenum:{
+      goodsPage:1,
+      total:0
+    },
     listformdate:{
       keyword:'',
-      orderBy:''
-    }
+      categoryId:'',
+      orderBy:'default',
+      pageNum:1,
+      pageSize:5
+    },
   }
  },
  components: {
    buyicon
  },
  methods:{
+   test:function() {
+     alert('touchend')
+   },
    listsort:function(e) {
      let listtarget = e.target;
      let childrenlength = this.$refs.price.children.length;
@@ -77,29 +94,56 @@ export default {
      let newrouteid = _this.$route.params.id;
      newrouteid = newrouteid.match(/=\S*/g).join('').match(/[^=]*/g)[1];
      _this.listformdate.keyword=newrouteid
-    GetProductList(_this.listformdate).then((res)=>{
+     GetProductList(_this.listformdate).then((res)=>{
       if(res.data.status==0){
-        _this.goodslistitem = res.data.data.list;
+        _this.listpagenum.total = Math.ceil(res.data.data.total / this.listformdate.pageSize);
+        _this.goodslists = _this.goodslists.length == 0 ? res.data.data.list : _this.goodslists.concat(res.data.data.list);
+        console.log(_this.goodslists,_this.goodslists.length)
         this.$store.dispatch('SearchHistoryShow', this.searcharr);
-        console.log(_this.goodslistitem)
+         this.$nextTick(() => {
+          this.isShow = true;
+          this._initScroll();
+        });
       }
     }).catch((err)=>{
       _this.showtext=err.msg;
     })
    },
    _initScroll(){
-    this.menuScroll = new BScroll(this.$refs.contentlist, {
-      click: true
+     if (!this.menuScroll) {
+      this.menuScroll = new BScroll(this.$refs.contentlist, {
+            click: true,
+            scrollY: true,
+            probeType: 1
+        });
+    }else{
+      this.menuScroll.refresh();
+    };
+    this.menuScroll.on('scroll', (pos) => {
+        console.log(pos.y,1)
+        console.log(this.menuScroll.maxScrollY,2);
+        //如果下拉超过30px 就显示下拉刷新的文字
+        if(pos.y > 30){
+            console.log('下拉释放');
+        }
+    })
+    this.menuScroll.on('touchEnd', (pos)=>{
+      if( pos.y > 30 ){
+          console.log("下拉刷新");
+          //使用refresh 方法 来更新scroll  解决无法滚动的问题
+      }else if(pos.y < (this.menuScroll.maxScrollY - 30)){
+        console.log("加载更多");
+        if(this.listformdate.pageNum < this.listpagenum.total) {
+          this.listformdate.pageNum = this.listformdate.pageNum + 1;
+          this.deriveid();
+          this.menuScroll.refresh();
+        }
+      }
     })
   }
  },
  created () {
    this.deriveid();
- },
- mounted() {
-   this.$nextTick(() => {
-    this._initScroll();
-  });
  }
 }
 </script>
@@ -201,6 +245,36 @@ export default {
         }
       }
     }
+  }
+  .pagenum{
+    position:fixed;
+    z-index:10;
+    bottom:1.5rem;
+    right:1.5rem;
+    display:block;
+    border-radius: 2.4rem;
+    width:2.4rem;
+    height:2.4rem;
+    overflow: hidden;
+    box-shadow: 0rem 0.125rem 0.125rem #666;
+    text-shadow:0rem 0.0625rem 0.0625rem #666;
+    .pagesize{
+      display:table;
+      width:2rem;
+      height:100%;
+      margin:0 auto;
+      border-collapse: collapse;
+      .page{
+        display: table-row;
+        text-align: center;
+        vertical-align:middle;
+        font-size:0.5rem;
+        line-height:1rem;
+        background:#fff;
+        border-collapse: collapse;
+      }
+    }
+    
   }
 }
 </style>
