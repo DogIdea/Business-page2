@@ -45,6 +45,7 @@ export default {
   return {
     isShow:false,
     goodslists:[],
+    newcount:[],
     listpagenum:{
       goodsPage:1,
       total:0
@@ -62,9 +63,7 @@ export default {
    buyicon
  },
  methods:{
-   test:function() {
-     alert('touchend')
-   },
+   //判断排序
    listsort:function(e) {
      let listtarget = e.target;
      let childrenlength = this.$refs.price.children.length;
@@ -89,16 +88,19 @@ export default {
      }
      this.deriveid();
    },
+   //加载数据
    deriveid:function() {
-     let _this = this;
-     let newrouteid = _this.$route.params.id;
+     let newrouteid = this.$route.params.id;
      newrouteid = newrouteid.match(/=\S*/g).join('').match(/[^=]*/g)[1];
-     _this.listformdate.keyword=newrouteid
-     GetProductList(_this.listformdate).then((res)=>{
+     this.listformdate.keyword=newrouteid
+     GetProductList(this.listformdate).then((res)=>{
       if(res.data.status==0){
-        _this.listpagenum.total = Math.ceil(res.data.data.total / this.listformdate.pageSize);
-        _this.goodslists = _this.goodslists.length == 0 ? res.data.data.list : _this.goodslists.concat(res.data.data.list);
-        console.log(_this.goodslists,_this.goodslists.length)
+        this.listpagenum.total = Math.ceil(res.data.data.total / this.listformdate.pageSize);
+        if(this.listpagenum.total == 0){
+          this.listpagenum.goodsPage = 0;
+        }
+        this.goodslists = this.goodslists.length == 0 ? res.data.data.list : this.goodslists.concat(res.data.data.list);
+        console.log(this.goodslists,this.goodslists.length)
         this.$store.dispatch('SearchHistoryShow', this.searcharr);
          this.$nextTick(() => {
           this.isShow = true;
@@ -106,33 +108,36 @@ export default {
         });
       }
     }).catch((err)=>{
-      _this.showtext=err.msg;
+      this.showtext=err.msg;
     })
    },
+   //滚动事件
    _initScroll(){
      if (!this.menuScroll) {
       this.menuScroll = new BScroll(this.$refs.contentlist, {
             click: true,
             scrollY: true,
-            probeType: 1
+            probeType: 3
         });
     }else{
       this.menuScroll.refresh();
     };
+    //滚动页码
+    this.newcount.push(this.menuScroll.maxScrollY);
     this.menuScroll.on('scroll', (pos) => {
-        console.log(pos.y,1)
-        console.log(this.menuScroll.maxScrollY,2);
-        //如果下拉超过30px 就显示下拉刷新的文字
-        if(pos.y > 30){
-            console.log('下拉释放');
+        for(let i = 0;i<this.newcount.length;i++){
+          if(pos.y > this.newcount[i]){
+            this.listpagenum.goodsPage= i + 1;
+            break;
+          }
         }
     })
     this.menuScroll.on('touchEnd', (pos)=>{
       if( pos.y > 30 ){
           console.log("下拉刷新");
           //使用refresh 方法 来更新scroll  解决无法滚动的问题
+          //加载更多
       }else if(pos.y < (this.menuScroll.maxScrollY - 30)){
-        console.log("加载更多");
         if(this.listformdate.pageNum < this.listpagenum.total) {
           this.listformdate.pageNum = this.listformdate.pageNum + 1;
           this.deriveid();
