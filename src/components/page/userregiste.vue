@@ -1,30 +1,33 @@
 <template>
  <div class="user-registe">
     <userheader :header_title="header_title"></userheader>
-    <div class="registebody">
-      <div class="error-item" :class="!isshow ? error_hidden : ''">
+    <div class="registeparent" ref="usermenu">
+      <div class="registebody">
+        <div class="error-item" :class="!isshow ? error_hidden : ''">
           <i class="iconfont icon-jinzhi error-icon"></i>
           <p class="err-msg">{{showtext}}</p>
-      </div>
-      <div class="user-item" v-for="item in registe_list" :key="item.id">
-        <label class="user-label" :for="item.for">
-            <i class="iconfont" :class="item.icon"></i>
-        </label>
-        <input :type="item.type" class="user-content" :id="item.user_id" :placeholder="item.place_holder" autocomplete="off" ref="userItem">
-      </div>
-      <div class="btn-submit" @click.stop="RegisteSubmit">注册</div>
-      <div class="link-item">
-          <router-link to="/userlogin" class="link_right">已有账号去登录 >></router-link>
+        </div>
+        <div class="user-item" v-for="item in registe_list" :key="item.id">
+          <label class="user-label" :for="item.for">
+              <i class="iconfont" :class="item.icon"></i>
+          </label>
+          <input :type="item.type" class="user-content" :id="item.user_id" :placeholder="item.place_holder" autocomplete="off" ref="userItem">
+        </div>
+        <div class="btn-submit" @click.stop="RegisteSubmit">注册</div>
+        <div class="link-item">
+            <router-link to="/userlogin" class="link_right">已有账号去登录 >></router-link>
+        </div>
       </div>
     </div>
  </div>
 </template>
 
 <script>
-import userheader from '../page-module/userheader'
-import {Register,CheckUsername} from '@/common/service/user-service.js'
-import {validate} from '@/common/util/http.js'
+import userheader from '../page-module/userheader';
+import {Register,CheckUsername} from '@/common/service/user-service.js';
+import {validate} from '@/common/util/http.js';
 import registe from '../../../static/mock/registe.json';
+import BScroll from 'better-scroll';
 export default {
   data() {
    return {
@@ -49,7 +52,6 @@ export default {
         let  validateResult = this.formValidate(formDate);
         if(validateResult.status && !this.isshow) {
             Register(formDate).then((res)=>{
-              console.log(res.data.msg);
               this.$router.push('/userlogin')
             }).catch((err)=>{
               this.showtext=err.msg;
@@ -100,6 +102,11 @@ export default {
         result.status = true;
         result.msg = '验证通过';
         return result;
+    },
+    _initScroll:function() {
+      this.userScroll = new BScroll(this.$refs.usermenu, {
+        click: true
+      })
     }
   },
   mounted() {
@@ -126,7 +133,12 @@ export default {
   },
   components: {
     userheader
-  }
+  },
+  created() {
+    this.$nextTick(() => {
+      this._initScroll();
+    });
+  },
 }
 </script>
 
@@ -141,79 +153,92 @@ body,html{
   background:$bgColor;
 }
 
-.registebody{
-  margin-top:3rem;
+.registeparent{
+  position: absolute;
+  z-index:2;
+  top:3rem;
+  left:0;
+  bottom:0;
   width:100%;
-  .error-item{
-    box-sizing: border-box;
-    width:75%;
-    margin:2rem auto;
-    position: relative;
-    padding: 1rem 0 1rem 2.5rem;
-    border: 0.0625rem solid red;
-    color: red;
-    background: #fde9e9;
-    .error-icon{
-      position: absolute;
-      left: 0.875rem;
-      top: 50%;
-      font-size: 0.875rem;
-      transform: translateY(-50%) 
-    }
-  }
-  .error_hidden{
-    visibility: hidden;
-  }
-  .user-item{
-    overflow: hidden;
-    width:75%;
-    margin:2rem auto;
-    height:$headerHeight;
-    position: relative;
-    margin-bottom: 1.225rem;
-    .user-label{
-      position: absolute;
-      left: 0;
-      top: 0;
-      width:$headerHeight;
-      height:$headerHeight;
-      line-height: $headerHeight;
-      background: #f3f3f3;
-      font-size: 1.125rem;
-      color: $bgColor;
-      text-align: center;
-      border-right: 0.0625rem solid #bbddbb;
-      .iconfont{
-        margin-top:2rem;
+  overflow: hidden;
+  .registebody{
+    height:calc(100% + 2rem);
+    .error-item{
+      box-sizing: border-box;
+      width:75%;
+      margin:2rem auto;
+      position: relative;
+      padding: 1rem 0 1rem 2.5rem;
+      border: 0.0625rem solid red;
+      color: red;
+      background: #fde9e9;
+      .error-icon{
+        position: absolute;
+        left: 0.875rem;
+        top: 50%;
+        font-size: 0.875rem;
+        transform: translateY(-50%) 
       }
     }
-    .user-content{
-      position: absolute;
-      width:calc(100% - 3.33rem);
-      left:$headerHeight + 0.0625rem;  
+    .error_hidden{
+      visibility: hidden;
+    }
+    .user-item{
+      overflow: hidden;
+      width:75%;
+      margin:2rem auto;
       height:$headerHeight;
-      line-height: 2.25rem;
-      background: #f3f3f3;
-      padding-left:1rem;
+      position: relative;
+      margin-bottom: 1.225rem;
+      .user-label{
+        position: absolute;
+        left: 0;
+        top: 0;
+        width:$headerHeight;
+        height:$headerHeight;
+        line-height: $headerHeight;
+        background: #f3f3f3;
+        font-size: 1.125rem;
+        color: $bgColor;
+        text-align: center;
+        border-right: 0.0625rem solid #bbddbb;
+        .iconfont{
+          margin-top:2rem;
+        }
+      }
+      .user-content{
+        position: absolute;
+        width:calc(100% - 3.33rem);
+        left:$headerHeight + 0.0625rem;  
+        height:$headerHeight;
+        line-height: 2.25rem;
+        background: #f3f3f3;
+        padding-left:1rem;
+      }
+    }
+    .btn-submit{
+      box-sizing: border-box;
+      padding:1rem;
+      border-radius: 1rem;
+      width:75%;
+      margin: 2rem auto;
+      text-align: center;
+      font-size: 1.25rem;
+      background:#fff;
+      color:$bgColor;
+    }
+    .link-item{
+      width:75%;
+      margin:2rem auto;
+      .link_right{
+        float: right;
+      }
     }
   }
-  .btn-submit{
-    box-sizing: border-box;
-    padding:1rem;
-    border-radius: 1rem;
-    width:75%;
-    margin: 2rem auto;
-    text-align: center;
-    font-size: 1.25rem;
-    background:#fff;
-    color:$bgColor;
-  }
-  .link-item{
-    width:75%;
-    margin:2rem auto;
-    .link_right{
-      float: right;
-    }
-  }
+  
+  
+  
+  
+  
 }
 </style>

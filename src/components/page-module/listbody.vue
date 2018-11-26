@@ -1,5 +1,5 @@
 <template>
- <div class="listbody">
+ <div class="list-body">
      <div class="listtitle">
         <ul class="sort-con">
             <li class="sort-item active" data-type="default" @click="listsort($event)" ref="default">默认排序</li>
@@ -12,7 +12,7 @@
      </div>
      <div class="listcontent" ref="contentlist">
        <ul class="content">
-         <li class="list-item" v-for="item in goodslists" :key="item.id">
+         <li class="list-item" v-for="item in goodslists" :key="item.id" @click="goodsdetail(item.id)">
            <img class="item-img" :src="item.imageHost+item.mainImage">
            <div class="item-text">
              <span class="item-name">{{item.name}}</span>
@@ -44,11 +44,13 @@ export default {
  data() {
   return {
     isShow:false,
+    isScroll:false,
     goodslists:[],
     newcount:[],
+    carbuyicon:[],
     listpagenum:{
       goodsPage:1,
-      total:0
+      total:1
     },
     listformdate:{
       keyword:'',
@@ -72,35 +74,69 @@ export default {
        for(let i=0;i<childrenlength;i++){
          this.$refs.price.children[i].classList.remove('active');
        }
+       this.listformdate.pageSize = this.goodslists.length;
+      if(this.isScroll){
+        this.listformdate.pageNum = 1;
+      }
        this.listformdate.orderBy = 'default';
+       this.isScroll=false;
      }else{
        this.$refs.price.children[0].classList.add('active');
        this.$refs.default.classList.remove('active');
        if(listtarget.getAttribute('data-type')=='price2'){
          this.$refs.price.children[2].classList.add('active');
          this.$refs.price.children[1].classList.remove('active');
-         this.listformdate.orderBy = 'price_asc'
+         this.listformdate.pageSize = this.goodslists.length;
+         if(this.isScroll){
+           this.listformdate.pageNum = 1;
+         }
+         this.listformdate.orderBy = 'price_asc';
+         this.isScroll=false;
        }else {  
          this.$refs.price.children[1].classList.add('active');
          this.$refs.price.children[2].classList.remove('active');
-         this.listformdate.orderBy = 'price_desc'
+         this.listformdate.pageSize = this.goodslists.length;
+         if(this.isScroll){
+           this.listformdate.pageNum = 1;
+         }
+         this.listformdate.orderBy = 'price_desc';
+         this.isScroll=false;
        }
      }
-     this.deriveid();
+     this.listload();
    },
    //加载数据
-   deriveid:function() {
+   listload:function() {
      let newrouteid = this.$route.params.id;
      newrouteid = newrouteid.match(/=\S*/g).join('').match(/[^=]*/g)[1];
      this.listformdate.keyword=newrouteid
      GetProductList(this.listformdate).then((res)=>{
       if(res.data.status==0){
-        this.listpagenum.total = Math.ceil(res.data.data.total / this.listformdate.pageSize);
+        //判断页码总数
+        if(res.data.data.total > this.listformdate.pageSize){
+          this.listpagenum.total = Math.ceil(res.data.data.total / this.listformdate.pageSize);
+        }
+        //判断页码是否为0
+        if(res.data.data.size == 0){
+          this.listpagenum.goodsPage = 0;
+          this.listpagenum.total = 0;
+        }
         if(this.listpagenum.total == 0){
           this.listpagenum.goodsPage = 0;
         }
-        this.goodslists = this.goodslists.length == 0 ? res.data.data.list : this.goodslists.concat(res.data.data.list);
-        console.log(this.goodslists,this.goodslists.length)
+        //判断下拉列表如果是初始阶段调用res.data.data.list否则增加数组
+        if(this.goodslists.length == 0){
+           this.goodslists = res.data.data.list
+           
+        }else if(this.listformdate.orderBy){
+          //用isScroll作为下标判断是否为排序状态
+          if(this.isScroll == true){
+            this.goodslists =  this.goodslists.concat(res.data.data.list);
+          }else{
+            this.goodslists = res.data.data.list;
+            
+          }
+        }
         this.$store.dispatch('SearchHistoryShow', this.searcharr);
          this.$nextTick(() => {
           this.isShow = true;
@@ -108,7 +144,7 @@ export default {
         });
       }
     }).catch((err)=>{
-      this.showtext=err.msg;
+      console.log(err.msg);
     })
    },
    //滚动事件
@@ -127,7 +163,7 @@ export default {
     this.menuScroll.on('scroll', (pos) => {
         for(let i = 0;i<this.newcount.length;i++){
           if(pos.y > this.newcount[i]){
-            this.listpagenum.goodsPage= i + 1;
+            this.listpagenum.goodsPage = i + 1;
             break;
           }
         }
@@ -140,22 +176,47 @@ export default {
       }else if(pos.y < (this.menuScroll.maxScrollY - 30)){
         if(this.listformdate.pageNum < this.listpagenum.total) {
           this.listformdate.pageNum = this.listformdate.pageNum + 1;
-          this.deriveid();
+          this.isScroll = true;
+          this.listload();
           this.menuScroll.refresh();
         }
       }
     })
+  },
+  goodsdetail:function(goodsid) {
+    let detail='/detail/goodsdetail/'+ 'productId='+ goodsid
+    this.$router.push(detail)
+  },
+  //加载购物车信息
+  cartlistload:function() {
+    let cartlistformdata = {}
+    GetCartList().then((res)=>{
+      if(res.data.status==0) {
+        cartlistformdata = res.data.data;
+        console.log(this.cartlistformdata)
+      }else{
+        console.log(res)
+      }
+    }).catch((err)=>{
+      console.log(err)
+    }) 
+    cartlistformdata.forEach((item,index)=>{
+      let formobj = {};
+      formobj.productId = item.productId;
+      formobj.quantity = item.quantity;
+      this.carbuyicon.push(formobj)}
+    )
   }
  },
  created () {
-   this.deriveid();
+   this.listload();
  }
 }
 </script>
 
 <style scoped lang="scss">
 @import '@/assets/css/varibles.scss';
-.listbody{
+.list-body{
   position: relative;
   top:$headerHeight;
   width:100%;

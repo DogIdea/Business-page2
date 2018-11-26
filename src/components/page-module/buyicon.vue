@@ -28,7 +28,6 @@ export default {
     if (event.target.getAttribute('data-type')=='addCart'){
        this.buyconut = this.buyconut + 1;
        newcount = 1;
-       console.log( this.buyconut,newcount,1)
     }else if(event.target.getAttribute('data-type')=='decreaseCar'){
       if(this.buyconut == 1){
         this.buyconut = 0;
@@ -42,7 +41,6 @@ export default {
       }else if(this.buyconut > 0 || !(buyconut == 0)){
         this.buyconut = this.buyconut - 1;
         newcount = -1;
-        console.log( this.buyconut,newcount,-1)
       }
     }
     AddToCart({
@@ -55,7 +53,7 @@ export default {
         console.log(res)
       }
     }).catch((err)=>{
-      
+      console.log(err)
     })
    },
  },

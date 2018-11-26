@@ -1,9 +1,9 @@
 <template>
-  <div class="homebody" ref="homebody">
+  <div class="home-body" ref="homebody">
     <div class="homewrapper">
       <homebanner :banner_list="banner_list"></homebanner>
       <homeicon :icon_list="icon_list"></homeicon>
-      <homerecommend :floorName="floorName" :floorWrap="floorWrap"></homerecommend>
+      <homercommend :floorName="floorName" :floorWrap="floorWrap"></homercommend>
     </div>
   </div>
 </template>
@@ -11,7 +11,7 @@
 <script>
 import homebanner from '../page-module/homebanner';
 import homeicon from '../page-module/homeicon';
-import homerecommend from '../page-module/homerecommend';
+import homercommend from '../page-module/homercommend';
 import BScroll from 'better-scroll';
 import icon from '../../../static/mock/icon.json';
 import banner from '../../../static/mock/banner.json';
@@ -36,7 +36,7 @@ export default {
   components: {
     homebanner,
     homeicon,
-    homerecommend
+    homercommend
   },
   mounted () {
     this.$nextTick(() => {
@@ -47,7 +47,7 @@ export default {
 </script>
 <style scoped lang="scss" type="text/css">
 @import '@/assets/css/varibles.scss';
-.homebody{
+.home-body{
   //使用fixed来固定高度
   position: fixed;
   width:100%;

@@ -8,7 +8,7 @@ export function GetProductList (listParam) {
       data: qs.stringify(listParam)
     })
 }
-
+//产品详情
 export function GetProductDetail (productId) {
     return fetch({
       url:'/product/detail.do',

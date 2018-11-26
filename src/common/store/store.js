@@ -11,6 +11,12 @@ export default new Vuex.Store({
         },
         SearchHistory:{
           searcharr:[]
+        },
+        GoodsDetail:{
+          detailformdata:{}
+        },
+        GoodsBuy:{
+          buycount:0
         }
     },
     actions: {
@@ -19,8 +25,13 @@ export default new Vuex.Store({
         },
         SearchHistoryShow(ctx, searcharr) {
             ctx.commit('SearchHistoryShow', searcharr)
+        },
+        GoodsDetailContent(ctx, detailformdata) {
+            ctx.commit('GoodsDetailContent', detailformdata)
+        },
+        GoodsBuyCount(ctx, buycount) {
+            ctx.commit('GoodsBuyCount', buycount)
         }
-
     },
     mutations: {
         Userlogin (state, res) {
@@ -28,6 +39,12 @@ export default new Vuex.Store({
         },
         SearchHistoryShow (state, searcharr) {
            state.SearchHistory.searcharr = searcharr
+        },
+        GoodsDetailContent (state, detailformdata) {
+           state.GoodsDetail.detailformdata = detailformdata
+        },
+        GoodsBuyCount (state, buycount) {
+            state.GoodsBuy.buycount = buycount
         }
     }
 })

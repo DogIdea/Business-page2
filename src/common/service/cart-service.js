@@ -15,7 +15,7 @@ export function AddToCart (productInfo) {
         data: qs.stringify(productInfo),
     })
 };
-//获取购物车列表
+//获取购物车列表包括总价
 export function GetCartList () {
     return fetch({
         url:'/cart/list.do',

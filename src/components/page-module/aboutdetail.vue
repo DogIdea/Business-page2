@@ -1,6 +1,6 @@
 <template>
- <div class="pagination">
-
+ <div class="about-body">
+     <div>1</div>
  </div>
 </template>
 

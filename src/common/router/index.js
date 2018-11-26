@@ -2,12 +2,16 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/components/page/home';
 import Search from '@/components/page/search';
+import Cart from '@/components/page/cart';
 import GoodsList from '@/components/page/goodslist';
 import GoodsClass from '@/components/page/goodsclass';
 import UserLogin from '@/components/page/userlogin';
 import UserCenter from '@/components/page/usercenter';
 import UserRegiste from '@/components/page/userregiste';
 import UserPassReset from '@/components/page/userpassreset';
+import Detail from '@/components/page/detail';
+import Goodsdetail from '@/components/page-module/goodsdetail';
+import Aboutdetail from '@/components/page-module/aboutdetail';
 Vue.use(Router)
 
 export default new Router({
@@ -21,6 +25,11 @@ export default new Router({
       path:'/search',
       name: 'Search',
       component:Search
+    },
+    {
+      path:'/cart',
+      name: 'Cart',
+      component:Cart
     },
     {
       path:'/goodslist/:id',
@@ -51,6 +60,23 @@ export default new Router({
       path:'/userpassreset',
       name:'UserPassReset',
       component:UserPassReset
+    },
+    {
+      path:'/detail/',
+      name: 'Detail',
+      component:Detail,
+      children: [
+        {
+          path:'/detail/goodsdetail/:id',
+          name: 'Goodsdetail',
+          component:Goodsdetail
+        },
+        {
+          path:'/detail/aboutdetail/:id',
+          name: 'Aboutdetail',
+          component:Aboutdetail
+        }
+      ]
     },
     { 
       path: '/', 

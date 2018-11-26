@@ -30,11 +30,14 @@ export default {
 <style scoped lang="scss">
 @import '@/assets/css/varibles.scss';
 .user-header{
+  position: flex;
+  z-index:5;
   width:100%;
   line-height:$headerHeight;
   height:$headerHeight;
   background:#fff;
   color:$bgColor;
+  box-shadow: 0rem 0.0625rem 0.0625rem #ededed;
   .header-left{
     float:left;
     min-width:$headerHeight;
