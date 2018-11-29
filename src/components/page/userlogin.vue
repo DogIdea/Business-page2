@@ -30,7 +30,6 @@
 
 <script>
 import userheader from '../page-module/userheader';
-import {logout} from '@/common/service/user-service.js';
 import {mapState} from 'vuex';
 export default {
    name:'UserLogin',
@@ -66,6 +65,8 @@ export default {
         this.$store.dispatch('Userloginmethod',this.formDate).then(()=>{
           if(this.Userloginstate.status == 0) {
             this.$router.push('/home');
+          }else{
+            this.showtext='用户名或密码不正确';
           }
         }) 
          

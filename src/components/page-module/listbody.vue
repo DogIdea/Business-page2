@@ -38,6 +38,7 @@
 
 <script>
 import buyicon from '../page-module/buyicon';
+import {mapState} from 'vuex';
 import {GetProductList} from '@/common/service/product-service';
 import BScroll from 'better-scroll';
 export default {
@@ -60,6 +61,9 @@ export default {
       pageSize:5
     },
   }
+ },
+ computed:{
+   ...mapState(['GetProductListstate'])
  },
  components: {
    buyicon
@@ -109,46 +113,45 @@ export default {
    listload:function() {
      let newrouteid = this.$route.params.id;
      newrouteid = newrouteid.match(/=\S*/g).join('').match(/[^=]*/g)[1];
-     this.listformdate.keyword=newrouteid
-     GetProductList(this.listformdate).then((res)=>{
-      if(res.data.status==0){
-        //判断页码总数
-        if(res.data.data.total > this.listformdate.pageSize){
-          this.listpagenum.total = Math.ceil(res.data.data.total / this.listformdate.pageSize);
-        }
-        //判断页码是否为0
-        if(res.data.data.size == 0){
-          this.listpagenum.goodsPage = 0;
-          this.listpagenum.total = 0;
-        }
-        if(this.listpagenum.total == 0){
-          this.listpagenum.goodsPage = 0;
-        }
-        //判断下拉列表如果是初始阶段调用res.data.data.list否则增加数组
-        if(this.goodslists.length == 0){
-           this.goodslists = res.data.data.list
-           
-        }else if(this.listformdate.orderBy){
-          //用isScroll作为下标判断是否为排序状态
-          if(this.isScroll == true){
-            this.goodslists =  this.goodslists.concat(res.data.data.list);
-          }else{
-            this.goodslists = res.data.data.list;
-            
-          }
-        }
-        this.$store.dispatch('SearchHistoryShow', this.searcharr);
-         this.$nextTick(() => {
-          this.isShow = true;
-          this._initScroll();
-        });
+     this.listformdate.keyword=newrouteid;
+     this.$store.dispatch('GetProductListmethod',this.listformdate).then(()=>{
+       if(this.GetProductListstate.status == 0){
+         this.judgepage(this.GetProductListstate.data);
+       }
+     })
+   },
+   //判断页面
+   judgepage:function(data){
+     //判断页码总数
+      if(data.total > this.listformdate.pageSize){
+        this.listpagenum.total = Math.ceil(data.total / this.listformdate.pageSize);
       }
-    }).catch((err)=>{
-      console.log(err.msg);
-    })
+      //判断页码是否为0
+      if(data.size == 0){
+        this.listpagenum.goodsPage = 0;
+        this.listpagenum.total = 0;
+      }
+      if(this.listpagenum.total == 0){
+        this.listpagenum.goodsPage = 0;
+      }
+      //判断下拉列表如果是初始阶段调用data.data.list否则增加数组
+      if(this.goodslists.length == 0){
+        this.goodslists = data.list  
+      }else if(this.listformdate.orderBy){
+        //用isScroll作为下标判断是否为排序状态
+        if(this.isScroll == true){
+          this.goodslists =  this.goodslists.concat(data.list);
+        }else{
+          this.goodslists = data.list;
+        }
+      }
+      this.$nextTick(() => {
+        this.isShow = true;
+        this._initScroll();
+      });
    },
    //滚动事件
-   _initScroll(){
+   _initScroll:function(){
      if (!this.menuScroll) {
       this.menuScroll = new BScroll(this.$refs.contentlist, {
             click: true,
@@ -267,7 +270,7 @@ export default {
     .content{
       width:100%;
       height:auto;
-      overflow: auto;
+      overflow: hidden;
       .list-item{
         width:100%;
         height:9rem;
@@ -277,7 +280,6 @@ export default {
           float: left;
           width:8rem;
           height:8rem;
-          border:1px solid black;
         }
         .item-text{
           width:calc(100% - 11rem);

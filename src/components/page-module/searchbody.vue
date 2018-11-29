@@ -35,9 +35,6 @@ export default {
     isShow:false
   }
  },
- components: {
-   
- },
  methods:{
    getlocalstorage:function() {
      let newsearcharr=[]
@@ -57,6 +54,7 @@ export default {
    },
    clearlocalstorage:function() {
      localStorage.clear();
+     this.$store.dispatch('SearchHistoryShow',[]);
      this.isShow=false;
    },
    removeEmptyArrayEle:function(arr) {

@@ -1,6 +1,6 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import {UserLogin} from '@/common/service/user-service.js'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import {UserLogin} from '@/common/service/user-service.js';
 import {GetProductList} from '@/common/service/product-service';
 Vue.use(Vuex)
 
@@ -9,9 +9,7 @@ const state = {
       status:1,
       msg:'未登录'
     },
-    GetProductListstate:{
-      keyword:''
-    },
+    GetProductListstate:{},
     SearchHistory:{
         searcharr:[]
     },
@@ -56,7 +54,6 @@ const actions = {
 
 const mutations = {
     Userloginback(state,res){
-      console.log(res,'mutations')
       state.Userloginstate = res;
     },
     GetProductListback(state,res){

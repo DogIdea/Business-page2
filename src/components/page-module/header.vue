@@ -9,7 +9,7 @@
       </div>
       <div class="header-input">
         <span class="iconfont icon-sousuo"></span>
-          <input type="text" @click='searchclick' @keyup.enter='searchkeyword' ref='searchtext'>
+          <input type="text" @click='searchclick' @keyup.enter='searchkeyword' ref='searchtext' v-model="formdata.listParam.keyword">
       </div>
       <div class="header-right">
         <div class='usericon' v-if="!(isicon=='search')">
@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import {GetProductList} from '@/common/service/product-service';
 import {mapState} from 'vuex';
 export default {
  props:{
@@ -38,12 +37,17 @@ export default {
  data() {
   return {
     headerLeftsSearch:"header-left-search",
-    searcharr:[]
+    searcharr:[],
+    formdata:{
+      listParam:{
+        keyword:[]
+      }
+    }
   }
  },
  computed:{
-     ...mapState(['Userloginstate'])
-   },
+     ...mapState(['Userloginstate','GetProductListstate'])
+ },
  methods:{
   goback: function() {
     this.$router.go(-1);
@@ -56,24 +60,13 @@ export default {
     }
   },
   searchkeyword:function() {
-    let goodslist='/goodslist/'+ 'keyword='+ this.$refs.searchtext.value
-    this.$router.push(goodslist)
-    this.searchgoods(this.$refs.searchtext.value)
-  },
-  searchgoods:function(keyword) {
-    let formdata= {
-      listParam:{
-        keyword:[]
-      }
-    }
-    formdata.listParam.keyword = keyword
-    GetProductList(formdata.listParam).then((res)=>{
-      if(res.data.status==0){
-        this.searcharr.push(keyword);
+    this.$store.dispatch('GetProductListmethod',this.formdata.listParam).then((res)=>{
+      if(this.GetProductListstate.status == 0){
+        let goodslist='/goodslist/'+ 'keyword='+ this.formdata.listParam.keyword
+        this.searcharr.push(this.formdata.listParam.keyword);
         this.setlocalstorage();
+        this.$router.push(goodslist)
       }
-    }).catch((err)=>{
-      this.showtext=err.msg;
     })
   },
   setlocalstorage:function() {
