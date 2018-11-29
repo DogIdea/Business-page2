@@ -23,7 +23,9 @@ export default {
  data() {
   return {
     detailformdata:{},
-    cartlistformdata:{}
+    cartlistformdata:{
+      cartTotalPrice:0
+    }
   }
  },
  methods:{

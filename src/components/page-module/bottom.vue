@@ -27,16 +27,19 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
 export default {
  data() {
   return {
     
   }
  },
+ computed:{
+    ...mapState(['Userloginstate'])
+  },
  methods:{
    usercenter:function() {
-     let IsUserLogin=this.$store.state.UserInfo;
-     if(IsUserLogin.status === 1) {
+     if(this.Userloginstate.status === 1) {
        this.$router.push('/userlogin');
      }else {
        this.$router.push('/usercenter');

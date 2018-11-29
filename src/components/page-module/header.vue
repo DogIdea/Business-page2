@@ -13,7 +13,7 @@
       </div>
       <div class="header-right">
         <div class='usericon' v-if="!(isicon=='search')">
-          <router-link to='/userlogin' v-if="this.IsUserlogin.status === 1">
+          <router-link to='/userlogin' v-if="this.Userloginstate.status === 1">
             <div class="iconfont icon-denglu"></div>
           </router-link>
           <router-link to='/usercenter' v-else>
@@ -30,19 +30,20 @@
 
 <script>
 import {GetProductList} from '@/common/service/product-service';
+import {mapState} from 'vuex';
 export default {
  props:{
    isicon:String
  },
  data() {
   return {
-    IsUserlogin:{
-      status:1,
-    },
     headerLeftsSearch:"header-left-search",
     searcharr:[]
   }
  },
+ computed:{
+     ...mapState(['Userloginstate'])
+   },
  methods:{
   goback: function() {
     this.$router.go(-1);
@@ -81,9 +82,6 @@ export default {
     this.searcharr.push.apply(newsearcharr,newsearhistory);
     localStorage.setItem("history",this.searcharr);
   }
- },
- created() {
-   this.IsUserlogin = this.$store.state.UserInfo
  }
 }
 </script>

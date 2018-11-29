@@ -24,12 +24,14 @@
           <router-link to="/userregiste" class="link_right">免费注册</router-link>
       </div>
     </div>
+   
   </div>
 </template>
 
 <script>
-import userheader from '../page-module/userheader'
-import {UserLogin,logout} from '@/common/service/user-service.js'
+import userheader from '../page-module/userheader';
+import {logout} from '@/common/service/user-service.js';
+import {mapState} from 'vuex';
 export default {
    name:'UserLogin',
    data() {
@@ -44,6 +46,9 @@ export default {
       error_hidden:'error_hidden'
     }
    },
+   computed: {
+     ...mapState(['Userloginstate'])
+   },
    methods: {
      LoginSubmit: function(){
        if(this.formDate.username == '') {
@@ -56,26 +61,18 @@ export default {
          this.FormSubmit(this.formDate);
        }
      },
-     FormSubmit:function(formDate) {
-        UserLogin(formDate).then((res)=>{
-          if(res.data.status==1){
-            this.showtext=res.data.msg;
-          }else if(res.data.status==0){
-            console.log(this.$store);
-            this.$store.dispatch('Userlogin', res.data);
+     FormSubmit:function() {
+        //由于内部异步调用接口需要异步调用state
+        this.$store.dispatch('Userloginmethod',this.formDate).then(()=>{
+          if(this.Userloginstate.status == 0) {
             this.$router.push('/home');
           }
-        }).catch((err)=>{
-          this.showtext=err.msg;
-        })
+        }) 
+         
      }
    },
    created () {
-     logout().then((res)=>{
-      //  console.log(res);
-     }).catch((err)=>{
-      //  console.log(err)
-     })
+    
    },
    components: {
     userheader,
