@@ -32,14 +32,14 @@ const actions = {
         })
       })
     },
-    // GetProductListmethod(ctx,formDate){
-    //   return new Promise((resolve)=>{
-    //     GetProductList(formDate).then((res) => {
-    //         ctx.commit('GetProductListback',res.data);
-    //         resolve();  
-    //     })
-    //   })
-    // },
+    GetProductListmethod(ctx,formDate){
+      return new Promise((resolve)=>{
+        GetProductList(formDate).then((res) => {
+            ctx.commit('GetProductListback',res.data);
+            resolve();  
+        })
+      })
+    },
     SearchHistoryShow(ctx, searcharr) {
         ctx.commit('SearchHistoryShow', searcharr)
     },
@@ -59,9 +59,9 @@ const mutations = {
       console.log(res,'mutations')
       state.Userloginstate = res;
     },
-    // GetProductListback(state,res){
-    //   state.GetProductListstate = res
-    // },
+    GetProductListback(state,res){
+      state.GetProductListstate = res
+    },
     SearchHistoryShow (state, searcharr) {
         state.SearchHistory.searcharr = searcharr
         window.localStorage.setItem('searcharr',state.SearchHistory.searcharr)
