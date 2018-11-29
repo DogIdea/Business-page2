@@ -39,12 +39,12 @@
 <script>
 import buyicon from '../page-module/buyicon';
 import {mapState} from 'vuex';
-import {GetProductList} from '@/common/service/product-service';
 import BScroll from 'better-scroll';
 export default {
  data() {
   return {
     isShow:false,
+    isicon:false,
     isScroll:false,
     goodslists:[],
     newcount:[],
@@ -116,7 +116,10 @@ export default {
      this.listformdate.keyword=newrouteid;
      this.$store.dispatch('GetProductListmethod',this.listformdate).then(()=>{
        if(this.GetProductListstate.status == 0){
-         this.judgepage(this.GetProductListstate.data);
+         //判断页码是否为0
+         if(!this.GetProductListstate.data.size == 0){
+           this.judgepage(this.GetProductListstate.data);
+         }
        }
      })
    },
@@ -127,13 +130,14 @@ export default {
         this.listpagenum.total = Math.ceil(data.total / this.listformdate.pageSize);
       }
       //判断页码是否为0
-      if(data.size == 0){
-        this.listpagenum.goodsPage = 0;
-        this.listpagenum.total = 0;
-      }
-      if(this.listpagenum.total == 0){
-        this.listpagenum.goodsPage = 0;
-      }
+      // if(data.size == 0){
+      //   this.listpagenum.goodsPage = 0;
+      //   this.listpagenum.total = 0;
+      //   console.log(this.listpagenum.total)
+      // }
+      // if(this.listpagenum.total == 0){
+      //   this.listpagenum.goodsPage = 0;
+      // }
       //判断下拉列表如果是初始阶段调用data.data.list否则增加数组
       if(this.goodslists.length == 0){
         this.goodslists = data.list  
@@ -163,6 +167,7 @@ export default {
     };
     //滚动页码
     this.newcount.push(this.menuScroll.maxScrollY);
+    this.newcount = this.removeDuplicatedItem(this.newcount)
     this.menuScroll.on('scroll', (pos) => {
         for(let i = 0;i<this.newcount.length;i++){
           if(pos.y > this.newcount[i]){
@@ -186,33 +191,26 @@ export default {
       }
     })
   },
+  //跳转详情页面
   goodsdetail:function(goodsid) {
     let detail='/detail/goodsdetail/'+ 'productId='+ goodsid
     this.$router.push(detail)
   },
-  //加载购物车信息
-  cartlistload:function() {
-    let cartlistformdata = {}
-    GetCartList().then((res)=>{
-      if(res.data.status==0) {
-        cartlistformdata = res.data.data;
-        console.log(this.cartlistformdata)
-      }else{
-        console.log(res)
-      }
-    }).catch((err)=>{
-      console.log(err)
-    }) 
-    cartlistformdata.forEach((item,index)=>{
-      let formobj = {};
-      formobj.productId = item.productId;
-      formobj.quantity = item.quantity;
-      this.carbuyicon.push(formobj)}
-    )
+  removeDuplicatedItem:function(arr){
+    for(var i = 0; i < arr.length-1; i++){
+       for(var j = i+1; j < arr.length; j++){
+           if(arr[i]==arr[j]){
+              arr.splice(j,1);
+              j--;
+           }
+       }
+   }
+   return arr;
   }
  },
  created () {
    this.listload();
+   
  }
 }
 </script>

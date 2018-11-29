@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import {UserLogin} from '@/common/service/user-service.js';
-import {GetProductList} from '@/common/service/product-service';
+import {GetProductList,GetProductDetail} from '@/common/service/product-service';
 Vue.use(Vuex)
 
 const state = {
@@ -10,6 +10,7 @@ const state = {
       msg:'未登录'
     },
     GetProductListstate:{},
+    GetProductDetailstate:{},
     SearchHistory:{
         searcharr:[]
     },
@@ -38,6 +39,14 @@ const actions = {
         })
       })
     },
+    GetProductDetailmethod(ctx,formDate){
+      return new Promise((resolve)=>{
+        GetProductDetail(formDate).then((res) => {
+            ctx.commit('GetProductDetailback',res.data);
+            resolve();  
+        })
+      })
+    },
     SearchHistoryShow(ctx, searcharr) {
         ctx.commit('SearchHistoryShow', searcharr)
     },
@@ -58,6 +67,9 @@ const mutations = {
     },
     GetProductListback(state,res){
       state.GetProductListstate = res
+    },
+    GetProductDetailback(state,res){
+      state.GetProductDetailstate = res
     },
     SearchHistoryShow (state, searcharr) {
         state.SearchHistory.searcharr = searcharr
