@@ -19,7 +19,7 @@
           {{goodsdetail.subtitle}}
         </span>
         <span class="count">
-          库存：943
+          库存：{{goodsdetail.stock}}
         </span>
         <div class="transaction">
             <span class="price">售价: ¥{{goodsdetail.price}}</span>
@@ -43,6 +43,7 @@
 <script>
 import BScroll from 'better-scroll';
 import {GetProductDetail} from '@/common/service/product-service';
+import {mapState} from 'vuex';
 export default {
  data() {
   return {
@@ -58,19 +59,19 @@ export default {
     }
   }
  },
+ computed:{
+   ...mapState(['GetProductDetailstate'])
+ },
  methods: {
    goodsdetailload: function() {
      if(this.$route.params.id){
       let newrouteid = this.$route.params.id;
       newrouteid = newrouteid.match(/=\S*/g).join('').match(/[^=]*/g)[1];
-      GetProductDetail(newrouteid).then((res)=>{
-        if(res.data.status == 0){
-          this.goodsdetail = res.data.data;
-          this.$store.dispatch('GoodsDetailContent', res.data);
+      this.$store.dispatch('GetProductDetailmethod',newrouteid).then(()=>{
+        if(this.GetProductDetailstate.status == 0){
+          this.goodsdetail = this.GetProductDetailstate.data;
           this.imgarr = (this.goodsdetail.subImages || '').split(',');
         }
-      }).catch((err)=>{
-        console.log(err.msg);
       })
      }
    },

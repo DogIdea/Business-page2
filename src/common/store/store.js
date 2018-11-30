@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import {UserLogin} from '@/common/service/user-service.js';
 import {GetProductList,GetProductDetail} from '@/common/service/product-service';
+import {AddToCart,DeleteProduct,UpdateProduct,GetCartList} from '@/common/service/cart-service';
 Vue.use(Vuex)
 
 const state = {
@@ -11,15 +12,22 @@ const state = {
     },
     GetProductListstate:{},
     GetProductDetailstate:{},
+    AddToCartstate:{},
+    GetCartListstate:{},
+    UpdateProducstate:{
+        data:{
+          cartProductVoList:[]
+        }
+    },
     SearchHistory:{
         searcharr:[]
     },
-    GoodsDetail:{
-        detailformdata:{}
-    },
-    GoodsBuy:{
-        buycount:0
-    }
+    // GoodsDetail:{
+    //     detailformdata:{}
+    // },
+    // GoodsBuy:{
+    //     buycount:0
+    // }
     
 }
 const actions = {
@@ -47,18 +55,40 @@ const actions = {
         })
       })
     },
+    AddToCartmethod(ctx,formDate){
+      return new Promise((resolve)=>{
+        AddToCart(formDate).then((res) => {
+            ctx.commit('AddToCartback',res.data);
+            resolve();  
+        })
+      })
+    },
+    UpdateProducmethod(ctx,formDate){
+      return new Promise((resolve)=>{
+        UpdateProduct(formDate).then((res) => {
+            ctx.commit('UpdateProductback',res.data);
+            resolve();  
+        })  
+      })
+    },
+    GetCartListmethod(ctx){
+        return new Promise((resolve)=>{
+          GetCartList().then((res)=>{
+              console.log(res.data)
+              ctx.commit('GetCartListback',res.data)
+              resolve();  
+          })
+        })
+    },
     SearchHistoryShow(ctx, searcharr) {
         ctx.commit('SearchHistoryShow', searcharr)
     },
-    GoodsDetailContent(ctx, detailformdata) {
-        ctx.commit('GoodsDetailContent', detailformdata)
-    },
-    GoodsBuyCount(ctx, buycount) {
-        ctx.commit('GoodsBuyCount', buycount)
-    },
-    add(ctx){
-        ctx.commit('addback')
-    }
+    // GoodsDetailContent(ctx, detailformdata) {
+    //     ctx.commit('GoodsDetailContent', detailformdata)
+    // },
+    // GoodsBuyCount(ctx, buycount) {
+    //     ctx.commit('GoodsBuyCount', buycount)
+    // }
 }
 
 const mutations = {
@@ -71,18 +101,27 @@ const mutations = {
     GetProductDetailback(state,res){
       state.GetProductDetailstate = res
     },
+    AddToCartback(state,res){
+      state.AddToCartstate = res
+    },
+    UpdateProductback(state,res){
+      state.UpdateProducstate = res 
+    },
+    GetCartListback(state,res){
+      state.GetCartListstate = res
+    },
     SearchHistoryShow (state, searcharr) {
         state.SearchHistory.searcharr = searcharr
         window.localStorage.setItem('searcharr',state.SearchHistory.searcharr)
     },
-    GoodsDetailContent (state, detailformdata) {
-        state.GoodsDetail.detailformdata = detailformdata
-        window.localStorage.setItem('detailformdata',state.GoodsDetail.detailformdata)
-    },
-    GoodsBuyCount (state, buycount) {
-        state.GoodsBuy.buycount = buycount
-        window.localStorage.setItem('buycount',state.GoodsBuy.buycount)
-    },
+    // GoodsDetailContent (state, detailformdata) {
+    //     state.GoodsDetail.detailformdata = detailformdata
+    //     window.localStorage.setItem('detailformdata',state.GoodsDetail.detailformdata)
+    // },
+    // GoodsBuyCount (state, buycount) {
+    //     state.GoodsBuy.buycount = buycount
+    //     window.localStorage.setItem('buycount',state.GoodsBuy.buycount)
+    // },
 }
 
 export default new Vuex.Store({

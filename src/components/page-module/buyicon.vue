@@ -10,6 +10,7 @@
 
 <script>
 import {AddToCart,DeleteProduct} from '@/common/service/cart-service';
+import {mapState} from 'vuex';
 export default {
  props:{
    productId:Number
@@ -19,9 +20,22 @@ export default {
     buyconut:0
   }
  },
+ computed:{
+   ...mapState(['AddToCartstate','UpdateProducstate','GetCartListstate']),
+   getcartcount(){
+    let count= 0;
+    this.GetCartListstate.data.cartProductVoList.forEach((item) => {
+       if(item.productId == this.productId){
+         count = item.quantity
+       }
+     });
+    return count;
+   }
+ },
  methods:{
    addCart:function(event) {
     let newcount = 0
+    
     if (!event._constructed) {
       return;
     }
@@ -43,22 +57,30 @@ export default {
         newcount = -1;
       }
     }
-    AddToCart({
-      productId: this.productId,
-      count: newcount
-    }).then((res)=>{
-      if(res.data.status==0) {
-        console.log(res)
-      }else{
-        console.log(res)
-      }
-    }).catch((err)=>{
-      console.log(err)
-    })
+    if(this.buyconut == 1){
+      this.$store.dispatch('AddToCartmethod',{
+        productId: this.productId,
+        count: newcount
+      }).then(() => {
+        console.log(this.AddToCartstate.data)
+      })
+    }else{
+      this.$store.dispatch('UpdateProducmethod',{
+        productId: this.productId,
+        count: this.buyconut
+      }).then(() => {
+        console.log(this.UpdateProducstate)
+      })
+    }
+    
    },
+   loadbuyicon:function(){
+    
+   }
  },
- components: {
-
+ created() {
+   this.loadbuyicon()
+   this.buyconut = this.getcartcount;
  }
 }
 </script>

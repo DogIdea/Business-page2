@@ -20,7 +20,7 @@
            </div>
            <div class="item-shop">
              <span class="item-price">￥{{item.price}}</span>
-             <div class="item-buy">
+             <div class="item-buy" v-if="Userloginstate.status === 0">
                <buyicon :productId="item.id"></buyicon>
              </div>
            </div>
@@ -63,7 +63,7 @@ export default {
   }
  },
  computed:{
-   ...mapState(['GetProductListstate'])
+   ...mapState(['GetProductListstate','Userloginstate'])
  },
  components: {
    buyicon
@@ -129,15 +129,6 @@ export default {
       if(data.total > this.listformdate.pageSize){
         this.listpagenum.total = Math.ceil(data.total / this.listformdate.pageSize);
       }
-      //判断页码是否为0
-      // if(data.size == 0){
-      //   this.listpagenum.goodsPage = 0;
-      //   this.listpagenum.total = 0;
-      //   console.log(this.listpagenum.total)
-      // }
-      // if(this.listpagenum.total == 0){
-      //   this.listpagenum.goodsPage = 0;
-      // }
       //判断下拉列表如果是初始阶段调用data.data.list否则增加数组
       if(this.goodslists.length == 0){
         this.goodslists = data.list  
@@ -210,7 +201,7 @@ export default {
  },
  created () {
    this.listload();
-   
+   this.$store.dispatch('GetCartListmethod')
  }
 }
 </script>
