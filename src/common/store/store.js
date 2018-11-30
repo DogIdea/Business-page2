@@ -20,7 +20,10 @@ const state = {
         }
     },
     SearchHistory:{
-        searcharr:[]
+      searcharr:[]
+    },
+    ProductIdstate:{
+      productid:0
     },
     // GoodsDetail:{
     //     detailformdata:{}
@@ -74,14 +77,16 @@ const actions = {
     GetCartListmethod(ctx){
         return new Promise((resolve)=>{
           GetCartList().then((res)=>{
-              console.log(res.data)
               ctx.commit('GetCartListback',res.data)
               resolve();  
           })
         })
     },
     SearchHistoryShow(ctx, searcharr) {
-        ctx.commit('SearchHistoryShow', searcharr)
+      ctx.commit('SearchHistoryShow', searcharr)
+    },
+    ProductIdmethod(ctx, id) {
+      ctx.commit('ProductIdback', id)
     },
     // GoodsDetailContent(ctx, detailformdata) {
     //     ctx.commit('GoodsDetailContent', detailformdata)
@@ -111,12 +116,16 @@ const mutations = {
       state.GetCartListstate = res
     },
     SearchHistoryShow (state, searcharr) {
-        state.SearchHistory.searcharr = searcharr
-        window.localStorage.setItem('searcharr',state.SearchHistory.searcharr)
+      state.SearchHistory.searcharr = searcharr
+      window.localStorage.setItem('searcharr',state.SearchHistory.searcharr)
+    },
+    ProductIdback (state, productid){
+      state.ProductIdstate.productid = productid
+      window.localStorage.setItem('productid',state.ProductIdstate.productid)
     },
     // GoodsDetailContent (state, detailformdata) {
-    //     state.GoodsDetail.detailformdata = detailformdata
-    //     window.localStorage.setItem('detailformdata',state.GoodsDetail.detailformdata)
+    //   state.GoodsDetail.detailformdata = detailformdata
+    //   window.localStorage.setItem('detailformdata',state.GoodsDetail.detailformdata)
     // },
     // GoodsBuyCount (state, buycount) {
     //     state.GoodsBuy.buycount = buycount

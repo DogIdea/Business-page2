@@ -22,7 +22,10 @@ export default {
     homeheader,
     homebody,
     homebottom
-  }
+  },
+  created() {
+    this.$store.dispatch('GetCartListmethod')
+  },
 }
 </script>
 

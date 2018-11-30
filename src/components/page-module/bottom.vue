@@ -13,6 +13,7 @@
         <div class="logo">
             <i class="iconfont icon-gouwuchekong"></i>
         </div>
+        <div class="num" v-show="cartTotalCount>0">{{cartTotalCount}}</div>
      </div>
      <div class="bottom_navigation">
          <div class="logo">
@@ -31,11 +32,11 @@ import {mapState} from 'vuex';
 export default {
  data() {
   return {
-    
+    cartTotalCount:0
   }
  },
  computed:{
-    ...mapState(['Userloginstate'])
+    ...mapState(['Userloginstate','GetCartListstate'])
   },
  methods:{
    usercenter:function() {
@@ -44,10 +45,17 @@ export default {
      }else {
        this.$router.push('/usercenter');
      }
+   },
+   cartlistload:function() {
+      if(this.cartTotalCount == 0){
+        this.GetCartListstate.data.cartProductVoList.forEach((item,index) => {
+            this.cartTotalCount += item.quantity
+        });
+      }
    }
  },
- components: {
-
+ created(){
+   this.cartlistload()
  }
 }
 </script>
@@ -110,6 +118,9 @@ export default {
       transform:translate(-50%,-50%);
       width:$headerHeight;
       height:$headerHeight;
+    }
+    .num{
+      @include iconnum();
     }
   }
 }

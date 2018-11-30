@@ -24,11 +24,13 @@ export default {
    ...mapState(['AddToCartstate','UpdateProducstate','GetCartListstate']),
    getcartcount(){
     let count= 0;
-    this.GetCartListstate.data.cartProductVoList.forEach((item) => {
+    if(this.GetCartListstate.data.cartProductVoList){
+      this.GetCartListstate.data.cartProductVoList.forEach((item) => {
        if(item.productId == this.productId){
          count = item.quantity
        }
      });
+    }
     return count;
    }
  },
@@ -57,6 +59,7 @@ export default {
         newcount = -1;
       }
     }
+    //添加购物车商品
     if(this.buyconut == 1){
       this.$store.dispatch('AddToCartmethod',{
         productId: this.productId,

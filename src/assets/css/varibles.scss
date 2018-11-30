@@ -25,3 +25,18 @@ $border:.0625rem solid #EDEDED;
   text-overflow:ellipsis;
   white-space: nowrap;
 }
+@mixin iconnum() {
+  position:absolute;
+  top:0;
+  right:0;
+  width:1.5rem;
+  height:1rem;
+  line-height:1rem;
+  text-align:center;
+  border-radius:1rem;
+  font-size:0.5625rem;
+  font-weight:700;
+  color:#fff;
+  background:rgb(240,20,20);
+  box-shadow:0 0.25rem 0.5rem 0 rgba(0,0,0,0.4);
+}

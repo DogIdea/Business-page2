@@ -42,7 +42,6 @@
 
 <script>
 import BScroll from 'better-scroll';
-import {GetProductDetail} from '@/common/service/product-service';
 import {mapState} from 'vuex';
 export default {
  data() {
@@ -67,6 +66,7 @@ export default {
      if(this.$route.params.id){
       let newrouteid = this.$route.params.id;
       newrouteid = newrouteid.match(/=\S*/g).join('').match(/[^=]*/g)[1];
+      this.$store.dispatch('ProductIdmethod',newrouteid)
       this.$store.dispatch('GetProductDetailmethod',newrouteid).then(()=>{
         if(this.GetProductDetailstate.status == 0){
           this.goodsdetail = this.GetProductDetailstate.data;
