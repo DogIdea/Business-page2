@@ -21,7 +21,7 @@
            <div class="item-shop">
              <span class="item-price">￥{{item.price}}</span>
              <div class="item-buy" v-if="Userloginstate.status === 0">
-               <buyicon :productId="item.id"></buyicon>
+               <buyicon :productId="item.id" ></buyicon>
              </div>
            </div>
          </li>
@@ -46,6 +46,7 @@ export default {
     isShow:false,
     isicon:false,
     isScroll:false,
+    quantity:0,
     goodslists:[],
     newcount:[],
     carbuyicon:[],

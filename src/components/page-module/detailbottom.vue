@@ -27,10 +27,10 @@
               <li class="food"  v-for="(food,index) in cartproductvolist" :key="index">
                 <span class="name">{{food.productName}}</span>
                 <div class="price">
-                  <span>售价￥{{food.productStock}}</span>
+                  <span>售价￥{{food.productPrice}}</span>
                 </div>
                 <div class="item-buy">
-                  <buyicon :productId="food.productId" :arrId="index" @decreaseCar="decreaseCar"></buyicon>
+                  <buyicon :productId="food.productId" :quantity="food.quantity" :arrId="index" @decreaseCar="decreaseCar"></buyicon>
                 </div>
               </li>
             </ul>
@@ -51,7 +51,7 @@ export default {
   return {
     cartproductvolist:[],
     detailformdata:{},
-    cartTotalPrice:'',
+    cartTotalPrice:0,
     cartTotalCount:0,
     fold:true
   }
@@ -79,12 +79,18 @@ export default {
        this.cartlistload()
      })
    },
-   decreaseCar:function(arrId,buyicon){
-     if(arrId > -1 && buyicon == 0) {
+   //获取子组件添加删除事件
+   decreaseCar:function(arrId,buyicon,type){
+     if(arrId > -1 && buyicon == 0 && type == 'decrease') {
         this.cartproductvolist.splice(arrId, 1);
-        this.cartTotalCount --
-     }else {
-        this.cartTotalCount --
+        this.cartTotalCount --;
+        this.cartTotalPrice = this.cartTotalPrice - this.cartproductvolist[arrId].productPrice
+     }else if(type == 'addcart'){
+        this.cartTotalCount ++;
+        this.cartTotalPrice = this.cartTotalPrice + this.cartproductvolist[arrId].productPrice
+     }else{
+       this.cartTotalCount --;
+       this.cartTotalPrice = this.cartTotalPrice - this.cartproductvolist[arrId].productPrice
      }
      if(this.cartproductvolist.length == 0){
        this.fold = !this.fold;
@@ -125,6 +131,7 @@ export default {
       this.fold = !this.fold;
      
    },
+   //清除购物车
    cartclear:function() {
      this.cartproductvolist.forEach((item) => {
       DeleteProduct(item.productId).then((res)=>{
@@ -148,7 +155,7 @@ export default {
  },
  created () {
    this.cartlistload()
- }
+ },
 }
 </script>
 
@@ -207,6 +214,9 @@ export default {
       font-size:1.5rem;
       color:#fff;
       font-weight:bold;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
     }
     .bottom_car{
       position: absolute;

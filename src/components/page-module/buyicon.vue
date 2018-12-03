@@ -15,6 +15,7 @@ export default {
  props:{
    productId:Number,
    arrId:Number,
+   quantity:Number,
  },
  data() {
   return {
@@ -32,19 +33,18 @@ export default {
        }
      });
     }
-    console.log(count)
     return count;
    }
  },
  methods:{
    addCart:function(event) {
     let newcount = 0
-    
     if (!event._constructed) {
       return;
     }
     if (event.target.getAttribute('data-type')=='addCart'){
        this.buyconut = this.buyconut + 1;
+       this.$emit('decreaseCar', this.arrId,this.buyconut,'addcart')
        newcount = 1;
     }else if(event.target.getAttribute('data-type')=='decreaseCar'){
       if(this.buyconut == 1){
@@ -52,34 +52,41 @@ export default {
         //传递给父组件用于更改父组件数组
         DeleteProduct(this.productId).then((res)=>{
           if(res.data.status==0) {
-            console.log(this.$emit('decreaseCar', this.arrId,this.buyconut))
+            this.$emit('decreaseCar', this.arrId,this.buyconut,'decrease')
           }
         })
       }else if(this.buyconut > 0 || !(this.buyconut == 0)){
         this.buyconut = this.buyconut - 1;
         newcount = -1;
-        console.log(this.$emit('decreaseCar', this.arrId,this.buyconut))
+        this.$emit('decreaseCar', this.arrId,this.buyconut,'decrease');
       }
     }
     //添加购物车商品
-    if(this.buyconut == 1){
+    // if(this.buyconut == 1){
       this.$store.dispatch('AddToCartmethod',{
         productId: this.productId,
         count: newcount
       })
-    }else{
-      this.$store.dispatch('UpdateProducmethod',{
-        productId: this.productId,
-        count: this.buyconut
-      }).then(() => {
-        console.log(this.UpdateProducstate)
-      })
-    }
-    
+    //   console.log(this.GetCartListstate,'add')
+    // }else{
+    //   this.$store.dispatch('UpdateProducmethod',{
+    //     productId: this.productId,
+    //     count: this.buyconut
+    //   }).then(() => {
+    //     this.UpdateProducstate
+    //   })
+    //   console.log(this.GetCartListstate,'updata')
+    // }
    },
  },
  created() {
-   this.buyconut = this.getcartcount;
+   console.log(this.GetCartListstate)
+   if(!this.quantity){
+     this.buyconut = this.getcartcount;
+   }else{
+     console.log('quantity')
+     this.buyconut = this.quantity;
+   }
  }
 }
 </script>
