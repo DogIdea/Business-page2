@@ -67,6 +67,7 @@ export default {
         productId: this.productId,
         count: newcount
       })
+      console.log(this.GetCartListstate)
     //   console.log(this.GetCartListstate,'add')
     // }else{
     //   this.$store.dispatch('UpdateProducmethod',{
@@ -80,11 +81,9 @@ export default {
    },
  },
  created() {
-   console.log(this.GetCartListstate)
    if(!this.quantity){
      this.buyconut = this.getcartcount;
    }else{
-     console.log('quantity')
      this.buyconut = this.quantity;
    }
  }

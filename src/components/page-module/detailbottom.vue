@@ -90,7 +90,9 @@ export default {
         this.cartTotalPrice = this.cartTotalPrice + this.cartproductvolist[arrId].productPrice
      }else{
        this.cartTotalCount --;
-       this.cartTotalPrice = this.cartTotalPrice - this.cartproductvolist[arrId].productPrice
+       if(!this.cartproductvolist[arrId].productPrice){
+         this.cartTotalPrice = this.cartTotalPrice - this.cartproductvolist[arrId].productPrice
+       }
      }
      if(this.cartproductvolist.length == 0){
        this.fold = !this.fold;
