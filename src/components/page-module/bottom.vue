@@ -47,9 +47,9 @@ export default {
      }
    },
    cartlistload:function() {
-      if(this.cartTotalCount == 0){
+      if(this.GetCartListstate.status == 0){
         this.GetCartListstate.data.cartProductVoList.forEach((item,index) => {
-            this.cartTotalCount += item.quantity
+          this.cartTotalCount += item.quantity
         });
       }
    }

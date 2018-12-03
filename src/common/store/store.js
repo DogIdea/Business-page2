@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import {UserLogin} from '@/common/service/user-service.js';
 import {GetProductList,GetProductDetail} from '@/common/service/product-service';
-import {AddToCart,DeleteProduct,UpdateProduct,GetCartList} from '@/common/service/cart-service';
+import {AddToCart,UpdateProduct,GetCartList} from '@/common/service/cart-service';
 Vue.use(Vuex)
 
 const state = {

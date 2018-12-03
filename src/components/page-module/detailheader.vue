@@ -21,7 +21,7 @@ export default {
  },
  methods: {
   goback: function() {
-      this.$router.go(-2);
+      this.$router.go(-1);
   },
   detailbody: function(e) {
       let listtarget = e.target;

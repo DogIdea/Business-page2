@@ -27,15 +27,48 @@
         </div>
       </div>
       <div class="floor-bottom"></div>
-      <div class="select">
-          已选<strong>1</strong>
-          <i>....</i>
+      <div class="payment select">
+          <div class="left">支付</div>
+          <div class="center">
+            <ul>
+              <li>【激活分期】新用户得百元礼包</li>
+              <li>【B支付】首单随机立减3-99元</li>
+              <li>【快捷支付】随机获得B支付红包2-50</li>
+            </ul>
+          </div>
+          <div class="right">
+            <i>....</i>
+          </div>
       </div>
       <div class="floor-bottom"></div>
-      <div class="address">
-          送至<strong>北京朝阳区三环到四环之间</strong>
-          <i>....</i>
+      <div class="sales select">
+          <div class="left">促销</div>
+          <div class="center">
+            <ul>
+              <li>
+                <strong>满额返券</strong>购买满10000元立返200元商品券，返完即止
+              </li>
+            </ul>
+          </div>
+          <div class="right">
+            <i>....</i>
+          </div>
       </div>
+      <div class="floor-bottom"></div>
+      <div class="address select">
+          <div class="left">送至</div>
+          <div class="center">
+            <ul>
+              <li>
+                北京朝阳区三环到四环之间
+              </li>
+            </ul>
+          </div>
+          <div class="right">
+            <i>....</i>
+          </div>
+      </div>
+      <div class="floor-bottom"></div>
     </div>
  </div>
 </template>
@@ -123,10 +156,9 @@ export default {
   width:100%;
   box-sizing: border-box;
   padding-left:1rem;
-   padding-top:1rem;
+  padding-top:1rem;
   margin-top:1rem;
   box-shadow: 0rem 0.0625rem 0.0625rem #666;
- 
   .title{
     width:calc(100% - 1rem);
     font-size:1.2rem;
@@ -177,16 +209,43 @@ export default {
   height:1rem;
   background:#EDEDED;
 }
-.select,.address{
+.select{
   font-size:1rem;
-  line-height:3rem;
   color:#666;
-  height:3rem;
+  line-height:3rem;
+  height:100%;
   padding-left:1rem;
-  strong{
-    margin-left:0.5rem;
-    font-size:1.2rem;
-    color:#000;
+  overflow: hidden;
+  .left,.center,.right{
+    float:left;
+  }
+  .center{
+    width:calc(100% - 6rem);
+    height:100%;
+    overflow: auto;
+    ul{
+      margin-top:1rem;
+      li{
+        height:3rem;
+        line-height: 1.4rem;
+        overflow: hidden;
+        strong{
+          float:left;
+          margin-right:0.5rem;
+          font-size:1rem;
+          color:$bgColor;
+          padding:0.2rem;
+          border:0.0625rem solid $bgColor;
+        }
+      }
+    }
+    
+  }
+  .left{
+    width:3rem;
+  }
+  .right{
+    width:3rem;
   }
 }
 .address{

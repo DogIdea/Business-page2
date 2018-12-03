@@ -1,7 +1,7 @@
 <template>
  <div class="detail-bottom">
    <div class="bottom_coat">
-     <div class="bottom_navigation bottom_shopcart">
+     <div class="bottom_navigation bottom_shopcart" @click="shopcartlist">
         <div class="logo">
             <i class="iconfont icon-gouwuchekong"></i>
         </div>
@@ -16,29 +16,56 @@
      <div class="bottom_navigation bottom_text" @click.stop.prevent="buyGoods($event)">
        <span>立即购买</span>
      </div>
-     <div class="shopcart_list">
-        <div class="list_header">
-          <h1 class="title">购物车</h1>
-          <span class="empty">清空</span>
+      <transition name="fold">
+        <div class="shopcart_list" v-show='listShow'>
+          <div class="list_header">
+            <h1 class="title">购物车</h1>
+            <span class="empty" @click="cartclear">清空</span>
+          </div>
+          <div class="list_content" ref="cartlistmenu">
+            <ul>
+              <li class="food"  v-for="(food,index) in cartproductvolist" :key="index">
+                <span class="name">{{food.productName}}</span>
+                <div class="price">
+                  <span>售价￥{{food.productStock}}</span>
+                </div>
+                <div class="item-buy">
+                  <buyicon :productId="food.productId" :arrId="index" @decreaseCar="decreaseCar"></buyicon>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
+      </transition>
     </div>
  </div>
 </template>
 
 <script>
-import {GetCartList} from '@/common/service/cart-service';
+import buyicon from '../page-module/buyicon';
+import {DeleteProduct} from '@/common/service/cart-service';
 import {mapState} from 'vuex';
+import BScroll from 'better-scroll';
 export default {
  data() {
   return {
+    cartproductvolist:[],
     detailformdata:{},
     cartTotalPrice:'',
-    cartTotalCount:0
+    cartTotalCount:0,
+    fold:true
   }
  },
  computed: {
    ...mapState(['AddToCartstate','ProductIdstate','GetCartListstate']),
+   listShow() {
+    if (!this.cartTotalCount) {
+        this.fold = true;
+        return false;
+      }
+      let show = !this.fold;
+      return show;
+   }
  },
  methods:{
    addCart:function() {
@@ -51,6 +78,17 @@ export default {
      }).then(() => {
        this.cartlistload()
      })
+   },
+   decreaseCar:function(arrId,buyicon){
+     if(arrId > -1 && buyicon == 0) {
+        this.cartproductvolist.splice(arrId, 1);
+        this.cartTotalCount --
+     }else {
+        this.cartTotalCount --
+     }
+     if(this.cartproductvolist.length == 0){
+       this.fold = !this.fold;
+     }
    },
    cartlistload:function() {
      this.$store.dispatch('GetCartListmethod').then(()=>{
@@ -68,12 +106,45 @@ export default {
         }
      })
    },
+   shopcartlist:function(){
+      if (!this.cartTotalCount) {
+        return;
+      }
+      if(this.GetCartListstate.status == 0){
+        this.cartproductvolist = this.GetCartListstate.data.cartProductVoList
+      }
+      this.$nextTick(() => {
+        if (!this.cartScroll) {
+          this.cartScroll=new BScroll(this.$refs.cartlistmenu,{
+            click:true
+          });
+        } else {
+            this.cartScroll.refresh();
+        }
+      });
+      this.fold = !this.fold;
+     
+   },
+   cartclear:function() {
+     this.cartproductvolist.forEach((item) => {
+      DeleteProduct(item.productId).then((res)=>{
+        if(res.data.status==0) {
+          console.log(res,0)
+        }else{
+          console.log(res)
+        }
+      })
+     });
+     this.cartproductvolist = [];
+     this.cartTotalCount = 0;
+     this.fold = !this.fold;
+   },
    buyGoods:function() {
     this.$router.push('/cart')
-   }
+   },
  },
  components: {
-
+    buyicon
  },
  created () {
    this.cartlistload()
@@ -171,13 +242,66 @@ export default {
       left:0;
       z-index:-1;
       width:100%;
-      height:50rem;
+      background:#fff;
+      transition:all 0.5s;
+      transform:translate3d(0,-100%,0);
+      &.fold-enter,&.fold-leave-to{
+        transform:translate3d(0,0,0)
+      }
       .list_header{
-        height:2.5rem;
-        line-height:2.5rem;
+        height:3rem;
+        line-height:3rem;
         padding:0 1.125rem;
         background:#f3f5f7;
         border-bottom:0.0625rem solid rgba(7,17,27,0.1);
+        color:#000;
+        font-size:1rem;
+        .title{
+          float:left;
+          font-size:0.875rem;
+          color:rgb(7,17,27);
+        }
+        .empty{
+          float:right;
+          font-size:0.75rem;
+          color:$bgColor; 
+        }
+      }
+      .list_content{
+        max-height:13.5rem;
+        width:100%;
+        background:#fff;
+        overflow:hidden;
+        .food{
+          position: relative;
+          padding:0.75rem 0.75rem;
+          box-sizing:border-box;
+          @include border-1px(rgba(7,17,27,0.1));
+          .name{
+            display:inline-block;
+            width:8rem;
+            line-height:1.5rem;
+            font-size:0.875rem;
+            color:rgb(7,17,27);
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+          }
+          .price{
+            position:absolute;
+            right:10rem;
+            bottom:1.5rem;
+            line-height:1.5rem;
+            font-size:0.875rem;
+            font-weight:700;
+            color:rgb(240,20,20);
+          }
+          .item-buy{
+            float:right;
+            margin-top:0.5rem;
+            margin-right:1rem;
+          }
+        }
       }
     }
   }

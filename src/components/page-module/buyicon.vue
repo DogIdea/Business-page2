@@ -9,11 +9,12 @@
 </template>
 
 <script>
-import {AddToCart,DeleteProduct} from '@/common/service/cart-service';
+import {DeleteProduct} from '@/common/service/cart-service';
 import {mapState} from 'vuex';
 export default {
  props:{
-   productId:Number
+   productId:Number,
+   arrId:Number,
  },
  data() {
   return {
@@ -31,6 +32,7 @@ export default {
        }
      });
     }
+    console.log(count)
     return count;
    }
  },
@@ -47,16 +49,16 @@ export default {
     }else if(event.target.getAttribute('data-type')=='decreaseCar'){
       if(this.buyconut == 1){
         this.buyconut = 0;
+        //传递给父组件用于更改父组件数组
         DeleteProduct(this.productId).then((res)=>{
           if(res.data.status==0) {
-            console.log(res,0)
-          }else{
-            console.log(res)
+            console.log(this.$emit('decreaseCar', this.arrId,this.buyconut))
           }
         })
-      }else if(this.buyconut > 0 || !(buyconut == 0)){
+      }else if(this.buyconut > 0 || !(this.buyconut == 0)){
         this.buyconut = this.buyconut - 1;
         newcount = -1;
+        console.log(this.$emit('decreaseCar', this.arrId,this.buyconut))
       }
     }
     //添加购物车商品
@@ -64,8 +66,6 @@ export default {
       this.$store.dispatch('AddToCartmethod',{
         productId: this.productId,
         count: newcount
-      }).then(() => {
-        console.log(this.AddToCartstate.data)
       })
     }else{
       this.$store.dispatch('UpdateProducmethod',{
@@ -77,12 +77,8 @@ export default {
     }
     
    },
-   loadbuyicon:function(){
-    
-   }
  },
  created() {
-   this.loadbuyicon()
    this.buyconut = this.getcartcount;
  }
 }
