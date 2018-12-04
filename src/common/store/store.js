@@ -102,18 +102,22 @@ const mutations = {
     },
     GetProductListback(state,res){
       state.GetProductListstate = res
+      console.log('执行了GetProductList')
     },
     GetProductDetailback(state,res){
       state.GetProductDetailstate = res
+      console.log('执行了GetProductDetail')
     },
     AddToCartback(state,res){
       state.AddToCartstate = res
+      console.log('执行了addToCar')
     },
     UpdateProductback(state,res){
       state.UpdateProducstate = res 
     },
     GetCartListback(state,res){
       state.GetCartListstate = res
+      console.log('执行了GetCart')
     },
     SearchHistoryShow (state, searcharr) {
       state.SearchHistory.searcharr = searcharr

@@ -202,7 +202,7 @@ export default {
  },
  created () {
    this.listload();
-   this.$store.dispatch('GetCartListmethod')
+   this.$store.dispatch('GetCartListmethod');
  }
 }
 </script>

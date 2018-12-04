@@ -81,18 +81,23 @@ export default {
    },
    //获取子组件添加删除事件
    decreaseCar:function(arrId,buyicon,type){
-     if(arrId > -1 && buyicon == 0 && type == 'decrease') {
+     if(arrId > -1 && buyicon == 1 && type == 'decrease') {
         this.cartproductvolist.splice(arrId, 1);
         this.cartTotalCount --;
-        this.cartTotalPrice = this.cartTotalPrice - this.cartproductvolist[arrId].productPrice
+        if(this.cartTotalCount > 0){
+          this.cartTotalPrice = this.cartTotalPrice - this.cartproductvolist[arrId].productPrice;
+        }else{
+          this.cartTotalPrice = 0;
+        }
+        console.log(this.cartproductvolist,'delete')
      }else if(type == 'addcart'){
         this.cartTotalCount ++;
-        this.cartTotalPrice = this.cartTotalPrice + this.cartproductvolist[arrId].productPrice
+        this.cartTotalPrice = this.cartTotalPrice + this.cartproductvolist[arrId].productPrice;
+        console.log(this.cartproductvolist,'add')
      }else{
        this.cartTotalCount --;
-       if(!this.cartproductvolist[arrId].productPrice){
-         this.cartTotalPrice = this.cartTotalPrice - this.cartproductvolist[arrId].productPrice
-       }
+       this.cartTotalPrice = this.cartTotalPrice - this.cartproductvolist[arrId].productPrice;
+       console.log(this.cartproductvolist,'decrease')
      }
      if(this.cartproductvolist.length == 0){
        this.fold = !this.fold;
@@ -120,6 +125,7 @@ export default {
       }
       if(this.GetCartListstate.status == 0){
         this.cartproductvolist = this.GetCartListstate.data.cartProductVoList
+        console.log(this.cartproductvolist,'shopcartlist')
       }
       this.$nextTick(() => {
         if (!this.cartScroll) {
@@ -145,6 +151,7 @@ export default {
       })
      });
      this.cartproductvolist = [];
+     this.cartTotalPrice = 0;
      this.cartTotalCount = 0;
      this.fold = !this.fold;
    },

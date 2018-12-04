@@ -48,26 +48,26 @@ export default {
        newcount = 1;
     }else if(event.target.getAttribute('data-type')=='decreaseCar'){
       if(this.buyconut == 1){
-        this.buyconut = 0;
         //传递给父组件用于更改父组件数组
+        this.$emit('decreaseCar', this.arrId,this.buyconut,'decrease')
+        this.buyconut = 0;
         DeleteProduct(this.productId).then((res)=>{
           if(res.data.status==0) {
-            this.$emit('decreaseCar', this.arrId,this.buyconut,'decrease')
           }
         })
       }else if(this.buyconut > 0 || !(this.buyconut == 0)){
+        this.$emit('decreaseCar', this.arrId,this.buyconut,'decrease');
         this.buyconut = this.buyconut - 1;
         newcount = -1;
-        this.$emit('decreaseCar', this.arrId,this.buyconut,'decrease');
       }
     }
     //添加购物车商品
-    // if(this.buyconut == 1){
+    if(this.buyconut > 0){
       this.$store.dispatch('AddToCartmethod',{
         productId: this.productId,
         count: newcount
       })
-      console.log(this.GetCartListstate)
+    }
     //   console.log(this.GetCartListstate,'add')
     // }else{
     //   this.$store.dispatch('UpdateProducmethod',{
@@ -81,11 +81,12 @@ export default {
    },
  },
  created() {
-   if(!this.quantity){
-     this.buyconut = this.getcartcount;
-   }else{
-     this.buyconut = this.quantity;
-   }
+  //  if(!this.quantity){
+  //    this.buyconut = this.getcartcount;
+  //  }else{
+  //    this.buyconut = this.quantity;
+  //  }
+   this.buyconut = this.getcartcount
  }
 }
 </script>
