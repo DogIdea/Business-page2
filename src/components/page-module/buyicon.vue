@@ -68,25 +68,15 @@ export default {
         count: newcount
       })
     }
-    //   console.log(this.GetCartListstate,'add')
-    // }else{
-    //   this.$store.dispatch('UpdateProducmethod',{
-    //     productId: this.productId,
-    //     count: this.buyconut
-    //   }).then(() => {
-    //     this.UpdateProducstate
-    //   })
-    //   console.log(this.GetCartListstate,'updata')
-    // }
    },
  },
  created() {
-  //  if(!this.quantity){
-  //    this.buyconut = this.getcartcount;
-  //  }else{
-  //    this.buyconut = this.quantity;
-  //  }
-   this.buyconut = this.getcartcount
+   if(!this.quantity){
+     this.buyconut = this.getcartcount;
+   }else{
+     this.buyconut = this.quantity;
+   }
+   console.log(this.buyconut,'buyicon')
  }
 }
 </script>
