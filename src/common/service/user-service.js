@@ -16,7 +16,7 @@ export function GetUserInfo () {
     })
 }
 // 登出
-export function logout () {
+export function UserLogout () {
     return fetch({
         url:'/user/logout.do',
         method:'post'

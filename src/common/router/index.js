@@ -12,6 +12,8 @@ import UserPassReset from '@/components/page/userpassreset';
 import Detail from '@/components/page/detail';
 import Goodsdetail from '@/components/page-module/goodsdetail';
 import Aboutdetail from '@/components/page-module/aboutdetail';
+import UserInfo from '@/components/page-module/userinfo';
+import CartAddress from '@/components/page-module/cartaddress'
 Vue.use(Router)
 
 export default new Router({
@@ -49,7 +51,19 @@ export default new Router({
     {
       path:'/usercenter',
       name:'UserCenter',
-      component:UserCenter
+      component:UserCenter,
+      children: [
+        {
+          path:'/usercenter/userinfo',
+          name: 'UserInfo',
+          component:UserInfo
+        },
+        {
+          path:'/usercenter/cartaddress',
+          name: 'CartAddress',
+          component:CartAddress
+        }
+      ]
     },
     {
       path:'/userregiste',

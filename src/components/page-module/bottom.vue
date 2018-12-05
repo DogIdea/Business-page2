@@ -40,16 +40,15 @@ export default {
   },
  methods:{
    usercenter:function() {
-     if(this.Userloginstate.status === 1) {
+     if(this.Userloginstate.status == 1) {
        this.$router.push('/userlogin');
      }else {
-       this.$router.push('/usercenter');
+       this.$router.push('/usercenter/userinfo');
      }
    },
    cartlistload:function() {
      this.$store.dispatch('GetCartListmethod').then(()=>{
        if(this.GetCartListstate.status == 0){
-        console.log(this.GetCartListstate.data.cartProductVoList)
         this.GetCartListstate.data.cartProductVoList.forEach((item,index) => {
           this.cartTotalCount += item.quantity
         });

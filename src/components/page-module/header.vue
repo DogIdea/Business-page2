@@ -16,7 +16,7 @@
           <router-link to='/userlogin' v-if="this.Userloginstate.status === 1">
             <div class="iconfont icon-denglu"></div>
           </router-link>
-          <router-link to='/usercenter' v-else>
+          <router-link to='/usercenter/userinfo' v-else>
             <div class="iconfont icon-icon center"></div>
           </router-link>
         </div>

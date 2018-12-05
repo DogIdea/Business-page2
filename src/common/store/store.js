@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {UserLogin} from '@/common/service/user-service.js';
+import {UserLogin,GetUserInfo} from '@/common/service/user-service.js';
 import {GetProductList,GetProductDetail} from '@/common/service/product-service';
 import {AddToCart,UpdateProduct,GetCartList} from '@/common/service/cart-service';
 Vue.use(Vuex)
@@ -10,6 +10,7 @@ const state = {
       status:1,
       msg:'未登录'
     },
+    GetUserInfostate:{},
     GetProductListstate:{},
     GetProductDetailstate:{},
     AddToCartstate:{},
@@ -25,12 +26,6 @@ const state = {
     ProductIdstate:{
       productid:0
     },
-    // GoodsDetail:{
-    //     detailformdata:{}
-    // },
-    // GoodsBuy:{
-    //     buycount:0
-    // }
     
 }
 const actions = {
@@ -40,6 +35,20 @@ const actions = {
             ctx.commit('Userloginback',res.data);
             resolve();
         })
+      })
+    },
+    GetUserInfomethod(ctx){
+      return new Promise((resolve) =>{
+        GetUserInfo().then((res) => {
+          ctx.commit('GetUserInfoback',res.data);
+          resolve();
+        })
+      })
+    },
+    UserLogout(ctx){
+      ctx.commit('UserLogoutback',{
+        status:1,
+        msg:'未登录'
       })
     },
     GetProductListmethod(ctx,formDate){
@@ -88,17 +97,18 @@ const actions = {
     ProductIdmethod(ctx, id) {
       ctx.commit('ProductIdback', id)
     },
-    // GoodsDetailContent(ctx, detailformdata) {
-    //     ctx.commit('GoodsDetailContent', detailformdata)
-    // },
-    // GoodsBuyCount(ctx, buycount) {
-    //     ctx.commit('GoodsBuyCount', buycount)
-    // }
 }
 
 const mutations = {
     Userloginback(state,res){
       state.Userloginstate = res;
+    },
+    GetUserInfoback(state,res){
+      state.GetUserInfostate = res
+    },
+    UserLogoutback(state,res) {
+      state.Userloginstate = res;
+      console.log(state.Userloginstate)
     },
     GetProductListback(state,res){
       state.GetProductListstate = res
@@ -106,18 +116,15 @@ const mutations = {
     },
     GetProductDetailback(state,res){
       state.GetProductDetailstate = res
-      console.log('执行了GetProductDetail')
     },
     AddToCartback(state,res){
       state.AddToCartstate = res
-      console.log('执行了addToCar')
     },
     UpdateProductback(state,res){
       state.UpdateProducstate = res 
     },
     GetCartListback(state,res){
       state.GetCartListstate = res
-      console.log('执行了GetCart')
     },
     SearchHistoryShow (state, searcharr) {
       state.SearchHistory.searcharr = searcharr
@@ -127,14 +134,6 @@ const mutations = {
       state.ProductIdstate.productid = productid
       window.localStorage.setItem('productid',state.ProductIdstate.productid)
     },
-    // GoodsDetailContent (state, detailformdata) {
-    //   state.GoodsDetail.detailformdata = detailformdata
-    //   window.localStorage.setItem('detailformdata',state.GoodsDetail.detailformdata)
-    // },
-    // GoodsBuyCount (state, buycount) {
-    //     state.GoodsBuy.buycount = buycount
-    //     window.localStorage.setItem('buycount',state.GoodsBuy.buycount)
-    // },
 }
 
 export default new Vuex.Store({
