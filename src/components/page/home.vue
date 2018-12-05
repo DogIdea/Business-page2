@@ -24,7 +24,7 @@ export default {
     homebottom
   },
   created() {
-    this.$store.dispatch('GetCartListmethod')
+    
   },
 }
 </script>

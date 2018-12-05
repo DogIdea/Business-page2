@@ -47,12 +47,14 @@ export default {
      }
    },
    cartlistload:function() {
-      if(this.GetCartListstate.status == 0){
+     this.$store.dispatch('GetCartListmethod').then(()=>{
+       if(this.GetCartListstate.status == 0){
         console.log(this.GetCartListstate.data.cartProductVoList)
         this.GetCartListstate.data.cartProductVoList.forEach((item,index) => {
           this.cartTotalCount += item.quantity
         });
       }
+     })
    }
  },
  created(){

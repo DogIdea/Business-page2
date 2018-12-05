@@ -24,7 +24,7 @@
           </div>
           <div class="list_content" ref="cartlistmenu">
             <ul>
-              <li class="food"  v-for="(food,index) in cartproductvolist" :key="index">
+              <li class="food"  v-for="(food,index) in cartproductvolist" :key="food.id">
                 <span class="name">{{food.productName}}</span>
                 <div class="price">
                   <span>售价￥{{food.productPrice}}</span>
