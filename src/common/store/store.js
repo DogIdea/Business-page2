@@ -10,7 +10,9 @@ const state = {
       status:1,
       msg:'未登录'
     },
-    GetUserInfostate:{},
+    GetUserInfostate:{
+      status:1
+    },
     GetProductListstate:{},
     GetProductDetailstate:{},
     AddToCartstate:{},
@@ -105,6 +107,7 @@ const mutations = {
     },
     GetUserInfoback(state,res){
       state.GetUserInfostate = res
+      console.log(state.GetUserInfostate)
     },
     UserLogoutback(state,res) {
       state.Userloginstate = res;
@@ -112,7 +115,6 @@ const mutations = {
     },
     GetProductListback(state,res){
       state.GetProductListstate = res
-      console.log('执行了GetProductList')
     },
     GetProductDetailback(state,res){
       state.GetProductDetailstate = res

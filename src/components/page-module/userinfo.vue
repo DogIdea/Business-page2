@@ -5,22 +5,22 @@
         <div class="iconfont icon-icon usericon"></div>
         <span class="username">用户名:{{userinfo.username}}</span>
       </li>
-      <li class="user_label">
+      <li class="user_label" data-type="userinfocard" @click="detailinfo($event)">
         <span class="title">个人信息名片</span>
         <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon">
         </div>
       </li>
-      <li class="user_label">
+      <li class="user_label" data-type="resetpassword" @click="detailinfo($event)">
         <span class="title">重置密码</span>
         <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon">
         </div>
       </li>
-      <li class="user_label">
+      <li class="user_label" data-type="waitinggoods" @click="detailinfo($event)">
         <span class="title">待付商品</span>
         <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon">
         </div>
       </li>
-      <li class="user_label">
+      <li class="user_label" data-type="addresscontrol" @click="detailinfo($event)">
         <span class="title">地址管理</span>
         <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon">
         </div>
@@ -52,13 +52,28 @@ export default {
            this.$router.push('/home');
        }
      })
+   },
+   detailinfo:function(event){
+     switch(event.target.getAttribute('data-type')){
+       case "userinfocard":
+         this.$router.push('/usercenter/userinfocard');
+         break;
+       case "resetpassword":
+         this.$router.push('/usercenter/resetpassword');
+         break;
+       case "waitinggoods":
+         this.$router.push('/cart');
+         break;
+       case "addresscontrol":
+         this.$router.push('/usercenter/addresscontrol');
+         break;
+     }
    }
  },
  created() {
    this.$store.dispatch('GetUserInfomethod').then(()=>{
      if(this.GetUserInfostate.status == 0){
        this.userinfo = this.GetUserInfostate.data
-       console.log(this.userinfo)
      }
    })
  }
@@ -103,7 +118,7 @@ export default {
     margin-top:2rem;
     color:#666;
     font-weight: bold;
-    background:#fff;
+    background:rgb(252, 248, 248);
     @include border-1px(rgba(7,17,27,0.1));
     .title{
       float: left;

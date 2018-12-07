@@ -13,7 +13,9 @@ import Detail from '@/components/page/detail';
 import Goodsdetail from '@/components/page-module/goodsdetail';
 import Aboutdetail from '@/components/page-module/aboutdetail';
 import UserInfo from '@/components/page-module/userinfo';
-import CartAddress from '@/components/page-module/cartaddress'
+import UserInfoCard from '@/components/page-module/userinfocard'
+import CartAddress from '@/components/page-module/cartaddress';
+
 Vue.use(Router)
 
 export default new Router({
@@ -54,12 +56,17 @@ export default new Router({
       component:UserCenter,
       children: [
         {
-          path:'/usercenter/userinfo',
+          path:'userinfo',
           name: 'UserInfo',
           component:UserInfo
         },
         {
-          path:'/usercenter/cartaddress',
+          path:'userinfocard',
+          name: 'UserInfoCard',
+          component:UserInfoCard
+        },
+        {
+          path:'cartaddress',
           name: 'CartAddress',
           component:CartAddress
         }
