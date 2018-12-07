@@ -37,7 +37,6 @@ export default {
  data() {
   return {
     userinfo:{},
-    header_title:'个人中心'
   }
  },
  computed: {

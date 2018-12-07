@@ -75,3 +75,11 @@ export function UpdateUserInfo(userInfo) {
         method:'post'
     }) 
 }
+//更新密码
+export function  UpdatePassWord(userInfo) {
+    return fetch({
+        url:'/user/reset_password.do',
+        data: qs.stringify(userInfo),
+        method:'post'
+    }) 
+}

@@ -15,7 +15,7 @@ import Aboutdetail from '@/components/page-module/aboutdetail';
 import UserInfo from '@/components/page-module/userinfo';
 import UserInfoCard from '@/components/page-module/userinfocard'
 import CartAddress from '@/components/page-module/cartaddress';
-
+import ResetPassWord from '@/components/page-module/resetpassword';
 Vue.use(Router)
 
 export default new Router({
@@ -64,6 +64,11 @@ export default new Router({
           path:'userinfocard',
           name: 'UserInfoCard',
           component:UserInfoCard
+        },
+        {
+          path:'resetpassword',
+          name: 'ResetPassWord',
+          component:ResetPassWord
         },
         {
           path:'cartaddress',

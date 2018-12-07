@@ -71,9 +71,9 @@
 </template>
 
 <script>
-import {UpdateUserInfo} from '@/common/service/user-service.js';
 import {mapState} from 'vuex';
 import {validate} from '@/common/util/http.js';
+import {UpdateUserInfo} from '@/common/service/user-service.js';
 export default {
  data() {
   return {
@@ -136,6 +136,7 @@ export default {
           result.msg = '信息更新失败';
           return result;
         }
+        alert(信息更新成功);
     })
     result.status = true;
     result.msg = '验证通过';
