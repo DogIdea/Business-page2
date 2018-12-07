@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import {UserLogout } from '@/common/service/user-service.js';
+import {UserLogout} from '@/common/service/user-service.js';
 import {mapState} from 'vuex';
 export default {
  data() {
