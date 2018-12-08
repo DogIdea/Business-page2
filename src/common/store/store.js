@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import {UserLogin,GetUserInfo} from '@/common/service/user-service.js';
 import {GetProductList,GetProductDetail} from '@/common/service/product-service';
 import {AddToCart,UpdateProduct,GetCartList} from '@/common/service/cart-service';
+import {GetAddressList} from '@/common/service/address-service';
 Vue.use(Vuex)
 
 const state = {
@@ -28,7 +29,7 @@ const state = {
     ProductIdstate:{
       productid:0
     },
-    
+    GetAddressListstate:{}
 }
 const actions = {
     Userloginmethod(ctx,formDate){
@@ -99,6 +100,14 @@ const actions = {
     ProductIdmethod(ctx, id) {
       ctx.commit('ProductIdback', id)
     },
+    GetAddressListmethod(ctx){
+      return new Promise((resolve)=>{
+        GetAddressList().then((res)=>{
+          ctx.commit('GetAddressListback',res.data)
+          resolve(); 
+        })
+      })
+    }
 }
 
 const mutations = {
@@ -136,6 +145,9 @@ const mutations = {
       state.ProductIdstate.productid = productid
       window.localStorage.setItem('productid',state.ProductIdstate.productid)
     },
+    GetAddressListback (state,res){
+      state.GetAddressListstate = res
+    }
 }
 
 export default new Vuex.Store({

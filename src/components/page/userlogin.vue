@@ -67,6 +67,7 @@ export default {
             this.$router.push('/home');
           }else{
             this.showtext='用户名或密码不正确';
+            this.isshow=true;
           }
         }) 
          

@@ -64,7 +64,7 @@ export default {
          this.$router.push('/cart');
          break;
        case "addresscontrol":
-         this.$router.push('/usercenter/addresscontrol');
+         this.$router.push('/usercenter/cartaddress');
          break;
      }
    }
