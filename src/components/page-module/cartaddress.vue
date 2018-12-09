@@ -7,6 +7,7 @@
               <h1>收件人：{{item.receiverName}}</h1>
               <span>联系电话：{{item.receiverPhone}}</span>
               <span>邮政编码: {{item.receiverZip}}</span>
+              <div class="iconfont icon-compile icon-editor" @click="editoraddress(item)" ></div>
               <div class="icon-default" v-show="index == 0 ? true : false">默</div>
           </div>
           <div class="addresscontent">
@@ -34,8 +35,11 @@ export default {
  },
  methods: {
     addaddress:function(){
-        
+      
     },
+    editoraddress:function(item){
+      this.$router.push({name: 'EditorAddress', params: {addressindex:item}})
+    }
  },
  created() {
    this.$store.dispatch('GetAddressListmethod').then(()=>{
@@ -84,7 +88,7 @@ export default {
           .icon-default{
              float: right;
              margin-top:1rem;
-             margin-right:0.5rem;
+             margin-right:2rem;
              width:1rem;
              height:1rem;
              line-height:1rem;
@@ -92,6 +96,14 @@ export default {
              font-size:1rem;
              color:#fff;
              background: $bgColor;
+          }
+          .icon-editor{
+            float: right;
+            margin-top:1rem;
+            margin-right:0.5rem;
+            width:1rem;
+            height:1rem;
+            line-height:1rem;
           }
         }
       }
