@@ -68,6 +68,20 @@
       </li>
      </ul>
     <button class="save" @click="saveaddaddress" >保存地址</button>
+        <div class="addresscity_list">
+          <div class="list_header">
+            <h1 class="title">所在地区</h1>
+            <span class="empty icon-error"></span>
+          </div>
+          <div class="list_nav">
+            <div class="city">所在省市</div>
+            <div class="city">所在城市</div>
+          </div>
+          <div class="list_body">
+            <div class="province"></div>
+            <div class="city"></div>
+          </div>
+        </div>
  </div>
 </template>
 
@@ -77,7 +91,8 @@ export default {
   return {
      isshow:true,
      error_hidden:'error_hidden',
-     addressformdata:{}
+     addressformdata:{},
+     fold:true
   }
  },
  methods: {
@@ -191,6 +206,50 @@ export default {
     color:#fff;
     font-size:1rem;
     text-align: center
-  } 
+  }
+  .addresscity_list{
+      position:absolute;
+      bottom:5rem;
+      left:0;
+      width:100%;
+      background:#fff;
+      .list_header{
+        height:3rem;
+        line-height:3rem;
+        padding:0 1.125rem;
+        background:#f3f5f7;
+        border-bottom:0.0625rem solid rgba(7,17,27,0.1);
+        color:#000;
+        font-size:1rem;
+        .title{
+          float:left;
+          font-size:0.875rem;
+          color:rgb(7,17,27);
+        }
+        .empty{
+          float:right;
+          font-size:1.5rem;
+          color:$bgColor; 
+        }
+      }
+      .list_nav{
+        width:70%;
+        padding:0 1.125rem;
+        height:3rem;
+        line-height:3rem;
+        font-size:1rem;
+        border-bottom:0.0625rem solid rgba(7,17,27,0.1);
+        .city{
+          float: left;
+          width:50%;
+        }
+      }
+      .list_body{
+        width:100%;
+        height:0;
+        padding-bottom:50%;
+        overflow: hidden;
+      }
+    } 
 }
 </style>
