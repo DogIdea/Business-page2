@@ -3,6 +3,9 @@
     <div class="header-left">
         <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon-back" @click="goback"></div>
     </div>
+    <div class="header-right" v-show="false">
+        <span >删除</span>
+    </div>
     <div class="header-text">
         <h1 class="title">BUSINESS{{header_title}}</h1>
     </div>
@@ -43,7 +46,6 @@ export default {
     min-width:$headerHeight;
     height:$headerHeight;
     .icon-back{
-      font-size:2rem;
       color:$bgColor;
       height:$headerHeight;
       font-size:1.4rem;
@@ -61,6 +63,11 @@ export default {
       font-size:1.2rem;
       text-align: center;
     }
+  }
+  .header-right{
+    float:right;
+    min-width:$headerHeight;
+    height:$headerHeight;
   }
 }
 </style>

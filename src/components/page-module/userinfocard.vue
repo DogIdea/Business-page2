@@ -136,7 +136,7 @@ export default {
           result.msg = '信息更新失败';
           return result;
         }
-        alert(信息更新成功);
+        alert('信息更新成功');
     })
     result.status = true;
     result.msg = '验证通过';

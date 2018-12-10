@@ -100,19 +100,6 @@ export default {
        this.cartTotalPrice = this.cartTotalPrice - this.cartproductvolist[arrId].productPrice;
        console.log(this.cartproductvolist,'decrease')
      }
-
-    //  if(type == 'addcart'){
-    //    this.cartTotalCount ++;
-    //    this.cartTotalPrice = this.cartTotalPrice + this.cartproductvolist[arrId].productPrice;
-    //    console.log(this.cartproductvolist,'add')
-    //  }else if(type == 'decrease'){
-    //    this.cartTotalCount --;
-    //    this.cartTotalPrice = this.cartTotalPrice - this.cartproductvolist[arrId].productPrice;
-    //    if(buyicon == 0) {
-    //      this.cartproductvolist.splice(arrId, 1);
-    //    }
-    //  }
-     
      if(this.cartproductvolist.length == 0){
        this.fold = !this.fold;
      }

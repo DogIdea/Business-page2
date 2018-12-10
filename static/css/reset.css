@@ -31,7 +31,7 @@ footer, header, menu, nav, section {
 html{
     background-color:#fff;
     color:#000;
-    font-size:16px
+    font-size:12px
 }
 
 body {
@@ -92,4 +92,18 @@ body {
 }
 span{
     font-family: 'PingFang SC','Microsoft YaHei','SimSun','Arial', sans-serif;
+}
+
+input { 
+    outline: none; 
+} 
+
+input:focus { 
+    outline: none; 
+} 
+
+input{  
+	background:none;  
+	outline:none;  
+	border:0px;
 }
