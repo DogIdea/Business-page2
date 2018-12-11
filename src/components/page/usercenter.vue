@@ -1,6 +1,6 @@
 <template>
  <div class="user-center">
-   <userheader :header_title="header_title"></userheader>
+   <userheader :header_title="header_title" :header_show="header_show"></userheader>
    <keep-alive>
      <router-view></router-view>
    </keep-alive>
@@ -38,6 +38,15 @@ export default {
          break;
      }
      return header_name;
+   },
+   header_show:function(){
+     let header_name=''
+     let router_name=this.$route.name
+     if(router_name == 'EditorAddress'){
+       return true;
+     }else{
+       return false;
+     }
    }
  },
  components: {

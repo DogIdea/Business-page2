@@ -3,7 +3,7 @@
     <div class="header-left">
         <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon-back" @click="goback"></div>
     </div>
-    <div class="header-right" v-show="false">
+    <div class="header-right" v-show="header_show">
         <span >删除</span>
     </div>
     <div class="header-text">
@@ -15,7 +15,8 @@
 <script>
 export default {
  props:{
-     header_title:String
+     header_title:String,
+     header_show:Boolean
  },
  data() {
   return {

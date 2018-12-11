@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import cities from '../../common/util/cities.js'
 export default {
  data() {
   return {
@@ -102,7 +103,7 @@ export default {
  },
  created() {
     this.addressformdata = this.$route.params.addressindex
-    console.log(this.$route.params.addressindex)
+    console.log(cities.gitProvinces())
  },
 }
 </script>
