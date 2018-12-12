@@ -12,7 +12,7 @@
           </label>
           <span class="user-title">收件人：</span>
           <div class="user-text">
-            <input type="text" class="address-content" :value='addressformdata.receiverName'>
+            <input type="text" class="address-content" :value='addressformdata.receiverName' ref="receiverName">
           </div>
         </div>
       </li>
@@ -23,7 +23,7 @@
           </label>
           <span class="user-title">联系电话：</span>
           <div class="user-text">
-            <input type="text" class="address-content" :value='addressformdata.receiverPhone'>
+            <input type="text" class="address-content" :value='addressformdata.receiverPhone' ref="receiverPhone">
           </div>
         </div>
       </li>
@@ -34,7 +34,7 @@
           </label>
           <span class="user-title">邮政编码：</span>
           <div class="user-text">
-            <input type="text" class="address-content" :value='addressformdata.receiverZip'>
+            <input type="text" class="address-content" :value='addressformdata.receiverZip' ref="receiverZip">
           </div>
         </div>
       </li>
@@ -62,7 +62,7 @@
           </label>
           <span class="user-title">详细地址：</span>
           <div class="user-text">
-            <input type="text" class="address-content" :value='addressformdata.receiverAddress'>
+            <input type="text" class="address-content" :value='addressformdata.receiverAddress' ref="receiverAddress">
           </div>
         </div>
       </li>
@@ -75,7 +75,7 @@
           <span class="empty icon-error" @click="cityclose()"></span>
         </div>
         <ul class="list_nav">
-          <li class="city" v-for="(item,index) in cityList" :class="{'activeT':nowIndex===index}" @click="tabClick(index)" :key="item.id" v-show="index == 0 || iscity">
+          <li class="city" v-for="(item,index) in cityList" @click="tabClick(index)" :key="item.id" v-show="index == 0 || iscity" :class="{'activeT':nowIndex===index}">
             <i>{{item.name}}</i>
           </li>
         </ul>
@@ -101,6 +101,7 @@
 </template>
 
 <script>
+import {UpdateProduct,AddToCart} from '@/common/service/cart-service.js'
 import cities from '../../common/util/cities.js';
 import BScroll from 'better-scroll';
 export default {
@@ -146,16 +147,22 @@ export default {
   },
   listShow:function() {
     let show = !this.fold;
-    console.log(show,'listshow')
     return show;
   }
  },
  methods: {
     saveaddaddress:function(){
-        
+      let receiverInfo = this.getreceiveinfo()
+      console.log(receiverInfo);
+      UpdateProduct(receiverInfo.data).then((res)=>{
+         if(res.data.status == '2') {
+           console.log(res.data.msg)
+         }
+      })
     },
     tabClick:function(index) {
-      this.swiper.slideTo(index,1000,false)
+      this.nowIndex = index;
+      this.swiper.slideTo(index,1000,false);
     },
     chooseprovince:function(item) {
       this.iscity = true;
@@ -164,13 +171,11 @@ export default {
     },
     choosecity:function(item) {
       this.addressformdata.receiverCity = item;
-      console.log(this.fold,item,'choosecity')
       this.cityclose();
     },
     citytlist:function() {
       this.swiper.slideTo(0,1000,false)
       this.iscity = false;
-      console.log(this.fold,'citylist')
       this.fold = false;
       this.$nextTick(() => {
         this._initScroll();
@@ -198,6 +203,34 @@ export default {
     },
     cityclose:function(){
       this.fold = !this.fold;
+    },
+    getreceiveinfo:function() {
+      let receiverInfo = {},
+      result = {
+          status: false
+      };
+      this.addressformdata.receiverName =this.$refs.receiverName.value;
+      this.addressformdata.receiverPhone = this.$refs.receiverPhone.value;
+      this.addressformdata.receiverAddress = this.$refs.receiverAddress.value;
+      this.addressformdata.receiverZip = this.$refs.receiverZip.value;
+      receiverInfo = this.addressformdata;
+      console.log(this.addressformdata)
+      
+      if(!receiverInfo.receiverName) {
+          result.errMsg = '请输入收件人姓名';
+      }else if(!receiverInfo.receiverProvince) {
+          result.errMsg = '请选择收件人所在省份';
+      }else if(!receiverInfo.receiverCity) {
+          result.errMsg = '请选择收件人所在城市';
+      }else if(!receiverInfo.receiverAddress) {
+          result.errMsg = '请输入收件人详细地址';
+      }else if(!receiverInfo.receiverPhone) {
+          result.errMsg = '请输入收件人手机号';
+      }else {
+          result.status = true;
+          result.data = receiverInfo;
+      };
+      return result;
     }
  },
  created() {
@@ -346,8 +379,7 @@ export default {
       border-bottom:0.0625rem solid rgba(7,17,27,0.1);
       .city{
         float: left;
-        padding:0.625rem 0rem;
-        margin:0 1.125rem;
+        margin-left:1.125rem;
       }
       .city i{
         font-style: normal;
@@ -355,8 +387,8 @@ export default {
       }
       .activeT{
         color:$bgColor;
-        padding-bottom: .3rem;
-        border-bottom: 2px solid $bgColor;
+        padding-bottom: 0.3rem;
+        border-bottom: 0.125rem solid $bgColor;
       }
     }
     .list_body{
