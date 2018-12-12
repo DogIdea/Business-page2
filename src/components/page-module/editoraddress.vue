@@ -44,7 +44,7 @@
               <i class="iconfont icon-email"></i>
           </label>
           <span class="user-title">所在地区：</span>
-          <div class="user-text">
+          <div class="user-text" @click="citytlist">
             <div class="address-select">
                <span>{{addressformdata.receiverProvince}}</span>
                <span>{{addressformdata.receiverCity}}</span>
@@ -68,42 +68,140 @@
       </li>
      </ul>
     <button class="save" @click="saveaddaddress" >保存地址</button>
-        <div class="addresscity_list">
-          <div class="list_header">
-            <h1 class="title">所在地区</h1>
-            <span class="empty icon-error"></span>
-          </div>
-          <div class="list_nav">
-            <div class="city">所在省市</div>
-            <div class="city">所在城市</div>
-          </div>
-          <div class="list_body">
-            <div class="province"></div>
-            <div class="city"></div>
-          </div>
+    <transition name="fold">
+      <div class="addresscity_list" v-show='listShow'>
+        <div class="list_header">
+          <h1 class="title">所在地区</h1>
+          <span class="empty icon-error" @click="cityclose()"></span>
         </div>
+        <ul class="list_nav">
+          <li class="city" v-for="(item,index) in cityList" :class="{'activeT':nowIndex===index}" @click="tabClick(index)" :key="item.id" v-show="index == 0 || iscity">
+            <i>{{item.name}}</i>
+          </li>
+        </ul>
+        <swiper :options="swipercity" ref="citySwiper">
+          <swiper-slide class="list_body">
+            <div class="list_box" ref="provincelist">
+              <ul class="province">
+                <li v-for="item in province" :key="item.id" @click.stop.prevent="chooseprovince(item)">{{item}}</li>
+              </ul>
+            </div>
+          </swiper-slide>
+          <swiper-slide class="list_body">
+            <div class="list_box" ref="citylist">
+              <ul class="province">
+                <li v-for="cityitem in city" :key="cityitem.id" @click.stop.prevent="choosecity(cityitem)">{{cityitem}}</li>
+              </ul>
+            </div>
+          </swiper-slide>
+        </swiper>
+      </div>
+    </transition>
  </div>
 </template>
 
 <script>
-import cities from '../../common/util/cities.js'
+import cities from '../../common/util/cities.js';
+import BScroll from 'better-scroll';
 export default {
  data() {
   return {
      isshow:true,
+     iscity:false,
+     city:[],
      error_hidden:'error_hidden',
-     addressformdata:{},
-     fold:true
+     addressformdata:{
+       receiverName:'',
+       receiverPhone:'',
+       receiverZip:'',
+       receiverProvince:'',
+       receiverCity:'',
+       receiverAddress:''
+     },
+     fold:true,
+     cityList:[
+        {name:'所在省市'},
+        {name:'所在城市'}
+     ],
+     nowIndex:0,
+     swipercity:{
+       initialSlide:0,
+       preventLinksPropagation : false,
+       allowTouchMove: false,
+       autoplay:false,
+       keyboard:true,
+       autoHeight:true,
+       observer:true,
+       observeParents:true,
+       loop:false,
+     }
+  }
+ },
+ computed: {
+  swiper:function() {
+    return this.$refs.citySwiper.swiper
+  },
+  province:function() {
+    return cities.gitProvinces()
+  },
+  listShow:function() {
+    let show = !this.fold;
+    console.log(show,'listshow')
+    return show;
   }
  },
  methods: {
     saveaddaddress:function(){
         
+    },
+    tabClick:function(index) {
+      this.swiper.slideTo(index,1000,false)
+    },
+    chooseprovince:function(item) {
+      this.iscity = true;
+      this.addressformdata.receiverProvince = item;
+      this.city = cities.getCities(item)
+    },
+    choosecity:function(item) {
+      this.addressformdata.receiverCity = item;
+      console.log(this.fold,item,'choosecity')
+      this.cityclose();
+    },
+    citytlist:function() {
+      this.swiper.slideTo(0,1000,false)
+      this.iscity = false;
+      console.log(this.fold,'citylist')
+      this.fold = false;
+      this.$nextTick(() => {
+        this._initScroll();
+      });
+    },
+    _initScroll:function() {
+      if (!this.provinceScroll) {
+        this.provinceScroll = new BScroll(this.$refs.provincelist, {
+              click: true,
+              scrollY: true,
+              probeType: 3
+          });
+      }else{
+        this.provinceScroll.refresh();
+      };
+      if (!this.cityScroll) {
+        this.cityScroll = new BScroll(this.$refs.citylist, {
+              click: true,
+              scrollY: true,
+              probeType: 3
+          });
+      }else{
+        this.cityScroll.refresh();
+      };
+    },
+    cityclose:function(){
+      this.fold = !this.fold;
     }
  },
  created() {
-    this.addressformdata = this.$route.params.addressindex
-    console.log(cities.gitProvinces())
+    this.addressformdata = this.$route.params.addressindex;
  },
 }
 </script>
@@ -118,6 +216,7 @@ export default {
   width:100%;
   color:#000;
   background:rgb(252, 248, 248);
+  overflow: hidden;
   .error-item{
     width:75%;
     line-height:3rem;
@@ -209,48 +308,84 @@ export default {
     text-align: center
   }
   .addresscity_list{
-      position:absolute;
-      bottom:5rem;
-      left:0;
+    position:absolute;
+    top:100%;
+    left:0;
+    z-index:10;
+    width:100%;
+    background:#fff;
+    transition:all 0.5s;
+    transform:translate3d(0,-100%,0);
+    &.fold-enter,&.fold-leave-to{
+      transform:translate3d(0,0,0)
+    }
+    .list_header{
+      height:3rem;
+      line-height:3rem;
+      padding:0 1.125rem;
+      background:#f3f5f7;
+      border-bottom:0.0625rem solid rgba(7,17,27,0.1);
+      color:#000;
+      font-size:1rem;
+      .title{
+        float:left;
+        font-size:0.875rem;
+        color:rgb(7,17,27);
+      }
+      .empty{
+        float:right;
+        font-size:1.5rem;
+        color:$bgColor; 
+      }
+    }
+    .list_nav{
       width:100%;
-      background:#fff;
-      .list_header{
-        height:3rem;
-        line-height:3rem;
-        padding:0 1.125rem;
-        background:#f3f5f7;
-        border-bottom:0.0625rem solid rgba(7,17,27,0.1);
-        color:#000;
-        font-size:1rem;
-        .title{
-          float:left;
-          font-size:0.875rem;
-          color:rgb(7,17,27);
-        }
-        .empty{
-          float:right;
-          font-size:1.5rem;
-          color:$bgColor; 
-        }
+      height:3rem;
+      line-height:3rem;
+      font-size:1rem;
+      border-bottom:0.0625rem solid rgba(7,17,27,0.1);
+      .city{
+        float: left;
+        padding:0.625rem 0rem;
+        margin:0 1.125rem;
       }
-      .list_nav{
-        width:70%;
-        padding:0 1.125rem;
-        height:3rem;
-        line-height:3rem;
-        font-size:1rem;
-        border-bottom:0.0625rem solid rgba(7,17,27,0.1);
-        .city{
-          float: left;
-          width:50%;
-        }
+      .city i{
+        font-style: normal;
+        font-size: 1rem;
       }
-      .list_body{
+      .activeT{
+        color:$bgColor;
+        padding-bottom: .3rem;
+        border-bottom: 2px solid $bgColor;
+      }
+    }
+    .list_body{
+      width:100%;
+      height:0rem;
+      padding-bottom:70%;
+      overflow: hidden;
+      .list_box{
+        position: absolute;
         width:100%;
-        height:0;
-        padding-bottom:50%;
+        top:0;
+        left:0;
+        bottom:0;
         overflow: hidden;
+        .province {
+          height:auto;
+          li{
+            padding-top:1rem;
+            padding-left:1.125rem;
+            width:100%;
+            height:2rem;
+            font-size:1rem;
+            // color:#666;
+            background:#fafafa;
+            border-bottom:0.0625rem solid rgba(7,17,27,0.1);
+          }
+        }
       }
-    } 
+    }
+  } 
 }
 </style>
