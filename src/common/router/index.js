@@ -77,7 +77,7 @@ export default new Router({
           component:CartAddress
         },
         {
-          path:'editoraddress',
+          path:'/usercenter/editoraddress/:id',
           name:'EditorAddress',
           component:EditorAddress
         }

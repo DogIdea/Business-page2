@@ -75,7 +75,7 @@
           <div class="user-text">
             <p class="radio-beauty-container">
               <label class="switch-slide">
-                  <input type="checkbox" id="menu-right" v-model='ischeck' hidden>
+                  <input type="checkbox" id="menu-right" v-model='ischeck' @change="defaultchoose()" hidden>
                   <label for="menu-right" class="switch-slide-label"></label>
               </label>
             </p>
@@ -120,11 +120,15 @@
 import {UpdateProduct,AddToCart} from '@/common/service/cart-service.js'
 import cities from '../../common/util/cities.js';
 import BScroll from 'better-scroll';
+import {mapState} from 'vuex';
 export default {
  data() {
   return {
      isshow:true,
      iscity:false,
+     listindex:{
+       index:0
+     },
      city:[],
      ischeck:[],
      error_hidden:'error_hidden',
@@ -156,6 +160,7 @@ export default {
   }
  },
  computed: {
+  ...mapState(['EditorAddressststate','AddressDefaultstate']),
   swiper:function() {
     return this.$refs.citySwiper.swiper
   },
@@ -170,10 +175,12 @@ export default {
  methods: {
     saveaddaddress:function(){
       let receiverInfo = this.getreceiveinfo()
-      console.log(receiverInfo);
       UpdateProduct(receiverInfo.data).then((res)=>{
          if(res.data.status == '2') {
-           console.log(res.data.msg)
+           if(this.ischeck.length > 0){
+              this.$store.dispatch('AddressDefaultmethod',this.listindex)
+            }
+           this.$router.push('/usercenter/cartaddress');
          }
       })
     },
@@ -197,6 +204,11 @@ export default {
       this.$nextTick(() => {
         this._initScroll();
       });
+    },
+    defaultchoose:function() {
+      console.log(this.ischeck.length)
+      console.log(this.listindex.index)
+      
     },
     _initScroll:function() {
       if (!this.provinceScroll) {
@@ -231,8 +243,6 @@ export default {
       this.addressformdata.receiverAddress = this.$refs.receiverAddress.value;
       this.addressformdata.receiverZip = this.$refs.receiverZip.value;
       receiverInfo = this.addressformdata;
-      console.log(this.addressformdata)
-      
       if(!receiverInfo.receiverName) {
           result.errMsg = '请输入收件人姓名';
       }else if(!receiverInfo.receiverProvince) {
@@ -251,8 +261,17 @@ export default {
     }
  },
  created() {
-    this.addressformdata = this.$route.params.addressindex;
- },
+    console.log(this.$route.params)
+    console.log(this.EditorAddressststate)
+    if(this.EditorAddressststate.isjudge == 'editor'){
+      this.addressformdata = this.EditorAddressststate.addressindex;
+      this.listindex.index = this.EditorAddressststate.listindex;
+      if(!(this.AddressDefaultstate.index == this.listindex.index)){
+        this.ischeck = [];
+        console.log(this.ischeck.length)
+      }
+    }
+ }
 }
 </script>
 

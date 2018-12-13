@@ -1,9 +1,7 @@
 <template>
  <div class="user-center">
    <userheader :header_title="header_title" :header_show="header_show"></userheader>
-   <keep-alive>
-     <router-view></router-view>
-   </keep-alive>
+   <router-view ></router-view>
  </div>
 </template>
 

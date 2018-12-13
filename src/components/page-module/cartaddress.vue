@@ -7,8 +7,8 @@
               <h1>收件人：{{item.receiverName}}</h1>
               <span>联系电话：{{item.receiverPhone}}</span>
               <span>邮政编码: {{item.receiverZip}}</span>
-              <div class="iconfont icon-compile icon-editor" @click="editoraddress(item)" ></div>
-              <div class="icon-default" v-show="index == 0 ? true : false">默</div>
+              <div class="iconfont icon-compile icon-editor" @click.stop.prevent="editoraddress(item,index)" ></div>
+              <div class="icon-default" v-show="index == AddressDefaultstate.index ? true : false">默</div>
           </div>
           <div class="addresscontent">
               <span>{{item.receiverProvince}}</span>
@@ -31,14 +31,23 @@ export default {
   }
  },
  computed: {
-    ...mapState(['GetAddressListstate'])
+    ...mapState(['GetAddressListstate','AddressDefaultstate'])
  },
  methods: {
     addaddress:function(){
       
     },
-    editoraddress:function(item){
-      this.$router.push({name: 'EditorAddress', params: {addressindex:item}})
+    editoraddress:function(item,index){
+      alert(index)
+      let editorformdata = {
+        addressindex:item,
+        isjudge:'editor',
+        listindex:index
+      }
+      let editordetail='/usercenter/editoraddress/'+ 'addressId='+ index
+      this.$store.dispatch('EditorAddressmethods',editorformdata)
+      this.$router.push(editordetail)
+      // this.$router.push({name: 'EditorAddress', params: {addressindex:item,isjudge:'editor',listindex:index}})
     }
  },
  created() {
@@ -47,7 +56,7 @@ export default {
         this.addresslists = this.GetAddressListstate.data.list
       }
    })
- },
+ }
 }
 </script>
 
