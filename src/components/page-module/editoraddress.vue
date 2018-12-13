@@ -66,6 +66,22 @@
           </div>
         </div>
       </li>
+      <li class="user_table">
+        <div class="user-item">
+          <label class="user-label">
+              <span class="icon-default" :class="{'icon-default-show':ischeck.length>0}">默</span>
+          </label>
+          <span class="user-title">是否默认：</span>
+          <div class="user-text">
+            <p class="radio-beauty-container">
+              <label class="switch-slide">
+                  <input type="checkbox" id="menu-right" v-model='ischeck' hidden>
+                  <label for="menu-right" class="switch-slide-label"></label>
+              </label>
+            </p>
+          </div>
+        </div>
+      </li>
      </ul>
     <button class="save" @click="saveaddaddress" >保存地址</button>
     <transition name="fold">
@@ -110,6 +126,7 @@ export default {
      isshow:true,
      iscity:false,
      city:[],
+     ischeck:[],
      error_hidden:'error_hidden',
      addressformdata:{
        receiverName:'',
@@ -285,6 +302,18 @@ export default {
         vertical-align: middle;
         font-size:2rem;
         color:#666;
+        .icon-default{
+          width:1rem;
+          height:1rem;
+          border-radius: 100%;
+          font-size:1rem;
+          color:#fff;
+          background: #666;
+        }
+        .icon-default-show{
+          color:#fff;
+          background: $bgColor;
+        }
       }
       .user-title{
         display: table-cell;
@@ -306,7 +335,7 @@ export default {
           height:1.8rem;
           line-height:1rem;
           padding-left:1rem;
-          border-bottom:1px solid #ededed;
+          border-bottom:0.0625rem solid #ededed;
         }
         .address-select{
           min-width:16rem;
@@ -317,6 +346,43 @@ export default {
           padding-left:1rem;
           overflow: hidden;
         }
+        .radio-beauty-container{
+          margin-left:1rem;
+          .switch-slide-label {
+            display: block;
+            width: 2.125rem;
+            height: 1.25rem;
+            background: #ccc;
+            border-radius: 1.875rem;
+            position: relative;
+            -webkit-transition: 0.3s ease;
+            transition: 0.3s ease;
+          } 
+          .switch-slide-label:after {
+              content: '';
+              display: block;
+              width: 1rem;
+              height: 1.125rem;
+              border-radius: 100%;
+              background: #fff;
+              box-shadow: 0 0.0625rem 0.0625rem rgba(0, 0, 0, .1);
+              position: absolute;
+              left: 0.0625rem;
+              top: 0.0625rem;
+              -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+              -webkit-transition:0.3s ease;
+              transition:0.3s ease;
+          }
+          .switch-slide input:checked+label {
+              background: #34bf49;
+              transition: 0.3s ease;
+          }
+          .switch-slide input:checked+label:after {
+              left: 1.0625rem;
+          }
+        }
+        
       }
       .user-right{
         display: table-cell;
