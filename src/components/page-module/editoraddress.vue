@@ -175,9 +175,10 @@ export default {
  methods: {
     saveaddaddress:function(){
       let receiverInfo = this.getreceiveinfo()
+      console.log(receiverInfo.data)
       if(this.$route.params.isjudge == 'editor'){
         UpdateAddress(receiverInfo.data).then((res)=>{
-         if(res.data.status == '2') {
+         if(res.data.status == 0) {
            if(this.ischeck.length > 0){
               this.$store.dispatch('AddressDefaultmethod',this.listindex)
             }
@@ -248,11 +249,14 @@ export default {
       result = {
           status: false
       };
-      this.addressformdata.receiverName =this.$refs.receiverName.value;
-      this.addressformdata.receiverPhone = this.$refs.receiverPhone.value;
-      this.addressformdata.receiverAddress = this.$refs.receiverAddress.value;
-      this.addressformdata.receiverZip = this.$refs.receiverZip.value;
-      receiverInfo = this.addressformdata;
+      receiverInfo.receiverName = this.$refs.receiverName.value;
+      receiverInfo.receiverPhone = this.$refs.receiverPhone.value;
+      receiverInfo.receiverAddress = this.$refs.receiverAddress.value;
+      receiverInfo.receiverZip = this.$refs.receiverZip.value;
+      receiverInfo.receiverProvince = this.addressformdata.receiverProvince;
+      receiverInfo.receiverCity = this.addressformdata.receiverCity;
+      receiverInfo.id = this.addressformdata.id
+      console.log(receiverInfo)
       if(!receiverInfo.receiverName) {
           result.errMsg = '请输入收件人姓名';
       }else if(!receiverInfo.receiverProvince) {
