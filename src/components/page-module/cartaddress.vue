@@ -18,7 +18,7 @@
        </li>
      </ul>
    </div>
-   <button class="editor" @click="addaddress" >新增地址</button>
+   <button class="editor" @click.stop.prevent="addnewaddress(addresslists.length)" >新增地址</button>
  </div>
 </template>
 
@@ -34,8 +34,8 @@ export default {
     ...mapState(['GetAddressListstate','AddressDefaultstate'])
  },
  methods: {
-    addaddress:function(){
-      
+    addnewaddress:function(count){
+      this.$router.push({name: 'EditorAddress', params: {isjudge:'add',listindex:count}})
     },
     editoraddress:function(item,index){
       let editorformdata = {

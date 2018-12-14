@@ -12,7 +12,7 @@
           </label>
           <span class="user-title">收件人：</span>
           <div class="user-text">
-            <input type="text" class="address-content" :value='addressformdata.receiverName' ref="receiverName">
+            <input type="text" class="address-content" v-model='addressformdata.receiverName' ref="receiverName">
           </div>
         </div>
       </li>
@@ -23,7 +23,7 @@
           </label>
           <span class="user-title">联系电话：</span>
           <div class="user-text">
-            <input type="text" class="address-content" :value='addressformdata.receiverPhone' ref="receiverPhone">
+            <input type="text" class="address-content" v-model='addressformdata.receiverPhone' ref="receiverPhone">
           </div>
         </div>
       </li>
@@ -34,7 +34,7 @@
           </label>
           <span class="user-title">邮政编码：</span>
           <div class="user-text">
-            <input type="text" class="address-content" :value='addressformdata.receiverZip' ref="receiverZip">
+            <input type="text" class="address-content" v-model='addressformdata.receiverZip' ref="receiverZip">
           </div>
         </div>
       </li>
@@ -62,7 +62,7 @@
           </label>
           <span class="user-title">详细地址：</span>
           <div class="user-text">
-            <input type="text" class="address-content" :value='addressformdata.receiverAddress' ref="receiverAddress">
+            <input type="text" class="address-content" v-model='addressformdata.receiverAddress' ref="receiverAddress">
           </div>
         </div>
       </li>
@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import {UpdateProduct,AddToCart} from '@/common/service/cart-service.js'
+import {UpdateAddress,SaveAddress} from '@/common/service/address-service.js'
 import cities from '../../common/util/cities.js';
 import BScroll from 'better-scroll';
 import {mapState} from 'vuex';
@@ -175,14 +175,24 @@ export default {
  methods: {
     saveaddaddress:function(){
       let receiverInfo = this.getreceiveinfo()
-      UpdateProduct(receiverInfo.data).then((res)=>{
+      if(this.$route.params.isjudge == 'editor'){
+        UpdateAddress(receiverInfo.data).then((res)=>{
          if(res.data.status == '2') {
            if(this.ischeck.length > 0){
               this.$store.dispatch('AddressDefaultmethod',this.listindex)
             }
            this.$router.push('/usercenter/cartaddress');
          }
-      })
+        })
+      }else if(this.$route.params.isjudge == 'add'){
+        SaveAddress(receiverInfo.data).then((res)=>{
+          if(this.ischeck.length > 0){
+              this.$store.dispatch('AddressDefaultmethod',this.listindex)
+            }
+           this.$router.push('/usercenter/cartaddress');
+        })
+      }
+      
     },
     tabClick:function(index) {
       this.nowIndex = index;
@@ -263,11 +273,11 @@ export default {
  created() {
     if(this.$route.params.isjudge == 'editor'){
       this.addressformdata = this.$route.params.addressindex;
-      this.listindex.index = this.$route.params.listindex;
-      if(!(this.AddressDefaultstate.index == this.listindex.index)){
-        this.ischeck = [];
-        console.log(this.ischeck.length)
-      }
+    }
+    this.listindex.index = this.$route.params.listindex;
+    if(!(this.AddressDefaultstate.index == this.listindex.index)){
+      this.ischeck = [];
+      console.log(this.ischeck.length)
     }
  }
 }
