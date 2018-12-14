@@ -38,16 +38,12 @@ export default {
       
     },
     editoraddress:function(item,index){
-      alert(index)
       let editorformdata = {
         addressindex:item,
         isjudge:'editor',
         listindex:index
       }
-      let editordetail='/usercenter/editoraddress/'+ 'addressId='+ index
-      this.$store.dispatch('EditorAddressmethods',editorformdata)
-      this.$router.push(editordetail)
-      // this.$router.push({name: 'EditorAddress', params: {addressindex:item,isjudge:'editor',listindex:index}})
+      this.$router.push({name: 'EditorAddress', params: {addressindex:item,isjudge:'editor',listindex:index}})
     }
  },
  created() {

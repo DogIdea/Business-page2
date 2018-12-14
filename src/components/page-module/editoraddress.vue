@@ -160,7 +160,7 @@ export default {
   }
  },
  computed: {
-  ...mapState(['EditorAddressststate','AddressDefaultstate']),
+  ...mapState(['AddressDefaultstate']),
   swiper:function() {
     return this.$refs.citySwiper.swiper
   },
@@ -261,11 +261,9 @@ export default {
     }
  },
  created() {
-    console.log(this.$route.params)
-    console.log(this.EditorAddressststate)
-    if(this.EditorAddressststate.isjudge == 'editor'){
-      this.addressformdata = this.EditorAddressststate.addressindex;
-      this.listindex.index = this.EditorAddressststate.listindex;
+    if(this.$route.params.isjudge == 'editor'){
+      this.addressformdata = this.$route.params.addressindex;
+      this.listindex.index = this.$route.params.listindex;
       if(!(this.AddressDefaultstate.index == this.listindex.index)){
         this.ischeck = [];
         console.log(this.ischeck.length)

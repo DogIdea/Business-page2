@@ -30,13 +30,8 @@ const state = {
       productid:0
     },
     GetAddressListstate:{},
-    EditorAddressststate:{
-      addressindex:{},
-      isjudge:'editor',
-      listindex:0
-    },
     AddressDefaultstate:{
-      index:0
+      index:-1
     }
 }
 const actions = {
@@ -111,13 +106,11 @@ const actions = {
     GetAddressListmethod(ctx){
       return new Promise((resolve)=>{
         GetAddressList().then((res)=>{
+          console.log(res.data)
           ctx.commit('GetAddressListback',res.data)
           resolve(); 
         })
       })
-    },
-    EditorAddressmethods(ctx,formDate) {
-      ctx.commit('EditorAddressback',formDate)
     },
     AddressDefaultmethod(ctx,index) {
       ctx.commit('AddressDefaultback',index)
@@ -159,10 +152,6 @@ const mutations = {
     },
     GetAddressListback (state,res){
       state.GetAddressListstate = res
-    },
-    EditorAddressback (state,res) {
-      state.EditorAddressststate = res
-      console.log(state.EditorAddressststate)
     },
     AddressDefaultback (state,index){
       state.AddressDefaultstate = index

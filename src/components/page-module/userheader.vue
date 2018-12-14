@@ -3,7 +3,7 @@
     <div class="header-left">
         <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon-back" @click="goback"></div>
     </div>
-    <div class="header-right" v-show="header_show">
+    <div class="header-right" v-show="header_show" @click="deleteaddress()">
         <span >删除</span>
     </div>
     <div class="header-text">
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import {DeleteAddress} from '@/common/service/address-service.js';
 export default {
  props:{
      header_title:String,
@@ -26,7 +27,20 @@ export default {
  methods: {
     goback: function() {
       this.$router.go(-1);
-    }
+    },
+    deleteaddress:function() {
+      let shippingId = this.$route.params.addressindex.id;
+      console.log(shippingId)
+      if(shippingId){
+        DeleteAddress(shippingId).then((res)=>{
+          if(res.data.status == 0){
+            this.$router.push('/usercenter/cartaddress')
+          }
+        })
+      }else{
+        this.$router.push('/usercenter/cartaddress')
+      }
+    },
  }
 }
 </script>
