@@ -106,7 +106,6 @@ const actions = {
     GetAddressListmethod(ctx){
       return new Promise((resolve)=>{
         GetAddressList().then((res)=>{
-          console.log(res.data)
           ctx.commit('GetAddressListback',res.data)
           resolve(); 
         })

@@ -1,6 +1,6 @@
 import {fetch} from "../util/http.js";
 import qs from 'qs';
-
+//获取购物车总数
 export function GetCartCount () {
     return fetch({
         url:'/cart/get_cart_product_count.do',
@@ -32,7 +32,7 @@ export function SelectProduct (productId) {
         })
     })
 };
-
+//删除购物车订单
 export function UnselectProduct (productId) {
     return fetch({
         url:'/cart/un_select.do',
@@ -42,14 +42,14 @@ export function UnselectProduct (productId) {
         })
     })
 };
-
+//选择所有购物车信息
 export function SelectAllProduct() {
     return fetch({
         url:'/cart/select_all.do',
         method:'post'
     })
 };
-
+//删除所有购物车信息
 export function UnselectAllProduct() {
     return fetch({
         url:'/cart/un_select_all.do',

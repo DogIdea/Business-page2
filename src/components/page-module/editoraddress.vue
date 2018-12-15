@@ -75,7 +75,7 @@
           <div class="user-text">
             <p class="radio-beauty-container">
               <label class="switch-slide">
-                  <input type="checkbox" id="menu-right" v-model='ischeck' @change="defaultchoose()" hidden>
+                  <input type="checkbox" id="menu-right" v-model='ischeck' hidden>
                   <label for="menu-right" class="switch-slide-label"></label>
               </label>
             </p>
@@ -173,10 +173,12 @@ export default {
   }
  },
  methods: {
+    //地址保存判断
     saveaddaddress:function(){
       let receiverInfo = this.getreceiveinfo()
       console.log(receiverInfo.data)
       if(this.$route.params.isjudge == 'editor'){
+        //更新地址
         UpdateAddress(receiverInfo.data).then((res)=>{
          if(res.data.status == 0) {
            if(this.ischeck.length > 0){
@@ -186,6 +188,7 @@ export default {
          }
         })
       }else if(this.$route.params.isjudge == 'add'){
+        //保存地址
         SaveAddress(receiverInfo.data).then((res)=>{
           if(this.ischeck.length > 0){
               this.$store.dispatch('AddressDefaultmethod',this.listindex)
@@ -193,21 +196,29 @@ export default {
            this.$router.push('/usercenter/cartaddress');
         })
       }
-      
+      if(this.ischeck){
+        localStorage.setItem('addressindex',this.addressformdata.id)
+      }else{
+        localStorage.removeItem('addressindex')
+      }
     },
+    //选项卡切换
     tabClick:function(index) {
       this.nowIndex = index;
       this.swiper.slideTo(index,1000,false);
     },
+    //选择省份
     chooseprovince:function(item) {
       this.iscity = true;
       this.addressformdata.receiverProvince = item;
       this.city = cities.getCities(item)
     },
+    //选择城市
     choosecity:function(item) {
       this.addressformdata.receiverCity = item;
       this.cityclose();
     },
+    //城市菜单
     citytlist:function() {
       this.swiper.slideTo(0,1000,false)
       this.iscity = false;
@@ -215,11 +226,6 @@ export default {
       this.$nextTick(() => {
         this._initScroll();
       });
-    },
-    defaultchoose:function() {
-      console.log(this.ischeck.length)
-      console.log(this.listindex.index)
-      
     },
     _initScroll:function() {
       if (!this.provinceScroll) {
@@ -241,9 +247,11 @@ export default {
         this.cityScroll.refresh();
       };
     },
+    //是否显示city
     cityclose:function(){
       this.fold = !this.fold;
     },
+    //获取信息并判断
     getreceiveinfo:function() {
       let receiverInfo = {},
       result = {
@@ -281,7 +289,8 @@ export default {
     this.listindex.index = this.$route.params.listindex;
     if(!(this.AddressDefaultstate.index == this.listindex.index)){
       this.ischeck = [];
-      console.log(this.ischeck.length)
+    }else{
+      this.ischeck.push('null') 
     }
  }
 }

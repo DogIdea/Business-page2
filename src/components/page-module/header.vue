@@ -14,10 +14,10 @@
       <div class="header-right">
         <div class='usericon' v-if="!(isicon=='search')">
           <router-link to='/userlogin' v-if="this.Userloginstate.status === 1">
-            <div class="iconfont icon-denglu"></div>
+            <i class="iconfont icon-denglu"></i>
           </router-link>
           <router-link to='/usercenter/userinfo' v-else>
-            <div class="iconfont icon-icon center"></div>
+            <i class="iconfont icon-icon center"></i>
           </router-link>
         </div>
         <div class='cancel' v-else @click="goback">
@@ -50,6 +50,7 @@ export default {
  },
  methods:{
   goback: function() {
+    console.log(this.$route.params)
     this.$router.go(-1);
   },
   searchclick:function() {
@@ -136,7 +137,10 @@ export default {
     text-align:center;
     color:#fff;
     .usericon{
-      .center{
+      .icon-denglu{
+        font-size:1.5rem;
+      }
+      .icon-icon{
         margin-top:-0.2rem;
         font-size:2rem;
       }

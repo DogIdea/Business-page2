@@ -75,7 +75,7 @@ export default {
   bottom:0;
   background:#fff;
   color:$bgColor;
-  box-shadow: 0rem -0.125rem 0.125rem #ededed;
+  box-shadow: 0rem -0.125rem 0.125rem #666;
   .bottom_navigation{
     float:left;
     width:calc(50% - 2.15rem);
@@ -112,7 +112,7 @@ export default {
     background:$bgColor;
     border-radius:50%;
     color:#fff;
-    box-shadow: 0rem -0.25rem 0.25rem #ededed;
+    box-shadow: 0rem -0.25rem 1.25rem #666;
     .logo{
       position:absolute;
       top:50%;

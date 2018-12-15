@@ -88,7 +88,7 @@ export default {
               position:absolute;
               top: .75rem;
               left: .125rem;
-              font-size: .25rem;
+              font-size: 1rem;
               color: #555;
             }
             .floor-img{

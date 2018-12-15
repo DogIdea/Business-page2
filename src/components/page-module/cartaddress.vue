@@ -8,7 +8,7 @@
               <span>联系电话：{{item.receiverPhone}}</span>
               <span>邮政编码: {{item.receiverZip}}</span>
               <div class="iconfont icon-compile icon-editor" @click.stop.prevent="editoraddress(item,index)" ></div>
-              <div class="icon-default" v-show="index == AddressDefaultstate.index ? true : false">默</div>
+              <div class="icon-default" v-show="defaultchoose(index,item.id)">默</div>
           </div>
           <div class="addresscontent">
               <span>{{item.receiverProvince}}</span>
@@ -44,7 +44,15 @@ export default {
         listindex:index
       }
       this.$router.push({name: 'EditorAddress', params: {addressindex:item,isjudge:'editor',listindex:index}})
-    }
+    },
+    defaultchoose:function(index,id) {
+      let addressindex = window.localStorage.getItem('addressindex');
+      if (index == this.AddressDefaultstate.index || id == addressindex){
+        return true;
+      }else{
+        return false;
+      }
+    },
  },
  created() {
    this.$store.dispatch('GetAddressListmethod').then(()=>{

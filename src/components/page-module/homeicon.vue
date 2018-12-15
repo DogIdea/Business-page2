@@ -95,7 +95,7 @@
       }
       .icon-content{
         margin-top:1.2rem;
-        font-size:.1rem;
+        font-size:1rem;
       }
     }
   }

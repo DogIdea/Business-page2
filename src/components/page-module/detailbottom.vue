@@ -3,7 +3,7 @@
    <div class="bottom_coat">
      <div class="bottom_navigation bottom_shopcart" @click="shopcartlist">
         <div class="logo">
-            <i class="iconfont icon-gouwuchekong"></i>
+            <i class="icon-gouwuchekong iconfont"></i>
         </div>
         <div class="num" v-show="cartTotalCount>0">{{cartTotalCount}}</div>
      </div>

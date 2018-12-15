@@ -53,7 +53,7 @@ export default {
      }
    },
    clearlocalstorage:function() {
-     localStorage.clear();
+     localStorage.removeItem('history');
      this.$store.dispatch('SearchHistoryShow',[]);
      this.isShow=false;
    },

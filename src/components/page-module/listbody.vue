@@ -326,7 +326,7 @@ export default {
         display: table-row;
         text-align: center;
         vertical-align:middle;
-        font-size:0.5rem;
+        font-size:1rem;
         line-height:1rem;
         background:#fff;
         border-collapse: collapse;

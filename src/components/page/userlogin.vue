@@ -141,11 +141,11 @@ body,html{
     }
     .user-content{
       position: absolute;
-      left:$headerHeight + 0.0625rem;  
+      left:$headerHeight - 1rem;  
       height:$headerHeight;
       line-height: 2.25rem;
       background: #f3f3f3;
-      padding-left:1rem;
+      padding-left:2rem;
       width:90%;
     }
   }
