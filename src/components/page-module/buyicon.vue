@@ -76,7 +76,6 @@ export default {
    }else{
      this.buyconut = this.quantity;
    }
-   console.log(this.buyconut,'buyicon')
  }
 }
 </script>

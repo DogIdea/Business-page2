@@ -13,7 +13,7 @@
      <div class="bottom_navigation bottom_car" @click.stop.prevent="addCart($event)">
        <span>加入购物车</span>
      </div>
-     <div class="bottom_navigation bottom_text" @click.stop.prevent="buyGoods($event)">
+     <div class="bottom_navigation bottom_text" @click.stop.prevent="buyGoods">
        <span>立即购买</span>
      </div>
       <transition name="fold">
@@ -116,6 +116,7 @@ export default {
         }
      })
    },
+  //  获取购物车列表
    shopcartlist:function(){
       if (!this.cartTotalCount) {
         return;
@@ -133,7 +134,6 @@ export default {
         }
       });
       this.fold = !this.fold;
-     
    },
    //清除购物车
    cartclear:function() {
@@ -152,7 +152,7 @@ export default {
      this.fold = !this.fold;
    },
    buyGoods:function() {
-    this.$router.push('/cart')
+    this.$router.push('/cartproduct');
    },
  },
  components: {
@@ -184,7 +184,7 @@ export default {
     top:0;
     background:$bgColor;
     color:#fff;
-    box-shadow: 0rem -0.125rem 0.125rem #ededed;
+    box-shadow: 0rem -0.125rem 0.125rem #666;
     .bottom_shopcart{
       position:relative;
       left:0.625rem;

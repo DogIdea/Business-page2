@@ -1,10 +1,10 @@
 <template>
- <div class="user-header">
+ <div class="cart-header">
     <div class="header-left">
         <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon-back" @click="goback"></div>
     </div>
     <div class="header-right" v-show="header_show" @click="deleteaddress()">
-        <span >删除</span>
+        <span >编辑</span>
     </div>
     <div class="header-text">
         <h1 class="title">BUSINESS{{header_title}}</h1>
@@ -47,10 +47,8 @@ export default {
 
 <style scoped lang="scss">
 @import '@/assets/css/varibles.scss';
-.user-header{
+.cart-header{
   position: fixed;
-  top:0;
-  left:0;
   z-index:5;
   width:100%;
   line-height:$headerHeight;

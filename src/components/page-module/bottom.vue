@@ -9,7 +9,7 @@
              <i class="iconfont icon-icon-test"></i>
          </div>
      </div>
-     <div class="bottom_navigation bottom_shopcart">
+     <div class="bottom_navigation bottom_shopcart" @click="cartproduct">
         <div class="logo">
             <i class="iconfont icon-gouwuchekong"></i>
         </div>
@@ -54,6 +54,9 @@ export default {
         });
       }
      })
+   },
+   cartproduct:function(){
+     this.$router.push('/cartproduct')
    }
  },
  created(){
