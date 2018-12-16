@@ -94,8 +94,9 @@ body,html{
 }
 
 .loginbody{
-  margin-top:3rem;
+  padding-top:5rem;
   width:100%;
+  background:$bgColor;
   .error-item{
     width:75%;
     margin:2rem auto;
