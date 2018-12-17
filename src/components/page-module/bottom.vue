@@ -78,7 +78,7 @@ export default {
   bottom:0;
   background:#fff;
   color:$bgColor;
-  box-shadow: 0rem -0.125rem 0.125rem #666;
+  box-shadow: 0rem -0.125rem 0.125rem rgb(211, 207, 207);
   .bottom_navigation{
     float:left;
     width:calc(50% - 2.15rem);
