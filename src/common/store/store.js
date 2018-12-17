@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import {UserLogin,GetUserInfo} from '@/common/service/user-service.js';
 import {GetProductList,GetProductDetail} from '@/common/service/product-service';
-import {AddToCart,UpdateProduct,GetCartList} from '@/common/service/cart-service';
+import {AddToCart,UpdateProduct,GetCartList,SelectProduct,UnselectProduct,SelectAllProduct,UnselectAllProduct} from '@/common/service/cart-service';
 import {GetAddressList} from '@/common/service/address-service';
 Vue.use(Vuex)
 
@@ -32,7 +32,11 @@ const state = {
     GetAddressListstate:{},
     AddressDefaultstate:{
       index:-1
-    }
+    },
+    SelectProductstate:{},
+    UnselectProductstate:{},
+    SelectAllProductstate:{},
+    UnselectAllProductstate:{}
 }
 const actions = {
     Userloginmethod(ctx,formDate){
@@ -113,7 +117,39 @@ const actions = {
     },
     AddressDefaultmethod(ctx,index) {
       ctx.commit('AddressDefaultback',index)
-    }
+    },
+    SelectProductmethod(ctx,id){
+      return new Promise((resolve)=>{
+        SelectProduct(id).then((res)=>{
+          ctx.commit('SelectProductback',res.data)
+          resolve(); 
+        })
+      }) 
+    },
+    UnselectProductmethod(ctx,id){
+      return new Promise((resolve)=>{
+        UnselectProduct(id).then((res)=>{
+          ctx.commit('UnselectProductback',res.data)
+          resolve(); 
+        })
+      }) 
+    },
+    SelectAllProductmethod(ctx){
+      return new Promise((resolve)=>{
+        SelectAllProduct().then((res)=>{
+          ctx.commit('SelectAllProductback',res.data)
+          resolve(); 
+        })
+      }) 
+    },
+    UnselectAllProductmethod(ctx){
+      return new Promise((resolve)=>{
+        UnselectAllProduct().then((res)=>{
+          ctx.commit('UnselectAllProductback',res.data)
+          resolve(); 
+        })
+      }) 
+    },
 }
 
 const mutations = {
@@ -154,6 +190,18 @@ const mutations = {
     },
     AddressDefaultback (state,index){
       state.AddressDefaultstate = index
+    },
+    SelectProductback (state,index){
+      state.SelectProductstate = index
+    },
+    UnselectProductback (state,index){
+      state.UnselectProductstate = index
+    },
+    SelectAllProductback (state,index){
+      state.SelectAllProductstate = index
+    },
+    UnselectAllProductback (state,index){
+      state.UnselectAllProductstate = index
     }
 }
 

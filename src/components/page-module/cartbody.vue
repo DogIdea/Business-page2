@@ -6,30 +6,30 @@
      </div>
      <div class="cart-choose">
         <label class="ci-check-lable">
-          <input type="checkbox"><i></i>
+          <input type="checkbox" :checked="isCheckAll" @change="allcartselect"><i></i>
         </label>
       </div>
    </div>
    <div class="cart-product-content" ref="cartproductlist">
     <ul>
-      <li class="cart-list" v-for="(food,index) in cartproductvolist" :key="food.id">
+      <li class="cart-list" v-for="(goods,index) in cartproductvolist" :key="goods.id">
         <div class="cart-item">
           <div class="cart-content">
-            <span class="name">{{food.productName}}</span>
+            <span class="name">{{goods.productName}}</span>
                 <div class="price">
-                  <span>￥{{food.productPrice}}</span>
+                  <span>￥{{goods.productPrice}}</span>
                 </div>
           </div>
           <div class="cart-img">
-            <img :src="imageHost+food.productMainImage">
+            <img :src="imageHost+goods.productMainImage">
           </div>
           <div class="cart-item-buy">
-            <buyicon :productId="food.productId" :quantity="food.quantity" :arrId="index"></buyicon>
+            <buyicon :productId="goods.productId" :quantity="goods.quantity" :arrId="index"></buyicon>
           </div>
         </div>
         <div class="cart-choose">
           <label class="ci-check-lable">
-            <input type="checkbox"><i></i>
+            <input type="checkbox" :checked="Listindexs.indexOf(index)>=0" @change="cartselect(goods.productId,index)"><i></i>
           </label>
         </div>
       </li>
@@ -45,16 +45,18 @@ import BScroll from 'better-scroll';
 export default {
  data() {
   return {
+    Listindexs:[],
+    isCheckAll:false,
+    cartTotalPrice:0,
     cartproductvolist:[],
     imageHost:'http://img.happymmall.com/'
   }
  },
  computed:{
-   ...mapState(['GetCartListstate']),
+   ...mapState(['GetCartListstate','SelectProductstate','UnselectProductstate','SelectAllProductstate','UnselectAllProductstate']),
  },
  methods:{
   cartproductlist:function(){
-    console.log(this.GetCartListstate.data.cartProductVoList)
     this.cartproductvolist = this.GetCartListstate.data.cartProductVoList
     this.$nextTick(() => {
       if (!this.cartproductScroll) {
@@ -65,10 +67,51 @@ export default {
         this.cartproductScroll.refresh();
       }
     });
+  },
+  //选择商品
+  cartselect:function(id,index){
+    let indexs = this.Listindexs.indexOf(index);
+    if(indexs >= 0){
+        //如果包含了该ID，则删除（单选按钮由选中变为非选中状态）
+        this.Listindexs.splice(indexs,1);
+        this.$store.dispatch('UnselectProductmethod',id).then(()=>{
+          this.cartTotalPrice = this.UnselectProductstate.data.cartTotalPrice;
+          this.$emit('cartbodyTotalPrice',this.cartTotalPrice)
+        })
+    }else{
+        //选中该按钮
+        this.Listindexs.push(index);
+        this.$store.dispatch('SelectProductmethod',id).then(()=>{
+          this.cartTotalPrice = this.SelectProductstate.data.cartTotalPrice;
+          this.$emit('cartbodyTotalPrice',this.cartTotalPrice)
+        })
+    }
+  },
+  //所有选择商品
+  allcartselect:function(){
+    let that = this;
+    this.isCheckAll = !this.isCheckAll
+     if(this.isCheckAll){
+        this.Listindexs=[];
+        this.cartproductvolist.forEach(function(elm,index){
+            that.Listindexs.push(index)
+        })
+        this.$store.dispatch('SelectAllProductmethod').then(()=>{
+           this.cartTotalPrice = this.SelectAllProductstate.data.cartTotalPrice;
+           this.$emit('cartbodyTotalPrice',this.cartTotalPrice)
+        })
+      }else{
+        this.Listindexs=[];
+        this.$store.dispatch('UnselectAllProductmethod').then(()=>{
+          this.cartTotalPrice = this.UnselectAllProductstate.data.cartTotalPrice;
+          this.$emit('cartbodyTotalPrice',this.cartTotalPrice)
+        })
+      }
   }
  },
  created() {
-   this.cartproductlist()  
+   this.cartproductlist();  
+   this.allcartselect();
  },
  components: {
   buyicon

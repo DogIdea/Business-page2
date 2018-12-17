@@ -7,7 +7,7 @@
         </div>
      </div>
      <div class="bottom_navigation bottom_price">
-       <span>总价:￥<strong>{{cartTotalPrice}}</strong></span>
+       <span>总价:￥<strong>{{cartbottomTotalPrice}}</strong></span>
      </div>
      <div class="bottom_navigation bottom_text" @click.stop.prevent="settlement">
        <span>立即结算</span>
@@ -44,18 +44,19 @@ import {DeleteProduct} from '@/common/service/cart-service';
 import {mapState} from 'vuex';
 import BScroll from 'better-scroll';
 export default {
+  props:{
+   cartbottomTotalPrice:Number, 
+ },
  data() {
   return {
     addresslists:[],
     cartproductvolist:[],
     detailformdata:{},
-    cartTotalPrice:0,
-    cartTotalCount:0,
     fold:false
   }
  },
  computed: {
-   ...mapState(['ProductIdstate','GetAddressListstate']),
+   ...mapState(['ProductIdstate','GetAddressListstate','SelectProductstate']),
    listShow() {
       let show = this.fold;
       return show;

@@ -1,8 +1,8 @@
 <template>
  <div class="cart-product">
     <cartheader :header_title="header_title" :header_show="header_show"></cartheader>
-    <cartbody></cartbody>
-    <cartbottom></cartbottom>
+    <cartbody @cartbodyTotalPrice="cartbodyTotalPrice"></cartbody>
+    <cartbottom :cartbottomTotalPrice="cartbottomTotalPrice"></cartbottom>
  </div>
 </template>
 
@@ -14,8 +14,14 @@ export default {
  data() {
   return {
     header_title:'购物车',
-    header_show:true
+    header_show:true,
+    cartbottomTotalPrice:0,
   }
+ },
+ methods: {
+   cartbodyTotalPrice:function(cartTotalPrice){
+     this.cartbottomTotalPrice = cartTotalPrice
+   }
  },
  components: {
    cartheader,
