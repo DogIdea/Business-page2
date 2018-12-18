@@ -49,9 +49,8 @@ export default {
      ...mapState(['Userloginstate','GetProductListstate'])
  },
  methods:{
-  goback: function() {
-    console.log(this.$route.params)
-    this.$router.go(-1);
+  goback: function() {  
+   this.$router.go(-1);
   },
   searchclick:function() {
     if(this.isicon=='search'){

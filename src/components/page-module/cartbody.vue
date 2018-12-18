@@ -24,7 +24,7 @@
             <img :src="imageHost+goods.productMainImage">
           </div>
           <div class="cart-item-buy">
-            <buyicon :productId="goods.productId" :quantity="goods.quantity" :arrId="index"></buyicon>
+            <buyicon :productId="goods.productId" :quantity="goods.quantity" :arrId="index"  @bycartbodyTotalPrice="bycartbodyTotalPrice"></buyicon>
           </div>
         </div>
         <div class="cart-choose">
@@ -53,7 +53,7 @@ export default {
   }
  },
  computed:{
-   ...mapState(['GetCartListstate','SelectProductstate','UnselectProductstate','SelectAllProductstate','UnselectAllProductstate']),
+   ...mapState(['GetCartListstate','SelectProductstate','UnselectProductstate','SelectAllProductstate','UnselectAllProductstate','UpdateProducstate']),
  },
  methods:{
   cartproductlist:function(){
@@ -107,6 +107,15 @@ export default {
           this.$emit('cartbodyTotalPrice',this.cartTotalPrice)
         })
       }
+  },
+  bycartbodyTotalPrice:function(productId,buycount){
+    this.$store.dispatch('UpdateProducmethod',{
+      productId: productId,
+      count: buycount
+    }).then(()=>{
+     console.log(this.UpdateProducstate.data.cartTotalPrice)
+     this.$emit('cartbodyTotalPrice',this.UpdateProducstate.data.cartTotalPrice)
+    })
   }
  },
  created() {

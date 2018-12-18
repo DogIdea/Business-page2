@@ -1,9 +1,9 @@
 <template>
  <div class="buyicon">
       <div class="cart-decrease">
-          <span class="iconfont icon-jianhao inner" data-type="decreaseCar" v-show="buyconut>0" @click.stop.prevent="addCart($event)"></span>
+          <span class="iconfont icon-jianhao inner" data-type="decreaseCar" v-show="buycount>0" @click.stop.prevent="addCart($event)"></span>
       </div>
-      <div class="cart-count" v-show="buyconut>0">{{buyconut}}</div>
+      <div class="cart-count" v-show="buycount>0">{{buycount}}</div>
       <div class="iconfont icon-add_circle cart-add" data-type="addCart" @click.stop.prevent="addCart($event)"></div>
  </div>
 </template>
@@ -19,11 +19,11 @@ export default {
  },
  data() {
   return {
-    buyconut:0
+    buycount:0
   }
  },
  computed:{
-   ...mapState(['AddToCartstate','UpdateProducstate','GetCartListstate']),
+   ...mapState(['AddToCartstate','UpdateProducstate','GetCartListstate',]),
    getcartcount(){
     let count= 0;
     if(this.GetCartListstate.data.cartProductVoList){
@@ -43,38 +43,40 @@ export default {
       return;
     }
     if (event.target.getAttribute('data-type')=='addCart'){
-       this.buyconut = this.buyconut + 1;
-       this.$emit('decreaseCar', this.arrId,this.buyconut,'addcart')
+       this.buycount = this.buycount + 1;
+       this.$emit('decreaseCar', this.arrId,this.buycount,'addcart')
        newcount = 1;
     }else if(event.target.getAttribute('data-type')=='decreaseCar'){
-      if(this.buyconut == 1){
+      if(this.buycount == 1){
         //传递给父组件用于更改父组件数组
-        this.$emit('decreaseCar', this.arrId,this.buyconut,'decrease')
-        this.buyconut = 0;
+        this.$emit('decreaseCar', this.arrId,this.buycount,'decrease')
+        this.buycount = 0;
         DeleteProduct(this.productId).then((res)=>{
           if(res.data.status==0) {
           }
         })
-      }else if(this.buyconut > 0 || !(this.buyconut == 0)){
-        this.$emit('decreaseCar', this.arrId,this.buyconut,'decrease');
-        this.buyconut = this.buyconut - 1;
+      }else if(this.buycount > 0 || !(this.buycount == 0)){
+        this.$emit('decreaseCar', this.arrId,this.buycount,'decrease');
+        this.buycount = this.buycount - 1;
         newcount = -1;
       }
     }
     //添加购物车商品
-    if(this.buyconut > 0){
+    if(this.buycount > 0){
       this.$store.dispatch('AddToCartmethod',{
         productId: this.productId,
         count: newcount
       })
+      console.log(this.buycount)
+      this.$emit('bycartbodyTotalPrice',this.productId,this.buycount);
     }
    },
  },
  created() {
    if(!this.quantity){
-     this.buyconut = this.getcartcount;
+     this.buycount = this.getcartcount;
    }else{
-     this.buyconut = this.quantity;
+     this.buycount = this.quantity;
    }
  }
 }
