@@ -90,32 +90,40 @@ export default {
   //所有选择商品
   allcartselect:function(){
     let that = this;
-    this.isCheckAll = !this.isCheckAll
-     if(this.isCheckAll){
-        this.Listindexs=[];
-        this.cartproductvolist.forEach(function(elm,index){
-            that.Listindexs.push(index)
-        })
-        this.$store.dispatch('SelectAllProductmethod').then(()=>{
-           this.cartTotalPrice = this.SelectAllProductstate.data.cartTotalPrice;
-           this.$emit('cartbodyTotalPrice',this.cartTotalPrice)
-        })
-      }else{
-        this.Listindexs=[];
-        this.$store.dispatch('UnselectAllProductmethod').then(()=>{
-          this.cartTotalPrice = this.UnselectAllProductstate.data.cartTotalPrice;
+    if(this.cartproductvolist.length>0){
+      this.isCheckAll = !this.isCheckAll
+    }else{
+      this.isCheckAll = false
+    }
+    if(this.isCheckAll){
+      this.Listindexs=[];
+      this.cartproductvolist.forEach(function(elm,index){
+          that.Listindexs.push(index)
+      })
+      this.$store.dispatch('SelectAllProductmethod').then(()=>{
+          this.cartTotalPrice = this.SelectAllProductstate.data.cartTotalPrice;
           this.$emit('cartbodyTotalPrice',this.cartTotalPrice)
-        })
-      }
+      })
+    }else{
+      this.Listindexs=[];
+      this.$store.dispatch('UnselectAllProductmethod').then(()=>{
+        this.cartTotalPrice = this.UnselectAllProductstate.data.cartTotalPrice;
+        this.$emit('cartbodyTotalPrice',this.cartTotalPrice)
+      })
+    }
   },
-  bycartbodyTotalPrice:function(productId,buycount){
-    this.$store.dispatch('UpdateProducmethod',{
-      productId: productId,
-      count: buycount
-    }).then(()=>{
-     console.log(this.UpdateProducstate.data.cartTotalPrice)
-     this.$emit('cartbodyTotalPrice',this.UpdateProducstate.data.cartTotalPrice)
-    })
+  bycartbodyTotalPrice:function(productId,buycount,arrId){
+    if(buycount == 0){
+      this.$emit('cartbodyTotalPrice',this.cartproductvolist[arrId].productPrice,'zero')
+      this.cartproductvolist.splice(arrId, 1);
+    }else{
+      this.$store.dispatch('UpdateProducmethod',{
+        productId: productId,
+        count: buycount
+        }).then(()=>{
+      this.$emit('cartbodyTotalPrice',this.UpdateProducstate.data.cartTotalPrice)
+      })
+    }
   }
  },
  created() {
@@ -298,7 +306,7 @@ export default {
             .cart-item-buy{
               margin-top:2.5rem;
               right:1rem;
-              width:6rem;
+              width:8rem;
             }
             .cart-content{
               width:100%;

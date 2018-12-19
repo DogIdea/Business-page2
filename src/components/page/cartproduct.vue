@@ -19,8 +19,14 @@ export default {
   }
  },
  methods: {
-   cartbodyTotalPrice:function(cartTotalPrice){
-     this.cartbottomTotalPrice = cartTotalPrice
+   cartbodyTotalPrice:function(cartTotalPrice,type){
+     if(type == 'zero'){
+       this.cartbottomTotalPrice = this.cartbottomTotalPrice - cartTotalPrice;
+     }else{
+       this.cartbottomTotalPrice = cartTotalPrice;
+       
+     }
+     
    }
  },
  components: {

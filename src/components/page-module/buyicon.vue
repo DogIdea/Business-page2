@@ -49,10 +49,11 @@ export default {
     }else if(event.target.getAttribute('data-type')=='decreaseCar'){
       if(this.buycount == 1){
         //传递给父组件用于更改父组件数组
-        this.$emit('decreaseCar', this.arrId,this.buycount,'decrease')
+        this.$emit('decreaseCar', this.arrId,this.buycount,'decrease');
         this.buycount = 0;
         DeleteProduct(this.productId).then((res)=>{
           if(res.data.status==0) {
+            this.$emit('bycartbodyTotalPrice',this.productId,this.buycount,this.arrId);
           }
         })
       }else if(this.buycount > 0 || !(this.buycount == 0)){
@@ -67,8 +68,8 @@ export default {
         productId: this.productId,
         count: newcount
       })
-      console.log(this.buycount)
-      this.$emit('bycartbodyTotalPrice',this.productId,this.buycount);
+      console.log(this.buycount,'buyicon')
+      this.$emit('bycartbodyTotalPrice',this.productId,this.buycount,this.arrId);
     }
    },
  },
@@ -90,7 +91,7 @@ export default {
     display:inline-block;
   }
   .cart-decrease{
-    padding:0.375rem;
+    padding:0.5rem;
     .inner{
       display:inline-block;
       font-size:1.5rem;
@@ -101,18 +102,20 @@ export default {
   .cart-add{
     font-size:1.5rem;
     line-height:1.5rem;
-    padding:0.375rem;
+    padding:0.5rem;
     color:$bgColor;
   }
   .cart-count{
      vertical-align:top;
-     width:auto;
-     padding:0.375rem;
-     padding-top:0.375rem;
+     width:1.5rem;
+     padding-top:0.5rem;
      line-height:1.5rem;
      text-align:center;
-     font-size:0.625rem;
+     font-size:1rem;
      color:rgb(147,153,159);
+     overflow: hidden;
+     text-overflow:ellipsis;
+     white-space: nowrap;
   }
 }
             
