@@ -68,7 +68,6 @@ export default {
         productId: this.productId,
         count: newcount
       })
-      console.log(this.buycount,'buyicon')
       this.$emit('bycartbodyTotalPrice',this.productId,this.buycount,this.arrId);
     }
    },

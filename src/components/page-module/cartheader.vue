@@ -30,8 +30,8 @@ export default {
  },
  methods: {
     goback: function() {
-      console.log(this.$route.params)
       this.$router.go(-1);
+      this.$store.dispatch('isDeleteCartmethods',false)
     },
     deletecart:function() {
       let isshow = this.isDeleteCartstate.isshow;

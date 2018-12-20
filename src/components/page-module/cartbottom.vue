@@ -43,7 +43,7 @@
           <div @click="allcartselect">
             全选
           </div>
-          <div class='word'>
+          <div class='word' @click="deleteproduct">
             删除
           </div>
         </div>
@@ -129,8 +129,34 @@ export default {
    },
    //所有选择商品
    allcartselect:function(){
+    console.log(this.cartproductvolist)
     this.$emit('allcartselect',this.cartproductvolist)
   },
+  //删除商品
+  deleteproduct:function(){
+    let arrproduct= this.cartproductvolist;
+    if(window.confirm('确认要删除该商品')) {
+      let arrProductIds = [];
+      for(let i = 0,iLength = arrproduct.length; i < iLength ; i++){
+        arrProductIds.push(arrproduct[i].productId);
+      }
+      if(arrProductIds.length){
+          this.deleteCartProduct(arrProductIds.join(','));
+      }else {
+          alert('您还没有选中要删除的商品');
+      }
+    }
+  },
+  //判断删除商品
+  deleteCartProduct:function(arrProductIds){
+    DeleteProduct(arrProductIds).then((res)=>{
+      if(res.data.status==0) {
+        alert('商品已删除');
+        this.$router.push('/home');
+        this.$store.dispatch('isDeleteCartmethods',false)
+      }
+    })
+  }
  }
 }
 </script>
