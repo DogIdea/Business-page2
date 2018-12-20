@@ -18,3 +18,11 @@ export function GetProductDetail (productId) {
       })
     })
 }
+//创建订单
+export function CreateOrder (orderInfo){
+    return fetch({
+      url:'/order/create.do',
+      method:'post',
+      data: qs.stringify(orderInfo)
+    })
+}

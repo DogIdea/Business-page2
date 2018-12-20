@@ -20,7 +20,7 @@
           </div>
           <div class="list_content" ref="cartlistmenu">
             <ul>
-               <li class="addressitem" v-for="item in addresslists" :key="item.id">
+               <li class="addressitem" v-for="item in addresslists" :key="item.id" @click='chooseaddress(item.id)'>
                 <div class='address-list-item'>
                   <span class="name">收件人：{{item.receiverName}}</span>
                   <span class="phone">联系电话：{{item.receiverPhone}}</span>
@@ -60,6 +60,7 @@
 
 <script>
 import {DeleteProduct} from '@/common/service/cart-service';
+import {CreateOrder} from '@/common/service/product-service'
 import {mapState} from 'vuex';
 import BScroll from 'better-scroll';
 export default {
@@ -72,7 +73,8 @@ export default {
   return {
     addresslists:[],
     detailformdata:{},
-    fold:false
+    fold:false,
+    submitaddressid:''
   }
  },
  computed: {
@@ -94,7 +96,7 @@ export default {
        this.cartlistload()
      })
    },
-   //获取地址列表
+  //获取地址列表
    addressload:function(){
      this.$store.dispatch('GetAddressListmethod').then(()=>{
       if(this.GetAddressListstate.status == 0){
@@ -102,6 +104,12 @@ export default {
       }
     })
    },
+  // 选择地址列表
+  chooseaddress:function(id){
+    this.submitaddressid = id;
+    console.log(this.submitaddressid)
+    this.fold = !this.fold;
+  },
   //  获取购物车列表
    shopaddresslist:function(){
       if(this.GetAddressListstate.status == 0) {
@@ -124,8 +132,27 @@ export default {
    closemenu:function() {
      this.fold = !this.fold;
    },
+   //提交订单
    settlement:function() {
-    console.log('结算')
+    let onsubmitid = '';
+    if(this.submitaddressid){
+      onsubmitid = this.submitaddressid;
+    }else{
+      onsubmitid = window.localStorage.getItem('addressindex');
+    }
+    if(onsubmitid){
+      CreateOrder({
+        shippingId:onsubmitid
+      }).then((res)=>{
+        if(res.data.status == 0) {
+          alert('结算成功');
+          this.$router.push('/home');
+        }
+      })
+    }else{
+      alert('请选择一个商品');
+    }
+    
    },
    //所有选择商品
    allcartselect:function(){
