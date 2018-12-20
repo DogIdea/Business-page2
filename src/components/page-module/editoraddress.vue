@@ -2,7 +2,7 @@
  <div class="editor-address">
     <div class="error-item" v-show="!isshow">
         <i class="iconfont icon-jinzhi error-icon error-msg"></i>
-        <!-- <p class="err-msg">{{showtext}}</p> -->
+        <p class="err-msg">{{showtext}}</p>
     </div>
      <ul :class="isshow ? error_hidden : ''">
       <li class="user_table">
@@ -140,6 +140,7 @@ export default {
        receiverCity:'',
        receiverAddress:''
      },
+     showtext:'',
      fold:true,
      cityList:[
         {name:'所在省市'},
@@ -266,15 +267,15 @@ export default {
       receiverInfo.id = this.addressformdata.id
       console.log(receiverInfo)
       if(!receiverInfo.receiverName) {
-          result.errMsg = '请输入收件人姓名';
+          this.showtext = '请输入收件人姓名';
       }else if(!receiverInfo.receiverProvince) {
-          result.errMsg = '请选择收件人所在省份';
+          this.showtext = '请选择收件人所在省份';
       }else if(!receiverInfo.receiverCity) {
-          result.errMsg = '请选择收件人所在城市';
+          this.showtext = '请选择收件人所在城市';
       }else if(!receiverInfo.receiverAddress) {
-          result.errMsg = '请输入收件人详细地址';
+          this.showtext = '请输入收件人详细地址';
       }else if(!receiverInfo.receiverPhone) {
-          result.errMsg = '请输入收件人手机号';
+          this.showtext = '请输入收件人手机号';
       }else {
           result.status = true;
           result.data = receiverInfo;

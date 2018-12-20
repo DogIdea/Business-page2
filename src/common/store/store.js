@@ -36,7 +36,10 @@ const state = {
     SelectProductstate:{},
     UnselectProductstate:{},
     SelectAllProductstate:{},
-    UnselectAllProductstate:{}
+    UnselectAllProductstate:{},
+    isDeleteCartstate:{
+      isshow:false,
+    }
 }
 const actions = {
     Userloginmethod(ctx,formDate){
@@ -150,6 +153,9 @@ const actions = {
         })
       }) 
     },
+    isDeleteCartmethods(ctx,isshow){
+      ctx.commit('isDeleteCartback', isshow)
+    }
 }
 
 const mutations = {
@@ -202,6 +208,9 @@ const mutations = {
     },
     UnselectAllProductback (state,index){
       state.UnselectAllProductstate = index
+    },
+    isDeleteCartback (state,isshow){
+      state.isDeleteCartstate.isshow = isshow
     }
 }
 

@@ -3,7 +3,7 @@
     <div class="header-left">
         <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon-back" @click="goback"></div>
     </div>
-    <div class="header-right" v-show="header_show" @click="deleteaddress()">
+    <div class="header-right" v-show="header_show" @click="deletecart">
         <span >编辑</span>
     </div>
     <div class="header-text">
@@ -14,6 +14,7 @@
 
 <script>
 import {DeleteAddress} from '@/common/service/address-service.js';
+import {mapState} from 'vuex';
 export default {
  props:{
      header_title:String,
@@ -24,24 +25,18 @@ export default {
 
   }
  },
+ computed: {
+   ...mapState(['isDeleteCartstate']),
+ },
  methods: {
     goback: function() {
       console.log(this.$route.params)
       this.$router.go(-1);
     },
-    deleteaddress:function() {
-      let shippingId = this.$route.params.addressindex.id;
-      console.log(shippingId)
-      if(shippingId){
-        DeleteAddress(shippingId).then((res)=>{
-          if(res.data.status == 0){
-            this.$router.push('/usercenter/cartaddress')
-          }
-        })
-      }else{
-        this.$router.push('/usercenter/cartaddress')
-      }
-    },
+    deletecart:function() {
+      let isshow = this.isDeleteCartstate.isshow;
+      this.$store.dispatch('isDeleteCartmethods',!isshow)
+    }
  }
 }
 </script>

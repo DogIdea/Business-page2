@@ -1,6 +1,6 @@
 <template>
  <div class="cart-bottom">
-   <div class="bottom_coat">
+   <div class="bottom_coat" v-show='!isDeleteCartstate.isshow'>
      <div class="bottom_navigation bottom_shopcart" @click="shopaddresslist">
         <div class="logo">
             <i class="icon-chengshi"></i>
@@ -35,7 +35,26 @@
           </div>
         </div>
       </transition>
+   </div>
+   <div class="bottom_coat" v-show='isDeleteCartstate.isshow'>
+     <div class="bottom_coat">
+       <div class="cart-title">
+        <div class="cart-item">
+          <div @click="allcartselect">
+            全选
+          </div>
+          <div class='word'>
+            删除
+          </div>
+        </div>
+        <div class="cart-choose">
+          <label class="ci-check-lable">
+            <input type="checkbox" :checked="isCheckAll" @change="allcartselect"><i></i>
+          </label>
+        </div>
     </div>
+     </div>
+   </div>
  </div>
 </template>
 
@@ -46,17 +65,18 @@ import BScroll from 'better-scroll';
 export default {
   props:{
    cartbottomTotalPrice:Number, 
+   isCheckAll:Boolean,
+   cartproductvolist:Array
  },
  data() {
   return {
     addresslists:[],
-    cartproductvolist:[],
     detailformdata:{},
     fold:false
   }
  },
  computed: {
-   ...mapState(['ProductIdstate','GetAddressListstate','SelectProductstate']),
+   ...mapState(['ProductIdstate','GetAddressListstate','SelectProductstate','isDeleteCartstate']),
    listShow() {
       let show = this.fold;
       return show;
@@ -107,6 +127,10 @@ export default {
    settlement:function() {
     console.log('结算')
    },
+   //所有选择商品
+   allcartselect:function(){
+    this.$emit('allcartselect',this.cartproductvolist)
+  },
  }
 }
 </script>
@@ -132,6 +156,80 @@ export default {
     background:#fff;
     color:$bgColor;
     box-shadow: 0rem -0.125rem 0.125rem #666;
+    .cart-title{
+      width:100%;
+      height:$headerHeight;
+      padding:0;
+      padding-left:$headerHeight;
+      background:#fff;
+      color:$bgColor;
+      overflow: hidden;
+      .cart-item,.cart-choose{
+        position: relative;
+        float: left;
+        min-height:$headerHeight;
+      }
+      .cart-item{
+        background: #fff;
+        word-break: break-all;
+        overflow: hidden;
+        padding-left:1rem;
+        div{
+          display: inline-block;
+        }
+        .word{
+          padding:0.625rem;
+          font-size:1rem;
+          line-height:1rem;
+          margin-left:1rem;
+          background: #EDEDED;
+          border:0.0625rem solid #EDEDED;
+          border-radius: 1rem;
+        }
+      }
+      .cart-choose{
+        margin-left:-$headerHeight*2 - 1rem;;
+        left:-$headerHeight/2;
+        padding-top:0.1875rem;
+        background:#fff;
+        .ci-check-lable{
+          position: relative;
+        }
+        .ci-check-lable input{
+          position: absolute;
+          left: -99rem;
+        }
+        .ci-check-lable i {
+          position:relative;
+          display:inline-block;
+          width: 1rem;
+          height: 1rem;
+          outline: 0;
+          border: 0.0625rem solid #ccc;
+          border-radius: 100%;
+          background: transparent;
+        }
+        .ci-check-lable input[type=checkbox]:checked + i {
+          border:0.0625rem solid $bgColor;
+          background-color: $bgColor;
+        }
+        .ci-check-lable input[type=checkbox]:checked + i:after {
+          position: absolute;
+          content: '';
+          top: 50%;
+          left: 50%;
+          margin-top: -0.1875rem;
+          margin-left: -0.3125rem;
+          -webkit-transform: rotate(-53deg);
+          transform: rotate(-53deg); 
+          width: 0.5rem;
+          height: 0.1875rem;
+          border: 0.0625rem solid #fff;
+          border-top: 0;
+          border-right: 0;
+        }
+      }
+    }
     .bottom_shopcart{
       position:relative;
       left:0.625rem;
