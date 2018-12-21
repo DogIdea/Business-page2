@@ -5,9 +5,9 @@
              <i class="iconfont icon-unie63a"></i>
            </router-link>
          <div class="border-left"></div>
-         <div class="logo">
+          <router-link tag="div" to="/goodslist/keyword=电视" class="logo">
              <i class="iconfont icon-icon-test"></i>
-         </div>
+         </router-link> 
      </div>
      <div class="bottom_navigation bottom_shopcart" @click="cartproduct">
         <div class="logo">
@@ -16,9 +16,9 @@
         <div class="num" v-show="cartTotalCount>0">{{cartTotalCount}}</div>
      </div>
      <div class="bottom_navigation">
-         <div class="logo">
+         <router-link tag="div" to="/search" class="logo">
              <i class="iconfont icon-faxian"></i>
-         </div>
+         </router-link>
          <div class="border-left"></div>
          <div class="logo" @click="usercenter">
              <i class="iconfont icon-denglu"></i>
