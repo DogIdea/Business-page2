@@ -135,7 +135,7 @@ export default {
 .goods-body{
   width:100%;
   position: absolute;
-  top:$headerHeight;
+  top:$headerHeight + 1rem;
   left:0;
   bottom:$headerHeight;
   overflow: hidden;
