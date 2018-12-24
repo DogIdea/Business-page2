@@ -1,11 +1,11 @@
 <template>
  <div class="bottom">
      <div class="bottom_navigation">
-           <router-link tag="div" to="/goodsclass" class="logo">
+           <router-link tag="div" to="/goodsclass" class="logo" :class="{'isActive':nowClassName=='goodsclass'}" >
              <i class="iconfont icon-unie63a"></i>
            </router-link>
          <div class="border-left"></div>
-          <router-link tag="div" to="/goodslist/keyword=电视" class="logo">
+          <router-link tag="div" to="/goodslist/keyword=电视" class="logo" :class="{'isActive':nowClassName=='goodslist'}" >
              <i class="iconfont icon-icon-test"></i>
          </router-link> 
      </div>
@@ -15,12 +15,12 @@
         </div>
         <div class="num" v-show="cartTotalCount>0">{{cartTotalCount}}</div>
      </div>
-     <div class="bottom_navigation">
-         <router-link tag="div" to="/search" class="logo">
+     <div class="bottom_navigation" >
+         <router-link tag="div" to="/search" class="logo" :class="{'isActive':nowClassName=='search'}" >
              <i class="iconfont icon-faxian"></i>
          </router-link>
          <div class="border-left"></div>
-         <div class="logo" @click="usercenter">
+         <div class="logo" @click="usercenter" :class="{'isActive':nowClassName=='user'}">
              <i class="iconfont icon-denglu"></i>
          </div>
      </div>
@@ -32,7 +32,8 @@ import {mapState} from 'vuex';
 export default {
  data() {
   return {
-    cartTotalCount:0
+    cartTotalCount:0,
+    nowClassName:''
   }
  },
  computed:{
@@ -57,10 +58,31 @@ export default {
    },
    cartproduct:function(){
      this.$router.push('/cartproduct')
-   }
+   },
+   classActive:function(){
+     let routername = this.$route.name
+     switch(routername){
+       case 'GoodsClass':
+         this.nowClassName='goodsclass';
+         break;
+       case 'GoodsList':
+         this.nowClassName='goodslist';
+         break;
+       case 'shopcart':
+         this.nowClassName='shopcart';
+         break;
+       case 'Search':
+         this.nowClassName='search';
+         break;
+       case 'UserLogin':
+         this.nowClassName='user';
+         break;
+     }
+   },
  },
  created(){
-   this.cartlistload()
+   this.cartlistload();
+   this.classActive();
  }
 }
 </script>
@@ -94,7 +116,7 @@ export default {
       left: 0;
       top: 50%;
       height: 2rem;
-      width: 0.2rem;
+      width: 0.0625rem;
       transform: translateY(-50%);
       background-color: #EDEDED;
     }
@@ -102,6 +124,10 @@ export default {
       width:calc(50% - 0.1rem);
       float: left;
       text-align: center;
+    }
+    .isActive{
+      background:$bgColor;
+      color:#fff;
     }
   }
   .bottom_shopcart{

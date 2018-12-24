@@ -2,7 +2,7 @@
  <div class="classbody">
     <div class="menu-list" ref="menulist">
       <ul >
-          <li v-for="(item,index) in goodsmenu" :key="item.id" class="menu-item" @click='ChangeGoods(index,$event)'>
+          <li v-for="(item,index) in goodsmenu" :key="item.id" class="menu-item" :class="{'isActive':activeIndex == index}" @click.stop.prevent="ChangeGoods(index,$event);checkMenu(index)">
             <span class="text">
               {{item.goods_class}}
             </span>
@@ -13,7 +13,7 @@
       <div class="goods-warrper">
         <h1 class="title">{{goodsname.goods_class}}</h1>
         <ul>
-          <li v-for="goodsitem in goodsname.goods_name" :key="goodsitem.index" @click='GoodsItem(goodsitem)'>
+          <li v-for="(goodsitem,index) in goodsname.goods_name" :key="goodsitem.id" :class="{'isActive':goodsactiveIndex == index}" @click.stop.prevent="GoodsItem(goodsitem);checkGoods(index)">
             <span>
               {{goodsitem}}
             </span>
@@ -35,7 +35,9 @@ export default {
     goodsname:{
       goods_class:'',
       goods_name:[]
-    }
+    },
+    activeIndex:-1,
+    goodsactiveIndex:-1
   }
  },
  methods: {
@@ -56,6 +58,12 @@ export default {
     }).catch((err)=>{
       this.showtext=err.msg;
     })
+  },
+  checkMenu:function(index){
+    this.activeIndex=index;
+  },
+  checkGoods:function(index){
+    this.goodsactiveIndex=index;
   },
   _initScroll(){
     this.menuScroll = new BScroll(this.$refs.menulist, {
@@ -109,7 +117,10 @@ export default {
         @include border-1px(rgba(7,17,27,0.1));
       }   
     }
-       
+    .isActive{
+      background:$bgColor;
+      color: #fff;
+    }
   }
   .goods-list{
     position: absolute;
@@ -147,6 +158,10 @@ export default {
         }
         li:nth-child(2n){
           margin-left:1rem;
+        }
+        .isActive{
+          background:$bgColor;
+          color: #fff;
         }
       }
     }

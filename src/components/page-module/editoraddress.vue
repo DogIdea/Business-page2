@@ -99,14 +99,14 @@
           <swiper-slide class="list_body">
             <div class="list_box" ref="provincelist">
               <ul class="province">
-                <li v-for="item in province" :key="item.id" @click.stop.prevent="chooseprovince(item)">{{item}}</li>
+                <li v-for="(item,index) in province" :key="item.id" :class="{'isActive':provinceindex == index}" @click.stop.prevent="chooseprovince(item);checkprovince(index)">{{item}}</li>
               </ul>
             </div>
           </swiper-slide>
           <swiper-slide class="list_body">
             <div class="list_box" ref="citylist">
               <ul class="province">
-                <li v-for="cityitem in city" :key="cityitem.id" @click.stop.prevent="choosecity(cityitem)">{{cityitem}}</li>
+                <li v-for="(cityitem,index) in city" :key="cityitem.id" :class="{'isActive':cityindex == index}" @click.stop.prevent="choosecity(cityitem);checkcity(index)">{{cityitem}}</li>
               </ul>
             </div>
           </swiper-slide>
@@ -157,7 +157,9 @@ export default {
        observer:true,
        observeParents:true,
        loop:false,
-     }
+     },
+     cityindex:-1,
+     provinceindex:-1
   }
  },
  computed: {
@@ -213,11 +215,20 @@ export default {
       this.iscity = true;
       this.addressformdata.receiverProvince = item;
       this.city = cities.getCities(item)
+      this.nowIndex = this.nowIndex+1
+      this.swiper.slideTo(this.nowIndex,1000,false);
+    },
+    checkprovince:function(index) {
+      this.provinceindex = index;
     },
     //选择城市
     choosecity:function(item) {
       this.addressformdata.receiverCity = item;
+      this.nowIndex = 0
       this.cityclose();
+    },
+    checkcity:function(index) {
+      this.cityindex = index;
     },
     //城市菜单
     citytlist:function() {
@@ -518,9 +529,12 @@ export default {
             width:100%;
             height:2rem;
             font-size:1rem;
-            // color:#666;
             background:#fafafa;
             border-bottom:0.0625rem solid rgba(7,17,27,0.1);
+          }
+          .isActive{
+            background:$bgColor;
+            color:#fafafa;
           }
         }
       }

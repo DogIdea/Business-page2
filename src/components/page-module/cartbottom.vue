@@ -20,7 +20,7 @@
           </div>
           <div class="list_content" ref="cartlistmenu">
             <ul>
-               <li class="addressitem" v-for="item in addresslists" :key="item.id" @click='chooseaddress(item.id)'>
+               <li class="addressitem" v-for="(item,index) in addresslists" :key="item.id" :class="{'isActive':nowindex==index}" @click="chooseaddress(item.id);checkaddress(index)">
                 <div class='address-list-item'>
                   <span class="name">收件人：{{item.receiverName}}</span>
                   <span class="phone">联系电话：{{item.receiverPhone}}</span>
@@ -74,7 +74,8 @@ export default {
     addresslists:[],
     detailformdata:{},
     fold:false,
-    submitaddressid:''
+    submitaddressid:'',
+    nowindex:-1
   }
  },
  computed: {
@@ -183,6 +184,9 @@ export default {
         this.$store.dispatch('isDeleteCartmethods',false)
       }
     })
+  },
+  checkaddress:function(index){
+    this.nowindex = index
   }
  }
 }
@@ -377,6 +381,7 @@ export default {
         .addressitem{
           box-sizing:border-box;
           overflow:auto;
+          color:rgb(7,17,27);
           @include border-1px(rgba(7,17,27,0.1));
           .address-list-item{
             padding-top:0.5rem;
@@ -390,7 +395,6 @@ export default {
               width:100%;
               line-height:1rem;
               font-size:0.875rem;
-              color:rgb(7,17,27);
               overflow: hidden;
               text-overflow:ellipsis;
               white-space: nowrap;
@@ -402,7 +406,6 @@ export default {
               width:100%;
               line-height:1rem;
               font-size:0.875rem;
-              color:rgb(7,17,27);
               overflow: hidden;
               text-overflow:ellipsis;
               white-space: nowrap;
@@ -415,7 +418,6 @@ export default {
               width:100%;
               line-height:1rem;
               font-size:0.875rem;
-              color:rgb(7,17,27);
               overflow: hidden;
               text-overflow:ellipsis;
               white-space: nowrap;
@@ -425,6 +427,10 @@ export default {
             }
           }
           
+        }
+        .isActive{
+          background:$bgColor;
+          color:#fff;
         }
       }
     }
