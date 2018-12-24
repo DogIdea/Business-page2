@@ -1,60 +1,64 @@
 <template>
  <div class="cart-bottom">
-   <div class="bottom_coat" v-show='!isDeleteCartstate.isshow'>
-     <div class="bottom_navigation bottom_shopcart" @click="shopaddresslist">
-        <div class="logo">
-            <i class="icon-chengshi"></i>
-        </div>
-     </div>
-     <div class="bottom_navigation bottom_price">
-       <span>总价:￥<strong>{{cartbottomTotalPrice}}</strong></span>
-     </div>
-     <div class="bottom_navigation bottom_text" @click.stop.prevent="settlement">
-       <span>立即结算</span>
-     </div>
-      <transition name="fold">
-        <div class="shopcart_list" v-show='listShow'>
-          <div class="list_header">
-            <h1 class="title">地址列表</h1>
-            <span class="empty icon-jinzhi1" @click="closemenu"></span>
+   <transition name="bottomfold">
+    <div class="bottom_coat" v-show='!isDeleteCartstate.isshow'>
+      <div class="bottom_navigation bottom_shopcart" @click="shopaddresslist">
+          <div class="logo">
+              <i class="icon-chengshi"></i>
           </div>
-          <div class="list_content" ref="cartlistmenu">
-            <ul>
-               <li class="addressitem" v-for="(item,index) in addresslists" :key="item.id" :class="{'isActive':nowindex==index}" @click="chooseaddress(item.id);checkaddress(index)">
-                <div class='address-list-item'>
-                  <span class="name">收件人：{{item.receiverName}}</span>
-                  <span class="phone">联系电话：{{item.receiverPhone}}</span>
-                </div>
-                <div class='address-list-item'>
-                  <span class="address">{{item.receiverProvince}}</span>
-                  <span class="address">{{item.receiverCity}}</span>
-                  <span class="address">{{item.receiverAddress}}</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </transition>
-   </div>
-   <div class="bottom_coat" v-show='isDeleteCartstate.isshow'>
-     <div class="bottom_coat">
-       <div class="cart-title">
-        <div class="cart-item">
-          <div @click="allcartselect">
-            全选
-          </div>
-          <div class='word' @click="deleteproduct">
-            删除
-          </div>
-        </div>
-        <div class="cart-choose">
-          <label class="ci-check-lable">
-            <input type="checkbox" :checked="isCheckAll" @change="allcartselect"><i></i>
-          </label>
-        </div>
+      </div>
+      <div class="bottom_navigation bottom_price">
+        <span>总价:￥<strong>{{cartbottomTotalPrice}}</strong></span>
+      </div>
+      <div class="bottom_navigation bottom_text" @click.stop.prevent="settlement">
+        <span>立即结算</span>
+      </div>
     </div>
-     </div>
-   </div>
+   </transition>
+   <transition name="bottomfold">
+    <div class="bottom_coat" v-show='isDeleteCartstate.isshow'>
+      <div class="bottom_coat">
+        <div class="cart-title">
+          <div class="cart-item">
+            <div @click="allcartselect">
+              全选
+            </div>
+            <div class='word' @click="deleteproduct">
+              删除
+            </div>
+          </div>
+          <div class="cart-choose">
+            <label class="ci-check-lable">
+              <input type="checkbox" :checked="isCheckAll" @change="allcartselect"><i></i>
+            </label>
+          </div>
+      </div>
+      </div>
+    </div>
+   </transition>
+   <transition name="fold">
+      <div class="shopcart_list" v-show='listShow && !isDeleteCartstate.isshow'>
+        <div class="list_header">
+          <h1 class="title">地址列表</h1>
+          <span class="empty icon-jinzhi1" @click="closemenu"></span>
+        </div>
+        <div class="list_content" ref="cartlistmenu">
+          <ul>
+            <li class="addressitem" v-for="(item,index) in addresslists" :key="item.id" :class="{'isActive':nowindex==index}" @click="chooseaddress(item.id);checkaddress(index)">
+              <div class='address-list-item'>
+                <span class="name">收件人：{{item.receiverName}}</span>
+                <span class="phone">联系电话：{{item.receiverPhone}}</span>
+              </div>
+              <div class='address-list-item'>
+                <span class="address">{{item.receiverProvince}}</span>
+                <span class="address">{{item.receiverCity}}</span>
+                <span class="address">{{item.receiverAddress}}</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </transition>
  </div>
 </template>
 
@@ -75,7 +79,8 @@ export default {
     detailformdata:{},
     fold:false,
     submitaddressid:'',
-    nowindex:-1
+    nowindex:-1,
+    bottomfold:false
   }
  },
  computed: {
@@ -207,12 +212,18 @@ export default {
     position:absolute;
     line-height:$headerHeight;
     height:$headerHeight;
+    z-index: 12;
     left:0;
     right:0;
     top:0;
     background:#fff;
     color:$bgColor;
     box-shadow: 0rem -0.125rem 0.125rem #666;
+    transition:all 0.5s;
+    transform:translate3d(0,0,0);
+    &.bottomfold-enter,&.bottomfold-leave-to{
+      transform:translate3d(0,100%,0)
+    }
     .cart-title{
       width:100%;
       height:$headerHeight;
@@ -342,8 +353,10 @@ export default {
       text-align: center;
       vertical-align: middle;
     }
-    .shopcart_list{
+  }
+  .shopcart_list{
       position:absolute;
+      z-index:9;
       top:0;
       left:0;
       z-index:-1;
@@ -434,6 +447,5 @@ export default {
         }
       }
     }
-  }
 }
 </style>
