@@ -1,15 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/components/page/home';
-import Search from '@/components/page/search';
-import GoodsList from '@/components/page/goodslist';
-import GoodsClass from '@/components/page/goodsclass';
-import UserLogin from '@/components/page/userlogin';
-import UserCenter from '@/components/page/usercenter';
-import UserRegiste from '@/components/page/userregiste';
-import UserPassReset from '@/components/page/userpassreset';
-import Detail from '@/components/page/detail';
-import CartProduct from '@/components/page/cartproduct';
 import Goodsdetail from '@/components/page-module/goodsdetail';
 import Aboutdetail from '@/components/page-module/aboutdetail';
 import UserInfo from '@/components/page-module/userinfo';
@@ -31,7 +22,7 @@ export default new Router({
     {
       path:'/search',
       name: 'Search',
-      component:Search
+      component:resolve=>require(['@/components/page/search'],resolve)
     },
     {
       path:'/cartproduct',
@@ -39,22 +30,22 @@ export default new Router({
       meta: {
         requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
       },
-      component:CartProduct
+      component:resolve=>require(['@/components/page/cartproduct'],resolve)
     },
     {
       path:'/goodslist/:id',
       name: 'GoodsList',
-      component:GoodsList
+      component:resolve=>require(['@/components/page/goodslist'],resolve)
     },
     {
       path:'/goodsclass',
       name: 'GoodsClass',
-      component:GoodsClass
+      component:resolve=>require(['@/components/page/goodsclass'],resolve)
     },
     {
       path:'/userlogin',
       name:'UserLogin',
-      component:UserLogin
+      component:resolve=>require(['@/components/page/userlogin'],resolve)
     },
     {
       path:'/usercenter',
@@ -62,7 +53,7 @@ export default new Router({
       meta: {
         requireAuth: true,
       },
-      component:UserCenter,
+      component:resolve=>require(['@/components/page/usercenter'],resolve),
       children: [
         {
           path:'userinfo',
@@ -94,17 +85,17 @@ export default new Router({
     {
       path:'/userregiste',
       name:'UserRegiste',
-      component:UserRegiste
+      component:resolve => require(['@/components/page/userregiste'],resolve)
     },
     {
       path:'/userpassreset',
       name:'UserPassReset',
-      component:UserPassReset
+      component:resolve => require(['@/components/page/userpassreset'],resolve)
     },
     {
       path:'/detail/',
       name: 'Detail',
-      component:Detail,
+      component:resolve => require(['@/components/page/detail'],resolve),
       children: [
         {
           path:'/detail/goodsdetail/:id',
