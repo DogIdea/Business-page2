@@ -41,7 +41,7 @@
       <li class="user_table">
         <div class="user-item">
           <label class="user-label">
-              <i class="iconfont icon-email"></i>
+              <i class="iconfont" :class="cityicon(addressformdata.receiverProvince)"></i>
           </label>
           <span class="user-title">所在地区：</span>
           <div class="user-text" @click="citytlist">
@@ -238,6 +238,10 @@ export default {
       this.$nextTick(() => {
         this._initScroll();
       });
+    },
+    //获取图标
+    cityicon:function(province){
+      return cities.getIcon(province)
     },
     _initScroll:function() {
       if (!this.provinceScroll) {

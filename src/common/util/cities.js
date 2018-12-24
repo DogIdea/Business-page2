@@ -32,6 +32,39 @@ const cities = {
         "青海": ["西宁", "海东地区", "海北藏族自治区", "海南藏族自治区", "黄南藏族自治区", "果洛藏族自治区", "玉树藏族自治州", "还西藏族自治区", "其他"],
         "黑龙江": ["哈尔滨", "齐齐哈尔", "鹤岗", "双鸭山", "鸡西", "大庆", "伊春", "牡丹江", "佳木斯", "七台河", "黑河", "绥远", "大兴安岭地区", "其他"]
     },
+    cityIcon: {
+        "北京市":"icon-beijingshi",
+        "上海市":"icon-shanghai",
+        "云南省":"icon-yunnansheng",
+        "内蒙古":"icon-neimengguzizhiqu",
+        "吉林省":"icon-jilinsheng",
+        "四川省":"icon-sichuansheng",
+        "天津市":"icon-tianjinshi",
+        "宁夏": "icon-shandongsheng1",
+        "安徽省":"icon-shandongsheng1",
+        "山东省":"icon-shandongsheng1",
+        "山西省":"icon-shanxisheng",
+        "广东省":"icon-guangdongsheng",
+        "广西省":"icon-shandongsheng1",
+        "新疆": "icon-xinjiangzizhiqu",
+        "江苏省":"icon-jiangsusheng",
+        "江西省":"icon-jiangxisheng",
+        "河北省":"icon-hebeisheng",
+        "河南省":"icon-henansheng",
+        "浙江省":"icon-zhejiangsheng",
+        "海南省":"icon-hainansheng",
+        "湖北省":"icon-hubeisheng",
+        "湖南省":"icon-hunansheng",
+        "甘肃省":"icon-gansusheng",
+        "福建省":"icon-fujiansheng",
+        "西藏": "icon-xicangzizhiqu",
+        "贵州省":"icon-guizhousheng",
+        "辽宁省":"icon-liaoningsheng",
+        "重庆市":"icon-zhongqingshi",
+        "陕西省":"icon-shandongsheng1",
+        "青海": "icon-qinghaisheng",
+        "黑龙江":"icon-heilongjiangsheng"
+    },
     gitProvinces: function() {
         let provinces = [];
         for(let item in this.cityInfo) {
@@ -41,6 +74,9 @@ const cities = {
     },
     getCities: function(provinceName) {
         return this.cityInfo[provinceName] || [];
+    },
+    getIcon: function(provinceName){
+        return this.cityIcon[provinceName] || [];
     }
 }
 
