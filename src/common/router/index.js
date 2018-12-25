@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/components/page/home';
+import Errorpage from '@/components/page/error';
 import Goodsdetail from '@/components/page-module/goodsdetail';
 import Aboutdetail from '@/components/page-module/aboutdetail';
 import UserInfo from '@/components/page-module/userinfo';
@@ -8,6 +9,7 @@ import UserInfoCard from '@/components/page-module/userinfocard'
 import CartAddress from '@/components/page-module/cartaddress';
 import EditorAddress from '@/components/page-module/editoraddress';
 import ResetPassWord from '@/components/page-module/resetpassword';
+
 
 Vue.use(Router)
 
@@ -73,6 +75,9 @@ export default new Router({
         {
           path:'cartaddress',
           name: 'CartAddress',
+          meta: {
+            requireAuth: true, 
+          },
           component:CartAddress
         },
         {
@@ -108,6 +113,11 @@ export default new Router({
           component:Aboutdetail
         }
       ]
+    },
+    {
+      path:'/error',
+      name:'Errorpage',
+      component:Errorpage
     },
     { 
       path: '/', 

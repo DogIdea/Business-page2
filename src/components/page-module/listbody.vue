@@ -117,6 +117,10 @@ export default {
      this.listformdate.keyword=newrouteid;
      this.$store.dispatch('GetProductListmethod',this.listformdate).then(()=>{
        if(this.GetProductListstate.status == 0){
+         if(this.GetProductListstate.data.list.length==0){
+           this.$router.push('/error');
+           return;
+         }
          //判断页码是否为0
          if(!this.GetProductListstate.data.size == 0){
            this.judgepage(this.GetProductListstate.data);

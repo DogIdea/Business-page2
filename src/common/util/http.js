@@ -10,6 +10,7 @@ export function fetch(options) {
         instance(options).then((res)=>{
             resolve(res)
         }).catch((err) => {
+            console.log(err)
             reject(err)
         })
     })

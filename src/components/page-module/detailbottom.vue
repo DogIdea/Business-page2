@@ -57,7 +57,7 @@ export default {
   }
  },
  computed: {
-   ...mapState(['AddToCartstate','ProductIdstate','GetCartListstate']),
+   ...mapState(['AddToCartstate','ProductIdstate','GetCartListstate','Userloginstate']),
    listShow() {
     if (!this.cartTotalCount) {
         this.fold = true;
@@ -71,6 +71,10 @@ export default {
    addCart:function() {
      let newcount = 1;
      let productId = this.ProductIdstate.productid;
+     if(!this.Userloginstate.status==0){
+       this.$router.push('/userlogin');
+       return;
+     }
     //添加购物车商品
      this.$store.dispatch('AddToCartmethod',{
        productId: productId,
@@ -139,11 +143,6 @@ export default {
    cartclear:function() {
      this.cartproductvolist.forEach((item) => {
       DeleteProduct(item.productId).then((res)=>{
-        if(res.data.status==0) {
-          console.log(res,0)
-        }else{
-          console.log(res)
-        }
       })
      });
      this.cartproductvolist = [];
