@@ -60,6 +60,10 @@ export default {
  methods:{
   cartproductlist:function(){
     this.cartproductvolist = this.GetCartListstate.data.cartProductVoList
+    if(this.cartproductvolist.length == 0){
+      this.$router.push({name: 'Errorpage', params: {errormsg:'您的购物车空空如野，快去购物把'}})
+      return;
+    }
     this.$nextTick(() => {
       if (!this.cartproductScroll) {
         this.cartproductScroll=new BScroll(this.$refs.cartproductlist,{

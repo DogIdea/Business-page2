@@ -49,7 +49,7 @@ export default {
      ...mapState(['Userloginstate','GetProductListstate'])
  },
  methods:{
-  goback: function() {  
+  goback: function() {
    this.$router.go(-1);
   },
   searchclick:function() {

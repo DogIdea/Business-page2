@@ -118,7 +118,7 @@ export default {
      this.$store.dispatch('GetProductListmethod',this.listformdate).then(()=>{
        if(this.GetProductListstate.status == 0){
          if(this.GetProductListstate.data.list.length==0){
-           this.$router.push('/error');
+           this.$router.push({name: 'Errorpage', params: {errormsg:'对不起，找不到您所需要的商品'}});
            return;
          }
          //判断页码是否为0

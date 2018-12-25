@@ -1,8 +1,8 @@
 <template>
  <div class="error">
-    <homeheader></homeheader>
+    <homeheader :isicon="isicon"></homeheader>
     <div class="error-msg">
-        <h1>抱歉，没有您所想要的商品</h1>
+        <h1>{{errormsg}}</h1>
         <div @click="gohome">返回首页</div>
     </div>
     <homebottom></homebottom>
@@ -15,17 +15,24 @@ import homebottom from '../page-module/bottom';
 export default {
  data() {
   return {
-
+      isicon:'home',
+      errormsg:'对不起，找不到您所需要的商品'
   }
  },
  methods: {
     gohome:function(){
        this.$router.push('/home') 
+    },
+    loadmsg:function(){   
+        this.errormsg = this.$route.params.errormsg
     }
  },
  components: {
    homeheader,
    homebottom
+ },
+ created() {
+    this.loadmsg();
  },
 }
 </script>
@@ -40,7 +47,7 @@ export default {
   h1{
     line-height: 2rem;
     text-align: center;
-    font-size:2rem;
+    font-size:1.5rem;
     font-weight: bold;
     color:#FF3030;
   }
@@ -50,7 +57,7 @@ export default {
     text-align: center;
     font-weight: bold;
     color:#666;
-    font-size:1.5rem; 
+    font-size:1.2rem; 
   }
 }
 </style>
