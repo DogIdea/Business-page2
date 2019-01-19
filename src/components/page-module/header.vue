@@ -8,8 +8,10 @@
         <div class="iconfont icon-iconfontzhizuobiaozhun023126 icon-back" v-show="!(isicon=='home' || isicon=='search') ? true : false" @click="goback"></div>
       </div>
       <div class="header-input">
-        <span class="iconfont icon-sousuo"></span>
+        <div class="search-input">
+          <i class="iconfont icon-sousuo"></i>
           <input type="text" @click='searchclick' @keyup.enter='searchkeyword' ref='searchtext' v-model="formdata.listParam.keyword">
+        </div>
       </div>
       <div class="header-right">
         <div class='usericon' v-if="!(isicon=='search')">
@@ -109,22 +111,42 @@ export default {
     height:$headerHeight;
   }
   .header-input{
-    flex:1;
-    color:#ccc;
-    background:#fff;
-    border-radius:2rem;
-    margin-top:$headerHeight/4-.2;
+    position: relative;
+    flex:1 1 auto;
+    align-self:center;
     margin-left:.2rem;
     font-size:1.2rem;
     line-height:1.4rem;
-    height:1.8rem;
-    padding-top:.25rem;
-    padding-left:.2rem;
-    input{
-      outline: none;
-      -webkit-appearance: none;
-      border-radius: 0;
-      height:1rem;
+    width:100%; 
+    height:100%;
+    overflow: hidden;
+    .search-input{
+      position:absolute;
+      left:0;
+      right:0;
+      top:50%;
+      transform: translateY(-50%);
+      color:#ccc;
+      background:#fff;
+      border-radius:1.8rem;
+      height:2rem;
+      i{
+        margin-top:0.35rem;
+        margin-left:0.25rem;
+        float: left;
+        width:1.5rem;
+        height:1.5rem;
+      }
+      input{
+        margin-top:0.2rem;
+        outline: none;
+        -webkit-appearance: none;
+        border-radius: 0;
+        padding-left:0.5rem;
+        line-height:1.6rem;
+        vertical-align: middle;
+        height:1.6rem;
+      }
     }
   }
   .header-right{
